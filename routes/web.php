@@ -15,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
+
+Route::get('/evaluasi-beasiswa', function () {
+    return view('evaluasi-beasiswa');
+})->name('index-evaluasi-beasiswa');
