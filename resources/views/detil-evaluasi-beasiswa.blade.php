@@ -66,15 +66,6 @@
                                     </svg>
                                     Nama : <strong>Erlangga Harrys Setyawan</strong>
                                 </div>
-                                <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
-                                        <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
-                                    </svg>
-                                    Beasiswa: <strong>Beasiswa Kuliah 0 Rupiah</strong>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,7 +76,34 @@
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="subheader">IPS (Indeks Prestasi Semester)</div>
+                                <div class="subheader">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
+                                        <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
+                                    </svg>
+                                    Beasiswa yang diperoleh
+                                </div>
+                                <div class="h3 m-0">
+                                    Beasiswa Kuliah 0 Rupiah
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="subheader">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"></path>
+                                        <path d="M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889"></path>
+                                        <path d="M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889"></path>
+                                    </svg>
+                                    IPS (Indeks Prestasi Semester)
+                                </div>
                                 <div class="h3 m-0">3.50</div>
                             </div>
                         </div>
@@ -93,7 +111,16 @@
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="subheader">SSKM (Standar Soft Skill Kegiatan Mahasiswa)</div>
+                                <div class="subheader">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"></path>
+                                        <path d="M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889"></path>
+                                        <path d="M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889"></path>
+                                    </svg>
+                                    SSKM (Standar Soft Skill Kegiatan Mahasiswa)
+                                </div>
                                 <div class="h3 m-0">115</div>
                             </div>
                         </div>
@@ -120,6 +147,9 @@
 
                                             <div class="form-selectgroup-label d-flex align-items-center p-3">
                                                 <div class="me-3">
+
+                                                    {{-- <div class="spinner-border spinner-border-sm text-muted" role="status"></div> --}}
+
                                                     <span class="form-selectgroup-check"></span>
                                                 </div>
                                                 <div class="form-selectgroup-label-content d-flex align-items-center">
@@ -244,11 +274,7 @@
                 confirmButtonText: 'Ya, simpan'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
+                    window.location.href = "{{ route('mol-evbsw') }}";
                 }
             })
         }

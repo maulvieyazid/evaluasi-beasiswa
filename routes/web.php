@@ -24,3 +24,10 @@ Route::get('/evaluasi-beasiswa', function () {
 Route::get('/detil-evaluasi-beasiswa', function () {
     return view('detil-evaluasi-beasiswa');
 })->name('detil-evaluasi-beasiswa');
+
+Route::get('/mol-evbsw', function () {
+    return redirect()->route('index-evaluasi-beasiswa')
+    ->with('success', 'Evaluasi berhasil disimpan');
+})->name('mol-evbsw');
+
+
