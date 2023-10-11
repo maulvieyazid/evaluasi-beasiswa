@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/evaluasi-beasiswa', function () {
     return view('evaluasi-beasiswa');
 })->name('index-evaluasi-beasiswa');
+
+Route::get('/detil-evaluasi-beasiswa', function () {
+    return view('detil-evaluasi-beasiswa');
+})->name('detil-evaluasi-beasiswa');

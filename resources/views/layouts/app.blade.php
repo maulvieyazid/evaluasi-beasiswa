@@ -25,6 +25,10 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
+
+    @stack('css')
+
+
 </head>
 
 <body>
@@ -44,6 +48,11 @@
 
     <!-- Tabler Core -->
     <script src="{{ asset('assets/js/tabler.min.js') }}" defer></script>
+
+    <!-- Sweet Alert -->
+    <script src="{{ asset('assets/libs/sweetalert2/sweetalert2@11.7.32.min.js') }}" defer></script>
+
+    @stack('js')
 
 </body>
 
