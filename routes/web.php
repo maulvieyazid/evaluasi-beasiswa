@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EvaluasiBeasiswaController;
+use App\Http\Controllers\HistoriController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,17 +19,14 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/evaluasi-beasiswa', function () {
-    return view('evaluasi-beasiswa');
-})->name('index-evaluasi-beasiswa');
+Route::get('/evaluasi-beasiswa', [EvaluasiBeasiswaController::class, 'index'])->name('index-evaluasi-beasiswa');
 
-Route::get('/detil-evaluasi-beasiswa', function () {
-    return view('detil-evaluasi-beasiswa');
-})->name('detil-evaluasi-beasiswa');
+Route::get('/detil-evaluasi-beasiswa', [EvaluasiBeasiswaController::class, 'detail'])->name('detil-evaluasi-beasiswa');
 
 Route::get('/mol-evbsw', function () {
     return redirect()->route('index-evaluasi-beasiswa')
-    ->with('success', 'Evaluasi berhasil disimpan');
+        ->with('success', 'Evaluasi berhasil disimpan');
 })->name('mol-evbsw');
 
 
+Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');

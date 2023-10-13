@@ -1,6 +1,6 @@
-@extends('layouts.app', ['navbar' => 'evaluasi'])
+@extends('layouts.app', ['navbar' => 'histori'])
 
-@section('html_title', 'Evaluasi Beasiswa')
+@section('html_title', 'Histori')
 
 @section('content')
     <div class="page-wrapper">
@@ -14,7 +14,7 @@
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <h2 class="page-title">
-                            Evaluasi Beasiswa Semester 231
+                            Histori Evaluasi Semester 222
                         </h2>
                     </div>
                 </div>
@@ -26,6 +26,35 @@
             <div class="container-xl">
 
                 <div class="row">
+                    <div class="col-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Semester</h3>
+                                <p class="card-subtitle">
+                                    Silahkan pilih semester untuk melihat histori evaluasi
+                                </p>
+                                <div class="d-flex">
+                                    <select class="form-select me-3">
+                                        <option value="-" disabled selected>-- Pilih Semester --</option>
+                                        <option>222</option>
+                                        <option>221</option>
+                                    </select>
+
+                                    <button type="button" class="btn btn-primary me-2" onclick="showRowTabel()">
+                                        Pilih
+                                    </button>
+
+                                    <div class="d-flex align-items-center d-none" id="spinner_pilih">
+                                        <div class="spinner-border spinner-border-sm text-muted" role="status"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt-4 d-none" id="row_tabel">
                     <div class="col">
                         <div class="card">
                             <div class="table-responsive">
@@ -106,3 +135,24 @@
     </div>
 
 @endsection
+
+
+@push('js')
+    <script>
+        async function showRowTabel() {
+
+            let spinner = document.querySelector('#spinner_pilih');
+            // Tampilkan spinner / loader
+            spinner.classList.remove('d-none');
+
+            // Tidur selama 1 detik
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            // Tampilkan tabel
+            document.querySelector('#row_tabel').classList.remove('d-none');
+
+            // Sembunyikan spinner / loader
+            spinner.classList.add('d-none');
+        }
+    </script>
+@endpush
