@@ -2,6 +2,10 @@
 
 @section('html_title', 'Evaluasi Beasiswa')
 
+@php
+    use App\Models\Terima;
+@endphp
+
 @section('content')
     <div class="page-wrapper">
 
@@ -33,42 +37,51 @@
                                     <thead>
                                         <tr>
                                             <th>NIM</th>
-                                            <th style="width: 20%">Nama</th>
+                                            <th {{-- style="width: 20%" --}}>Nama</th>
                                             <th>Semester</th>
-                                            <th style="width: 20%">Beasiswa</th>
-                                            <th>Ketentuan Terpenuhi</th>
-                                            <th>Status</th>
+                                            <th {{-- style="width: 20%" --}}>Beasiswa</th>
+                                            {{-- <th>Ketentuan Terpenuhi</th> --}}
+                                            {{-- <th>Status</th> --}}
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>23410100026</td>
-                                            <td>Erlangga Harrys Setyawan</td>
-                                            <td>231</td>
-                                            <td>Beasiswa Kuliah 0 Rupiah</td>
-                                            <td>
-                                                <div class="progr progress progress-xs">
-                                                    <div class="progress-bar bg-primary" style="width: 50%"></div>
-                                                </div>
-                                                <small>2/3</small>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-azure">Draft</span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('detil-evaluasi-beasiswa') }}" class="btn btn-outline-primary w-100 btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M9 11l3 3l8 -8"></path>
-                                                        <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
-                                                    </svg>
-                                                    Detail
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                                        @foreach ($penerima as $terima)
+                                            <tr>
+                                                <td>{{ $terima->nim }}</td>
+                                                <td>{{ $terima->mahasiswa->nama ?? null }}</td>
+                                                <td>{{ Terima::TEMP_SMT }}</td>
+                                                <td>
+                                                    @php
+                                                        // Menggabungkan string 'jenis_beasiswa' dengan angka pilihan pmb
+                                                        // untuk mengambil jenis beasiswa pada kolom yang sesuai
+                                                        $jenis_beasiswa = 'jenis_beasiswa' . $terima->pilihan_ke;
+                                                    @endphp
+                                                    {{ $terima->{$jenis_beasiswa}->nama ?? null }}
+                                                </td>
+                                                {{-- <td>
+                                                    <div class="progr progress progress-xs">
+                                                        <div class="progress-bar bg-primary" style="width: 50%"></div>
+                                                    </div>
+                                                    <small>2/3</small>
+                                                </td> --}}
+                                                {{-- <td>
+                                                    <span class="badge bg-azure">Draft</span>
+                                                </td> --}}
+                                                <td>
+                                                    <a href="{{ route('detil-evaluasi-beasiswa') }}" class="btn btn-outline-primary w-100 btn-sm">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M9 11l3 3l8 -8"></path>
+                                                            <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
+                                                        </svg>
+                                                        Detail
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        {{-- <tr>
                                             <td>23410100032</td>
                                             <td>Nufrisal Akmal Rachman</td>
                                             <td>231</td>
@@ -93,7 +106,7 @@
                                                     Detail
                                                 </a>
                                             </td>
-                                        </tr>
+                                        </tr> --}}
                                     </tbody>
                                 </table>
                             </div>
