@@ -63,10 +63,13 @@ class Terima extends Model
                         SELECT * FROM BOBBY21.V_TERIMA
                         WHERE VNOTEST IN (SELECT NO_TEST FROM MHS)
                         AND (
-                                VBEASISWA1 IS NOT NULL
-                                OR VBEASISWA2 IS NOT NULL
-                                OR VBEASISWA3 IS NOT NULL
-                                OR VBEASISWA4 IS NOT NULL
+                                (VBEASISWA1 IS NOT NULL AND VBEASISWA1 != 0)
+                                OR
+                                (VBEASISWA2 IS NOT NULL AND VBEASISWA2 != 0)
+                                OR
+                                (VBEASISWA3 IS NOT NULL AND VBEASISWA3 != 0)
+                                OR
+                                (VBEASISWA4 IS NOT NULL AND VBEASISWA4 != 0)
                             )
                     )
                 SELECT pb.*, m.NAMA, m.NIM, ppmb.PILIHAN_KE
