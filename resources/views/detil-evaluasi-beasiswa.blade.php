@@ -52,7 +52,7 @@
                                         <path d="M15 12l2 0"></path>
                                         <path d="M7 16l10 0"></path>
                                     </svg>
-                                    NIM : <strong>23410100026</strong>
+                                    NIM : <strong>{{ $penerima->nim }}</strong>
                                 </div>
                                 <div class="mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id-badge-2 me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -64,7 +64,7 @@
                                         <path d="M14 16h2"></path>
                                         <path d="M14 12h4"></path>
                                     </svg>
-                                    Nama : <strong>Erlangga Harrys Setyawan</strong>
+                                    Nama : <strong>{{ $penerima->nama }}</strong>
                                 </div>
                                 <div class="mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -73,7 +73,7 @@
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
                                         <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
                                     </svg>
-                                    Beasiswa : <strong>Beasiswa Kuliah 0 Rupiah</strong>
+                                    Beasiswa : <strong>{{ $penerima->{$jenis_beasiswa}->nama ?? null }}</strong>
                                 </div>
                             </div>
                         </div>

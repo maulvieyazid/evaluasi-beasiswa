@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::get('/evaluasi-beasiswa', [EvaluasiBeasiswaController::class, 'index'])->name('index-evaluasi-beasiswa');
 
-Route::get('/detil-evaluasi-beasiswa', [EvaluasiBeasiswaController::class, 'detail'])->name('detil-evaluasi-beasiswa');
+Route::get('/detil-evaluasi-beasiswa/{nim}', [EvaluasiBeasiswaController::class, 'detail'])->name('detil-evaluasi-beasiswa');
 
 Route::get('/mol-evbsw', function () {
     return redirect()->route('index-evaluasi-beasiswa')

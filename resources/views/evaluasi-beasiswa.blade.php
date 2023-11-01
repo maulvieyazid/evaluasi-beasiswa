@@ -46,18 +46,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($penerima as $terima)
+                                        @foreach ($semuaPenerima as $penerima)
                                             <tr>
-                                                <td>{{ $terima->nim }}</td>
-                                                <td>{{ $terima->mahasiswa->nama ?? null }}</td>
+                                                <td>{{ $penerima->nim }}</td>
+                                                <td>{{ $penerima->mahasiswa->nama ?? null }}</td>
                                                 <td>{{ Terima::TEMP_SMT }}</td>
                                                 <td>
                                                     @php
-                                                        // Menggabungkan string 'jenis_beasiswa' dengan angka pilihan pmb
-                                                        // untuk mengambil jenis beasiswa pada kolom yang sesuai
-                                                        $jenis_beasiswa = 'jenis_beasiswa' . $terima->pilihan_ke;
+                                                        // Mengambil nama relasi jenis beasiswa yang sesuai
+                                                        $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
                                                     @endphp
-                                                    {{ $terima->{$jenis_beasiswa}->nama ?? null }}
+                                                    {{ $penerima->{$jenis_beasiswa}->nama ?? null }}
                                                 </td>
                                                 {{-- <td>
                                                     <div class="progr progress progress-xs">
@@ -69,7 +68,7 @@
                                                     <span class="badge bg-azure">Draft</span>
                                                 </td> --}}
                                                 <td>
-                                                    <a href="{{ route('detil-evaluasi-beasiswa') }}" class="btn btn-outline-primary w-100 btn-sm">
+                                                    <a href="{{ route('detil-evaluasi-beasiswa', [$penerima->nim]) }}" class="btn btn-outline-primary w-100 btn-sm">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                             stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

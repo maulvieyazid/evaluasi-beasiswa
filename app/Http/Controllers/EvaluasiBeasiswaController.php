@@ -9,14 +9,21 @@ class EvaluasiBeasiswaController extends Controller
 {
     public function index()
     {
-        $penerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => Terima::TEMP_SMT])
+        $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => Terima::TEMP_SMT])
             ->load('mahasiswa', 'jenis_beasiswa1', 'jenis_beasiswa2');
 
-        return view('evaluasi-beasiswa', compact('penerima'));
+        return view('evaluasi-beasiswa', compact('semuaPenerima'));
     }
 
-    public function detail()
+    public function detail($nim)
     {
-        return view('detil-evaluasi-beasiswa');
+        $penerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => Terima::TEMP_SMT]);
+
+        $penerima = $penerima->where('nim', $nim)->first();
+
+        $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
+
+
+        return view('detil-evaluasi-beasiswa', compact('penerima', 'jenis_beasiswa'));
     }
 }
