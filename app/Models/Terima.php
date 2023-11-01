@@ -18,6 +18,12 @@ class Terima extends Model
     public $incrementing = false;
 
 
+    public static function getNamaRelasiJnsBea($pilihan_ke)
+    {
+        return 'jenis_beasiswa' . $pilihan_ke;
+    }
+
+
     // RELATIONSHIP
     public function mahasiswa()
     {
