@@ -15,18 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::middleware(['set.semester'])->group(function () {
 
-Route::get('/evaluasi-beasiswa', [EvaluasiBeasiswaController::class, 'index'])->name('index-evaluasi-beasiswa');
+    Route::get('/', function () {
+        return view('home');
+    })->name('home');
 
-Route::get('/detil-evaluasi-beasiswa/{nim}', [EvaluasiBeasiswaController::class, 'detail'])->name('detil-evaluasi-beasiswa');
+    Route::get('/evaluasi-beasiswa', [EvaluasiBeasiswaController::class, 'index'])->name('index-evaluasi-beasiswa');
 
-Route::get('/mol-evbsw', function () {
-    return redirect()->route('index-evaluasi-beasiswa')
-        ->with('success', 'Evaluasi berhasil disimpan');
-})->name('mol-evbsw');
+    Route::get('/detil-evaluasi-beasiswa/{nim}', [EvaluasiBeasiswaController::class, 'detail'])->name('detil-evaluasi-beasiswa');
+
+    Route::get('/mol-evbsw', function () {
+        return redirect()->route('index-evaluasi-beasiswa')
+            ->with('success', 'Evaluasi berhasil disimpan');
+    })->name('mol-evbsw');
 
 
-Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');
+    Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');
+});
