@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HisMf;
 use App\Models\Terima;
+use App\Models\Tsnilmaba;
 use Illuminate\Http\Request;
 
 class EvaluasiBeasiswaController extends Controller
@@ -28,6 +29,8 @@ class EvaluasiBeasiswaController extends Controller
             ->where('semester', session('semester'))
             ->first();
 
-        return view('detil-evaluasi-beasiswa', compact('penerima', 'jenis_beasiswa', 'hismf'));
+        $sskm = Tsnilmaba::where('nim', $nim)->sum('nilai');
+
+        return view('detil-evaluasi-beasiswa', compact('penerima', 'jenis_beasiswa', 'hismf', 'sskm'));
     }
 }
