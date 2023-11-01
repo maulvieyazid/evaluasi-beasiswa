@@ -18,7 +18,7 @@
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <h2 class="page-title">
-                            Evaluasi Beasiswa Semester 231
+                            Evaluasi Beasiswa Semester {{ session('semester') }}
                         </h2>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                                             <tr>
                                                 <td>{{ $penerima->nim }}</td>
                                                 <td>{{ $penerima->mahasiswa->nama ?? null }}</td>
-                                                <td>{{ Terima::TEMP_SMT }}</td>
+                                                <td>{{ session('semester') }}</td>
                                                 <td>
                                                     @php
                                                         // Mengambil nama relasi jenis beasiswa yang sesuai

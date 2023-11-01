@@ -9,8 +9,6 @@ class Terima extends Model
 {
     use HasFactory;
 
-    const TEMP_SMT = '231';
-
     protected $table = 'BOBBY21.V_TERIMA';
 
     public $timestamps = false;
