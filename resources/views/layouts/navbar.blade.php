@@ -11,13 +11,23 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                     <div class="d-none d-md-block ps-2 me-2">
-                        <div>Yuli Setiyo Suryo Andari (010355)</div>
-                        <div class="mt-1 small text-muted">Keuangan</div>
+                        <div>{{ auth()->user()->nama }} ({{ auth()->user()->nik }})</div>
+                        <div class="mt-1 small text-muted">
+                            @if (auth()->user()->is_keuangan)
+                                Keuangan
+                            @endif
+
+                            @if (auth()->user()->is_kmhs)
+                                Kemahasiswaan
+                            @endif
+                        </div>
                     </div>
-                    <span class="avatar avatar-sm">YS</span>
+                    <span class="avatar avatar-sm">
+                        {{ auth()->user()->inisial }}
+                    </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                    <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
                 </div>
             </div>
         </div>

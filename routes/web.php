@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EvaluasiBeasiswaController;
 use App\Http\Controllers\HistoriController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['set.semester'])->group(function () {
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::middleware(['set.semester', 'auth'])->group(function () {
 
     Route::get('/', function () {
         return view('home');
