@@ -97,7 +97,9 @@
                                     </svg>
                                     Status Mahasiswa Saat Ini
                                 </div>
-                                <div class="h3 m-0">Cuti</div>
+                                <div class="h3 m-0">
+                                    {{ $hismf->nama_status }}
+                                </div>
                             </div>
                         </div>
                     </div>

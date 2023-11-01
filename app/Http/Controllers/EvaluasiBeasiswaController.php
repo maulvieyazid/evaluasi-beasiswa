@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HisMf;
 use App\Models\Terima;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,10 @@ class EvaluasiBeasiswaController extends Controller
 
         $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
 
+        $hismf = HisMf::where('mhs_nim', $nim)
+            ->where('semester', session('semester'))
+            ->first();
 
-        return view('detil-evaluasi-beasiswa', compact('penerima', 'jenis_beasiswa'));
+        return view('detil-evaluasi-beasiswa', compact('penerima', 'jenis_beasiswa', 'hismf'));
     }
 }
