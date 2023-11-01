@@ -43,7 +43,7 @@
                             <div class="card-body">
                                 <div class="card-title">Informasi Mahasiswa</div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
@@ -52,11 +52,11 @@
                                         <path d="M15 12l2 0"></path>
                                         <path d="M7 16l10 0"></path>
                                     </svg>
-                                    NIM : <strong>{{ $penerima->nim }}</strong>
+                                    <span class="ms-2">NIM</span> : <strong>{{ $penerima->nim }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id-badge-2 me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id-badge-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M7 12h3v4h-3z"></path>
                                         <path d="M10 6h-6a1 1 0 0 0 -1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1 -1v-12a1 1 0 0 0 -1 -1h-6"></path>
@@ -64,16 +64,29 @@
                                         <path d="M14 16h2"></path>
                                         <path d="M14 12h4"></path>
                                     </svg>
-                                    Nama : <strong>{{ $penerima->nama }}</strong>
+                                    <span class="ms-2">Nama</span> : <strong>{{ $penerima->nama }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
                                         <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
                                     </svg>
-                                    Beasiswa : <strong>{{ $penerima->{$jenis_beasiswa}->nama ?? null }}</strong>
+                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $penerima->{$jenis_beasiswa}->nama ?? null }}</strong>
+                                </div>
+                                <div class="mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+                                        <path d="M16 3v4"></path>
+                                        <path d="M8 3v4"></path>
+                                        <path d="M4 11h16"></path>
+                                        <path d="M11 15h1"></path>
+                                        <path d="M12 15v3"></path>
+                                    </svg>
+                                    <span class="ms-2">Semester</span> : <strong>{{ session('semester') }}</strong>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +135,9 @@
                                     </svg>
                                     IPS (Indeks Prestasi Semester)
                                 </div>
-                                <div class="h3 m-0">3.50</div>
+                                <div class="h3 m-0">
+                                    {{ $hismf->ips ?? 0 }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +154,9 @@
                                     </svg>
                                     SSKM (Standar Soft Skill Kegiatan Mahasiswa)
                                 </div>
-                                <div class="h3 m-0">115</div>
+                                <div class="h3 m-0">
+                                    {{ $sskm }}
+                                </div>
                             </div>
                         </div>
                     </div>
