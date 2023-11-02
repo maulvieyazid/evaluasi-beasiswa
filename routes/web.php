@@ -40,6 +40,6 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
     Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');
 });
 
-Route::get('/util-ins-syarat-peserta', [SyaratBeasiswaController::class, 'utilInsert']);
-Route::get('/util-upd-syarat-peserta', [SyaratBeasiswaController::class, 'utilUpdate']);
-Route::get('/util-del-syarat-peserta/{jenis_beasiswa}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
+Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
+Route::get('/syarat-util-upd', [SyaratBeasiswaController::class, 'utilUpdate']);
+Route::get('/syarat-util-del/{jenis_beasiswa}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
