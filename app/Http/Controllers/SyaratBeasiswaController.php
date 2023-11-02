@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departemen;
 use App\Models\SyaratBeasiswa;
 use Illuminate\Http\Request;
 
 class SyaratBeasiswaController extends Controller
 {
-    const KMHS = 9;
-    const KEUANGAN = 28;
 
     public function utilInsert()
     {
-        // Untuk mengambil kd_syarat maksimal di DB lalu di plus 1
-        // INI JANGAN DIUBAH2 YA !!
-        $i = SyaratBeasiswa::max('kd_syarat') + 1;
+        // VARIABEL INI JANGAN DIUBAH !!!
+        $i = 1;
 
         // Data untuk di insert
         // YANG DIUBAH2 YG DISINI AJA !!!
@@ -24,28 +22,28 @@ class SyaratBeasiswaController extends Controller
                 'kd_syarat'       => $i++,
                 'nm_syarat'       => 'Bersedia mematuhi peraturan yang berlaku di Universitas Dinamika.',
                 'nil_min'         => 1,
-                'bagian_validasi' => self::KMHS,
+                'bagian_validasi' => Departemen::KMHS,
             ],
             [
                 'jenis_beasiswa'  => 25,
                 'kd_syarat'       => $i++,
                 'nm_syarat'       => 'Bersedia berkontribusi dan terlibat aktif dalam kegiatan Universitas Dinamika dan Bagian Penerimaan Nahasiswa Baru.',
                 'nil_min'         => 1,
-                'bagian_validasi' => self::KMHS,
+                'bagian_validasi' => Departemen::KMHS,
             ],
             [
                 'jenis_beasiswa'  => 25,
                 'kd_syarat'       => $i++,
                 'nm_syarat'       => 'Evaluasi Indeks Prestasi Semester (IPS) yang harus dicapai setiap semester >= 3.00.',
                 'nil_min'         => 3.00,
-                'bagian_validasi' => self::KEUANGAN,
+                'bagian_validasi' => Departemen::KEUANGAN,
             ],
             [
                 'jenis_beasiswa'  => 25,
                 'kd_syarat'       => $i++,
                 'nm_syarat'       => 'Tidak diperkenankan untuk: (a) pindah ke program studi lain, (b) mengajukan cuti semester.',
                 'nil_min'         => 1,
-                'bagian_validasi' => self::KEUANGAN,
+                'bagian_validasi' => Departemen::KEUANGAN,
             ],
         ];
 
@@ -53,18 +51,26 @@ class SyaratBeasiswaController extends Controller
         foreach ($data as $syarat) {
             $syarat = (object) $syarat;
 
-            SyaratBeasiswa::create([
-                'jenis_beasiswa'  => $syarat->jenis_beasiswa,
-                'kd_syarat'       => $syarat->kd_syarat,
-                'nm_syarat'       => $syarat->nm_syarat,
-                'nil_min'         => $syarat->nil_min,
-                'bagian_validasi' => $syarat->bagian_validasi,
-            ]);
+            SyaratBeasiswa::updateOrCreate(
+                // Ini WHERE nya
+                [
+                    'jenis_beasiswa'  => $syarat->jenis_beasiswa,
+                    'kd_syarat'       => $syarat->kd_syarat,
+
+                ],
+                // Ini SET nya
+                [
+                    'nm_syarat'       => $syarat->nm_syarat,
+                    'nil_min'         => $syarat->nil_min,
+                    'bagian_validasi' => $syarat->bagian_validasi,
+                ]
+            );
         }
 
         return "Data Syarat Beasiswa berhasil diinsert";
     }
 
+    // Fungsi ini digunakan untuk mengupdate satu data saja
     public function utilUpdate()
     {
         // Untuk mengupdate, ubah saja isian data ini dengan data di database yang mau diubah
@@ -73,9 +79,13 @@ class SyaratBeasiswaController extends Controller
             'kd_syarat'       => 3,
             'nm_syarat'       => 'Evaluasi Indeks Prestasi Semester (IPS) yang harus dicapai setiap semester >= 3.00.',
             'nil_min'         => 3.00,
-            'bagian_validasi' => self::KEUANGAN,
+            'bagian_validasi' => Departemen::KEUANGAN,
         ];
 
+        /*
+        | Yang dibawah ini gk perlu diubah2
+        | ---------------------------------------------------
+        */
         $data = (object) $data;
 
         $syarat = SyaratBeasiswa::query()
@@ -84,9 +94,9 @@ class SyaratBeasiswaController extends Controller
             ->first();
 
         $syarat->update([
-            'nm_syarat'       => 'Evaluasi Indeks Prestasi Semester (IPS) yang harus dicapai setiap semester >= 3.00.',
-            'nil_min'         => 3.00,
-            'bagian_validasi' => self::KEUANGAN,
+            'nm_syarat'       => $data->nm_syarat,
+            'nil_min'         => $data->nil_min,
+            'bagian_validasi' => $data->bagian_validasi,
         ]);
 
         return "Data Syarat Beasiswa berhasil diupdate";

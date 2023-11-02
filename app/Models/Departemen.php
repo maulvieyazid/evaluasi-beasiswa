@@ -9,6 +9,10 @@ class Departemen extends Model
 {
     use HasFactory;
 
+    const KMHS = 9;
+
+    const KEUANGAN = 28;
+
     protected $table = 'V_DEPARTEMEN1';
 
     public $timestamps = false;
