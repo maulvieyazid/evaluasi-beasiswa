@@ -3,6 +3,7 @@
 use App\Http\Controllers\EvaluasiBeasiswaController;
 use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SyaratBeasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,3 +39,7 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
 
     Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');
 });
+
+Route::get('/util-ins-syarat-peserta', [SyaratBeasiswaController::class, 'utilInsert']);
+Route::get('/util-upd-syarat-peserta', [SyaratBeasiswaController::class, 'utilUpdate']);
+Route::get('/util-del-syarat-peserta/{jenis_beasiswa}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
