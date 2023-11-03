@@ -27,7 +27,7 @@ class SyaratBeasiswaController extends Controller
             [
                 'jenis_beasiswa'  => 25,
                 'kd_syarat'       => $i++,
-                'nm_syarat'       => 'Bersedia berkontribusi dan terlibat aktif dalam kegiatan Universitas Dinamika dan Bagian Penerimaan Nahasiswa Baru.',
+                'nm_syarat'       => 'Bersedia berkontribusi dan terlibat aktif dalam kegiatan Universitas Dinamika dan Bagian Penerimaan Mahasiswa Baru.',
                 'nil_min'         => 1,
                 'bagian_validasi' => Departemen::KMHS,
             ],
@@ -44,6 +44,48 @@ class SyaratBeasiswaController extends Controller
                 'nm_syarat'       => 'Tidak diperkenankan untuk: (a) pindah ke program studi lain, (b) mengajukan cuti semester.',
                 'nil_min'         => 1,
                 'bagian_validasi' => Departemen::KEUANGAN,
+            ],
+            [
+                'jenis_beasiswa'  => 14,
+                'kd_syarat'       => $i++,
+                'nm_syarat'       => 'Bersedia mematuhi peraturan yang berlaku di Universitas Dinamika.',
+                'nil_min'         => 1,
+                'bagian_validasi' => Departemen::KMHS,
+            ],
+            [
+                'jenis_beasiswa'  => 14,
+                'kd_syarat'       => $i++,
+                'nm_syarat'       => 'Bersedia berkontribusi dan terlibat aktif dalam kegiatan Universitas Dinamika dan Bagian Penerimaan Mahasiswa Baru.',
+                'nil_min'         => 1,
+                'bagian_validasi' => Departemen::KMHS,
+            ],
+            [
+                'jenis_beasiswa'  => 14,
+                'kd_syarat'       => $i++,
+                'nm_syarat'       => 'Evaluasi Indeks Prestasi Semester (IPS) yang harus dicapai setiap semester >= 3.00.',
+                'nil_min'         => 3.00,
+                'bagian_validasi' => Departemen::KEUANGAN,
+            ],
+            [
+                'jenis_beasiswa'  => 14,
+                'kd_syarat'       => $i++,
+                'nm_syarat'       => 'Tidak diperkenankan untuk: (a) pindah ke program studi lain, (b) mengajukan cuti semester.',
+                'nil_min'         => 1,
+                'bagian_validasi' => Departemen::KEUANGAN,
+            ],
+            [
+                'jenis_beasiswa'  => 14,
+                'kd_syarat'       => $i++,
+                'nm_syarat'       => 'Tergabung menjadi anggota Unit Kegiatan Mahasiswa (UKM) yang relevan.',
+                'nil_min'         => 1,
+                'bagian_validasi' => Departemen::KMHS,
+            ],
+            [
+                'jenis_beasiswa'  => 14,
+                'kd_syarat'       => $i++,
+                'nm_syarat'       => 'Bersedia berpartisipasi dalam acara Universitas Dinamika atau mewakili Universitas Dinamika dalam perlombaan.',
+                'nil_min'         => 1,
+                'bagian_validasi' => Departemen::KMHS,
             ],
         ];
 
