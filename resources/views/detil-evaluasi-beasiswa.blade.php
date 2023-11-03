@@ -2,6 +2,11 @@
 
 @section('html_title', 'Detail Evaluasi Beasiswa')
 
+@php
+    use App\Models\Departemen;
+    use App\Models\SyaratBeasiswa;
+@endphp
+
 @section('content')
     <div class="page-wrapper">
 
@@ -163,131 +168,165 @@
                 </div>
 
 
-                <!-- Evaluasi Bagian Keuangan -->
-                <div class="row mt-3">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="">
-                                    <label class="form-label">Evaluasi Bagian Keuangan</label>
-                                    <div class="text-muted mb-3">
-                                        Silahkan centang ketentuan-ketentuan dibawah ini bila penerima beasiswa memenuhi ketentuan.
-                                        <br>
-                                        Bila penerima beasiswa tidak memenuhi ketentuan, maka tidak perlu dicentang.
-                                    </div>
+                <!-- Evaluasi Bagian Yang LOGIN -->
+                <form action="./" method="POST">
+                    <input type="hidden" name="status_kesimpulan" id="status_kesimpulan">
 
-                                    <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
+                    @csrf
 
-                                        <label class="form-selectgroup-item flex-fill">
+                    @php
+                        // Ambil nama bagian dari user yg login
+                        $nama_bagian_user =
+                            auth()
+                                ->user()
+                                ->load('departemen')->departemen->nama ?? null;
+                    @endphp
 
-                                            <input type="checkbox" name="form-project-manager[]" value="1" class="form-selectgroup-input">
-
-                                            <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                                <div class="me-3">
-
-                                                    {{-- <div class="spinner-border spinner-border-sm text-muted" role="status"></div> --}}
-
-                                                    <span class="form-selectgroup-check"></span>
-                                                </div>
-                                                <div class="form-selectgroup-label-content d-flex align-items-center">
-                                                    <div class="font-weight-medium">
-                                                        Evaluasi Indeks Prestasi Semester (IPS) yang harus dicapai setiap semester >= 3.00
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="">
+                                        <label class="form-label">
+                                            Evaluasi Bagian {{ ucfirst(strtolower($nama_bagian_user)) }}
                                         </label>
 
-                                        <label class="form-selectgroup-item flex-fill">
+                                        <div class="text-muted mb-3">
+                                            Silahkan centang ketentuan-ketentuan dibawah ini bila penerima beasiswa memenuhi ketentuan.
+                                            <br>
+                                            Bila penerima beasiswa tidak memenuhi ketentuan, maka tidak perlu dicentang.
+                                        </div>
 
-                                            <input type="checkbox" name="form-project-manager[]" value="2" class="form-selectgroup-input">
+                                        <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
+                                            @php
+                                                // Ambil syarat beasiswa yang bagian_validasi nya sesuai dengan bagian user yang login
+                                                $syaratUser = $semuaSyarat->where('bagian_validasi', auth()->user()->bagian);
+                                            @endphp
 
-                                            <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                                <div class="me-3">
-                                                    <span class="form-selectgroup-check"></span>
-                                                </div>
-                                                <div class="form-selectgroup-label-content d-flex align-items-center">
-                                                    <div class="font-weight-medium">
-                                                        Tidak diperkenankan untuk : (a) pindah ke program studi lain, (b) mengajukan cuti semester
+                                            @foreach ($syaratUser as $syarat)
+                                                @php
+                                                    $checked = null;
+
+                                                    // Cek apakah jenis_beasiswa ADA di dalam array autocheck
+                                                    $jnsbeaExist = array_key_exists($syarat->jenis_beasiswa, SyaratBeasiswa::AUTOCHECK);
+
+                                                    // Kalo ada
+                                                    if ($jnsbeaExist) {
+                                                        // Maka masuk kedalam array autocheck yang key nya adalah jenis_beasiswa
+                                                        // lalu cek apakah kd_syarat nya ADA juga
+                                                        $kdsyrtExist = array_key_exists($syarat->kd_syarat, SyaratBeasiswa::AUTOCHECK[$syarat->jenis_beasiswa]);
+
+                                                        // Kalo ada, maka ambil penanda nya
+                                                        $penanda = $kdsyrtExist ? SyaratBeasiswa::AUTOCHECK[$syarat->jenis_beasiswa][$syarat->kd_syarat] : null;
+
+                                                        // Kalo penanda nya adalah IPS, maka cek IPS nya mhs
+                                                        if ($penanda == SyaratBeasiswa::IPS) {
+                                                            $ips = $hismf->ips ?? 0;
+                                                            $checked = $ips >= $syarat->nil_min ? 'checked' : null;
+                                                        }
+
+                                                        // Kalo penanda nya adalah STSKULIAH, maka cek status kuliah mhs
+                                                        if ($penanda == SyaratBeasiswa::STSKULIAH) {
+                                                            $status = $hismf->nama_status ?? null;
+                                                            $checked = strtoupper($status) == 'AKTIF' ? 'checked' : null;
+                                                        }
+                                                    }
+                                                @endphp
+
+                                                <label class="form-selectgroup-item flex-fill">
+                                                    <input type="checkbox" name="syarat_beasiswa[]" value="{{ $syarat->kd_syarat }}" class="form-selectgroup-input" {{ $checked }}>
+                                                    <div class="form-selectgroup-label d-flex align-items-center p-3">
+                                                        <div class="me-3">
+                                                            <span class="form-selectgroup-check"></span>
+                                                        </div>
+                                                        <div class="form-selectgroup-label-content d-flex align-items-center">
+                                                            <div class="font-weight-medium">
+                                                                {{ $syarat->nm_syarat }}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </label>
+                                                </label>
+                                            @endforeach
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <button type="button" class="btn btn-success" onclick="simpan()">
-                                    Simpan
-                                </button>
+                                <div class="card-footer">
+                                    <button type="button" class="btn btn-success" onclick="simpan()">
+                                        Simpan
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Evaluasi Bagian Keuangan -->
+                </form>
+                <!-- Evaluasi Bagian Yang LOGIN -->
 
 
 
-                <!-- Evaluasi Bagian Kemahasiswaan -->
-                <div class="row mt-3">
-                    <div class="col">
-                        <div class="card">
-                            <div class="accordion" id="accordion-example">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="heading-4">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false">
-                                            Evaluasi Bagian Kemahasiswaan
-                                        </button>
-                                    </h2>
-                                    <div id="collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
-                                        <div class="accordion-body pt-0">
-                                            <div class="">
-                                                <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
+                <!-- Evaluasi Bagian Lainnya -->
+                @php
+                    // Ambil semua syarat yang bagian_validasi nya bukan bagian nya user yg login
+                    $syaratLain = $semuaSyarat->where('bagian_validasi', '!=', auth()->user()->bagian);
 
-                                                    <label class="form-selectgroup-item flex-fill">
+                    // Lakukan grouping terhadap bagian_validasinya
+                    $syaratLain = $syaratLain->groupBy('bagian_validasi');
+                @endphp
 
-                                                        <input type="checkbox" name="form-project-manager[]" value="1" class="form-selectgroup-input" disabled checked>
+                {{-- Looping accordion di bawah ini berdasarkan syarat yang sudah digrouping bagian_validasi nya --}}
+                @foreach ($syaratLain as $kd_bagian => $syarat)
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="card">
+                                <div class="accordion" id="accordion-example">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading-4">
+                                            @php
+                                                // Ambil nama bagian dari db
+                                                $nama_bagian = Departemen::where('kode', $kd_bagian)->first()->nama ?? null;
+                                                // Kalo gk null, maka tambahkan string "Bagian", lalu ubah agar kapital di tiap huruf
+                                                $nama_bagian = $nama_bagian ? 'Bagian ' . ucfirst(strtolower($nama_bagian)) : 'Lainnya';
+                                            @endphp
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false">
+                                                Evaluasi {{ $nama_bagian }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                                            <div class="accordion-body pt-0">
+                                                <div class="">
+                                                    <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
 
-                                                        <div class="form-selectgroup-label d-flex align-items-center p-3" style="border-color: transparent">
-                                                            <div class="me-3">
-                                                                <span class="form-selectgroup-check"></span>
-                                                            </div>
-                                                            <div class="form-selectgroup-label-content d-flex align-items-center">
-                                                                <div class="font-weight-medium text-muted">
-                                                                    Bersedia mematuhi peraturan yang berlaku di Universitas Dinamika
+                                                        @foreach ($syarat as $syt)
+                                                            <label class="form-selectgroup-item flex-fill">
+
+                                                                <input type="checkbox" value="{{ $syt->kd_syarat }}" class="form-selectgroup-input" disabled>
+
+                                                                <div class="form-selectgroup-label d-flex align-items-center p-3" style="border-color: transparent; cursor: default;">
+                                                                    <div class="me-3">
+                                                                        <span class="form-selectgroup-check"></span>
+                                                                    </div>
+                                                                    <div class="form-selectgroup-label-content d-flex align-items-center">
+                                                                        <div class="font-weight-medium text-muted">
+                                                                            {{ $syt->nm_syarat }}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </label>
+                                                            </label>
+                                                        @endforeach
 
-                                                    <label class="form-selectgroup-item flex-fill">
-
-                                                        <input type="checkbox" name="form-project-manager[]" value="2" class="form-selectgroup-input" disabled>
-
-                                                        <div class="form-selectgroup-label d-flex align-items-center p-3" style="border-color: transparent">
-                                                            <div class="me-3">
-                                                                <span class="form-selectgroup-check"></span>
-                                                            </div>
-                                                            <div class="form-selectgroup-label-content d-flex align-items-center">
-                                                                <div class="font-weight-medium text-muted">
-                                                                    Bersedia berkontribusi dan terlibat aktif dalam kegiatan Universitas Dinamika dan Bagian Penerimaan Mahasiswa Baru
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </label>
-
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Evaluasi Bagian Kemahasiswaan -->
+                @endforeach
+
+                <!-- Evaluasi Bagian Lainnya -->
 
 
             </div>

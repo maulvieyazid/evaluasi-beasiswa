@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HisMf;
+use App\Models\SyaratBeasiswa;
 use App\Models\Terima;
 use App\Models\Tsnilmaba;
 use Illuminate\Http\Request;
@@ -23,6 +24,9 @@ class EvaluasiBeasiswaController extends Controller
 
         $penerima = $penerima->where('nim', $nim)->first();
 
+        // Kalo penerima nya gk ada, langsung redirect kembali aja
+        if (!$penerima) return redirect()->back();
+
         $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
 
         $hismf = HisMf::where('mhs_nim', $nim)
@@ -31,6 +35,16 @@ class EvaluasiBeasiswaController extends Controller
 
         $sskm = Tsnilmaba::where('nim', $nim)->sum('nilai');
 
-        return view('detil-evaluasi-beasiswa', compact('penerima', 'jenis_beasiswa', 'hismf', 'sskm'));
+        $semuaSyarat = SyaratBeasiswa::query()
+            ->where('jenis_beasiswa', $penerima->{$jenis_beasiswa}->kd_jenis)
+            ->get();
+
+        return view('detil-evaluasi-beasiswa', compact(
+            'penerima',
+            'jenis_beasiswa',
+            'hismf',
+            'sskm',
+            'semuaSyarat',
+        ));
     }
 }

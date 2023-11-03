@@ -81,6 +81,13 @@ class Karyawan extends Authenticatable
     }
 
 
+    // Relationship
+    public function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'bagian', 'kode');
+    }
+
+
     // SCOPES
     public function scopeAktif($query)
     {

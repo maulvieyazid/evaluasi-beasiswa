@@ -11,6 +11,36 @@ class SyaratBeasiswa extends Model
 {
     use HasFactory;
 
+    /*
+    | Ini adalah Penanda untuk digunakan di AUTOCHECK
+    */
+    const IPS = 'IPS';
+    const STSKULIAH = 'STSKULIAH';
+
+
+    /*
+    | Variable di bawah ini digunakan untuk auto centang Bagian Keuangan di tampilan detil.
+    | Saat ada syarat beasiswa yang kode nya masuk ke sini, maka lakukan pengecekan sesuai dengan penanda nya.
+    | Misal: untuk jenis_beasiswa 25, dengan kd_syarat 3, itu harus mengecek ke nilai IPS mahasiswa, maka penanda nya dikasih IPS.
+    | Nanti di view akan dicek IPS nya, kalau IPS nya memenuhi nil_min, maka checkbox nya akan otomatis tercentang.
+    |
+    | NOTE : ini memang harus DIINPUTKAN SECARA MANUAL,
+    | karena aplikasi gk bisa tau syarat mana yang harus ngebaca IPS, syarat mana yang harus baca Status Kuliah, dsb
+    |
+    | Struktur nya seperti ini
+    | [
+    |    'jenis_beasiswa' => [
+    |        'kd_syarat' => 'Penanda / Nilai yang akan dicek dengan syarat'
+    |    ],
+    | ]
+    */
+    const AUTOCHECK = [
+        25 => [
+            3 => self::IPS,
+            4 => self::STSKULIAH,
+        ],
+    ];
+
     protected $table = 'BOBBY21.V_BEASISWA_SYARAT';
 
     public $timestamps = false;
