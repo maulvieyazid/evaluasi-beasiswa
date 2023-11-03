@@ -5,6 +5,7 @@
 @php
     use App\Models\Departemen;
     use App\Models\SyaratBeasiswa;
+    use App\Models\KesimpulanBeasiswa;
 @endphp
 
 @section('content')
@@ -169,8 +170,11 @@
 
 
                 <!-- Evaluasi Bagian Yang LOGIN -->
-                <form action="./" method="POST">
+                <form action="{{ route('simpan-detil-evaluasi') }}" method="POST" id="formEvaluasi">
                     <input type="hidden" name="status_kesimpulan" id="status_kesimpulan">
+                    <input type="hidden" name="nim" id="nim" value="{{ $penerima->nim }}">
+                    <input type="hidden" name="jns_beasiswa" id="jns_beasiswa" value="{{ $penerima->{$jenis_beasiswa}->kd_jenis ?? null }}">
+                    <input type="hidden" name="smt" id="smt" value="{{ session('semester') }}">
 
                     @csrf
 
@@ -299,7 +303,7 @@
                                                         @foreach ($syarat as $syt)
                                                             <label class="form-selectgroup-item flex-fill">
 
-                                                                <input type="checkbox" value="{{ $syt->kd_syarat }}" class="form-selectgroup-input" disabled>
+                                                                <input type="checkbox" value="{{ $syt->kd_syarat }}" class="form-selectgroup-input" name="syarat_lain[]" disabled>
 
                                                                 <div class="form-selectgroup-label d-flex align-items-center p-3" style="border-color: transparent; cursor: default;">
                                                                     <div class="me-3">
@@ -339,20 +343,116 @@
 @push('js')
     <script>
         function simpan() {
-            Swal.fire({
+            // Ambil semua checkbox yang beratribut name="syarat_beasiswa[]"
+            let checkboxes = document.querySelectorAll('input[name="syarat_beasiswa[]"]');
+
+            // Periksa apakah semua checkbox nya tercentang
+            let semuaTercentang = [...checkboxes].every(checkbox => checkbox.checked);
+
+            // Kalo yang login adalah Bagian Keuangan, maka cek juga checkbox yang beratribut name="syarat_lain[]"
+            // Bagian Keuangan adalah gerbang terakhir pengecekan seluruh evaluasi
+            // Saat Bagian Keuangan menyimpan evaluasi, maka aplikasi akan menyimpan data Syarat Peserta Beasiswa dan Kesimpulan Beasiswa
+            // selain Bagian Keuangan, maka aplikasi hanya menyimpan data Syarat Peserta Beasiswa saja
+            @if (auth()->user()->bagian == Departemen::KEUANGAN)
+                // Ambil semua checkbox yang beratribut name="syarat_lain[]"
+                let checkboxes_lain = document.querySelectorAll('input[name="syarat_lain[]"]');
+
+                // Periksa apakah semua checkbox nya tercentang
+                let semuaLainTercentang = [...checkboxes_lain].every(checkbox => checkbox.checked);
+
+                if (!semuaLainTercentang) {
+                    kesimpulanBuruk();
+                    return;
+                }
+            @endif
+
+            if (!semuaTercentang) {
+                kesimpulanBuruk();
+                return;
+            }
+
+            kesimpulanBaik();
+
+        }
+
+        async function kesimpulanBaik() {
+            const text = `Evaluasi yang sudah disimpan akan dianggap <span class="fw-bolder">FINAL</span> dan tidak bisa diubah kembali.`;
+
+            const {
+                value
+            } = await Swal.fire({
                 title: 'Anda yakin?',
-                text: "Evaluasi yang sudah disimpan akan dianggap final.",
+                html: text,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                // cancelButtonColor: '#d33',
                 cancelButtonText: 'Batal',
                 confirmButtonText: 'Ya, simpan'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "{{ route('mol-evbsw') }}";
+            })
+
+            if (!value) return;
+
+            document.getElementById('status_kesimpulan').value = '{{ KesimpulanBeasiswa::LOLOS }}';
+            document.getElementById('formEvaluasi').submit();
+        }
+
+        async function kesimpulanBuruk() {
+            let judul = `
+                Ada evaluasi yang <span class="fw-bolder">BELUM TERCENTANG</span>.
+                <br>
+                Mahasiswa ybs <span class="fw-bolder">TIDAK AKAN LOLOS</span> dan beasiswanya akan <span class="fw-bolder">DICABUT</span>.
+                <br>
+                Apakah anda yakin ingin melanjutkan?
+            `;
+
+            const {
+                value
+            } = await Swal.fire({
+                title: 'PERHATIAN!',
+                html: judul,
+                icon: 'warning',
+                showCancelButton: true,
+                // confirmButtonColor: '#3085d6',
+                // cancelButtonColor: '#d33',
+                confirmButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, lanjut'
+            })
+
+            if (!value) return
+
+            // Teks yang harus diinputkan oleh user untuk melanjutkan
+            const passcode = '{{ $penerima->nim }}/{{ $penerima->nama }}';
+
+            judul = `
+                <span>Silahkan masukkan teks dibawah ini untuk lanjut menyimpan evaluasi.</span>
+                <br>
+                <br>
+                <span class='fw-bolder'>${passcode}</span>
+            `;
+
+            const {
+                value: lanjutkan
+            } = await Swal.fire({
+                html: judul,
+                input: 'text',
+                confirmButtonColor: '#d33',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Simpan',
+                inputValidator: (value) => {
+                    // Kalo isian nya kosong
+                    if (!value) return 'Isikan teks diatas untuk melanjutkan.'
+                    // Kalo isian nya nggak sama
+                    if (value != passcode) return 'Teks tidak sesuai. Mohon perhatikan besar dan kecil nya huruf, spasi, atau tanda baca apapun.';
                 }
             })
+
+            if (!lanjutkan) return
+
+            document.getElementById('status_kesimpulan').value = '{{ KesimpulanBeasiswa::TIDAK_LOLOS }}';
+            document.getElementById('formEvaluasi').submit();
         }
     </script>
 @endpush

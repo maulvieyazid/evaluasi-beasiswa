@@ -31,6 +31,8 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
 
     Route::get('/detil-evaluasi-beasiswa/{nim}', [EvaluasiBeasiswaController::class, 'detail'])->name('detil-evaluasi-beasiswa');
 
+    Route::post('/simpan-detil-evaluasi', [EvaluasiBeasiswaController::class, 'simpanDetail'])->name('simpan-detil-evaluasi');
+
     Route::get('/mol-evbsw', function () {
         return redirect()->route('index-evaluasi-beasiswa')
             ->with('success', 'Evaluasi berhasil disimpan');

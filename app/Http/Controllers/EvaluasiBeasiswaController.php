@@ -47,4 +47,9 @@ class EvaluasiBeasiswaController extends Controller
             'semuaSyarat',
         ));
     }
+
+    function simpanDetail(Request $req)
+    {
+        dd($req->all());
+    }
 }

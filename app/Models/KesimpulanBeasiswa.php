@@ -9,6 +9,10 @@ class KesimpulanBeasiswa extends Model
 {
     use HasFactory;
 
+    const LOLOS = 'Y';
+    const TIDAK_LOLOS = 'T';
+
+
     protected $table = 'BOBBY21.V_BEASISWA_KESIMPULAN';
 
     public $timestamps = false;
