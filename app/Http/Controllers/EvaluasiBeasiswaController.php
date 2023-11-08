@@ -44,6 +44,8 @@ class EvaluasiBeasiswaController extends Controller
         // Kalo penerima nya gk ada, langsung redirect kembali aja
         if (!$penerima) return redirect()->back();
 
+        $penerima = $penerima->load('syarat_peserta');
+
         $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
 
         $hismf = HisMf::where('mhs_nim', $nim)

@@ -5,6 +5,7 @@
 @php
     use App\Models\Departemen;
     use App\Models\SyaratBeasiswa;
+    use App\Models\SyaratPesertaBeasiswa;
     use App\Models\KesimpulanBeasiswa;
 @endphp
 
@@ -301,9 +302,18 @@
                                                     <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
 
                                                         @foreach ($syarat as $syt)
+                                                            @php
+                                                                // Ambil nilai status dari syarat peserta beasiswa jika ada
+                                                                // Kalau tidak ada, maka kembalikan null
+                                                                $syarat_peserta_beasiswa = $penerima->syarat_peserta->where('kd_syarat', $syt->kd_syarat)->first()->status ?? null;
+
+                                                                // Kalau status nya adalah lolos, maka checkbox nya tercentang
+                                                                $checked = $syarat_peserta_beasiswa == SyaratPesertaBeasiswa::LOLOS ? 'checked' : '';
+                                                            @endphp
+
                                                             <label class="form-selectgroup-item flex-fill">
 
-                                                                <input type="checkbox" value="{{ $syt->kd_syarat }}" class="form-selectgroup-input" name="syarat_lain[]" disabled>
+                                                                <input type="checkbox" value="{{ $syt->kd_syarat }}" class="form-selectgroup-input" name="syarat_lain[]" disabled {{ $checked }}>
 
                                                                 <div class="form-selectgroup-label d-flex align-items-center p-3" style="border-color: transparent; cursor: default;">
                                                                     <div class="me-3">
