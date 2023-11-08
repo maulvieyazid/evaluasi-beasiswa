@@ -4,6 +4,7 @@ use App\Http\Controllers\EvaluasiBeasiswaController;
 use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SyaratBeasiswaController;
+use App\Http\Controllers\SyaratPesertaBeasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,3 +46,7 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
 Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
 Route::get('/syarat-util-upd', [SyaratBeasiswaController::class, 'utilUpdate']);
 Route::get('/syarat-util-del/{jenis_beasiswa}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
+
+
+
+Route::get('/syarat-peserta-util-del/{mhs_nim}/{jns_beasiswa}/{smt}/{kd_syarat}', [SyaratPesertaBeasiswaController::class, 'utilDelete']);
