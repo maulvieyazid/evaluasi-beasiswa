@@ -61,8 +61,6 @@ class EvaluasiBeasiswaController extends Controller
             ->where('bagian_validasi', auth()->user()->bagian)
             ->get();
 
-        // dd($req->all(), auth()->user(), $semuaSyarat);
-
         // Lakukan looping
         foreach ($semuaSyarat as $syarat) {
 
