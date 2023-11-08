@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent;
 use Illuminate\Support\Facades\DB;
 
-class KesimpulanBeasiswa extends Model
+class SyaratPesertaBeasiswa extends Model
 {
     use HasFactory;
 
     const LOLOS = 'Y';
     const TIDAK_LOLOS = 'T';
 
-    protected $table = 'BOBBY21.V_BEASISWA_KESIMPULAN';
+    protected $table = 'BOBBY21.V_BEASISWA_SYARAT_PESERTA';
 
     public $timestamps = false;
 
@@ -24,10 +24,10 @@ class KesimpulanBeasiswa extends Model
         'mhs_nim',
         'jns_beasiswa',
         'smt',
+        'kd_syarat',
         'status',
         'keterangan',
     ];
-
 
 
 
@@ -46,10 +46,11 @@ class KesimpulanBeasiswa extends Model
         $sql = <<<SQL
 
             BEGIN
-                BOBBY21.INS_BEASISWA_KESIMPULAN (
+                BOBBY21.INS_BEASISWA_SYARAT_PESERTA (
                     :mhs_nim,
                     :jns_beasiswa,
                     :smt,
+                    :kd_syarat,
                     :status,
                     :keterangan
                 );
@@ -62,6 +63,7 @@ class KesimpulanBeasiswa extends Model
         $stmt->bindValue('mhs_nim', $this->mhs_nim);
         $stmt->bindValue('jns_beasiswa', $this->jns_beasiswa);
         $stmt->bindValue('smt', $this->smt);
+        $stmt->bindValue('kd_syarat', $this->kd_syarat);
         $stmt->bindValue('status', $this->status);
         $stmt->bindValue('keterangan', $this->keterangan);
         $stmt->execute();
@@ -78,7 +80,6 @@ class KesimpulanBeasiswa extends Model
 
         return true;
     }
-
 
 
 
@@ -100,10 +101,11 @@ class KesimpulanBeasiswa extends Model
         $sql = <<<SQL
 
             BEGIN
-                BOBBY21.UPD_BEASISWA_KESIMPULAN (
+                BOBBY21.UPD_BEASISWA_SYARAT_PESERTA (
                     :mhs_nim,
                     :jns_beasiswa,
                     :smt,
+                    :kd_syarat,
                     :status,
                     :keterangan
                 );
@@ -116,6 +118,7 @@ class KesimpulanBeasiswa extends Model
         $stmt->bindValue('mhs_nim', $this->mhs_nim);
         $stmt->bindValue('jns_beasiswa', $this->jns_beasiswa);
         $stmt->bindValue('smt', $this->smt);
+        $stmt->bindValue('kd_syarat', $this->kd_syarat);
         $stmt->bindValue('status', $this->status);
         $stmt->bindValue('keterangan', $this->keterangan);
         $stmt->execute();
@@ -135,10 +138,11 @@ class KesimpulanBeasiswa extends Model
     {
         $sql = <<<SQL
             BEGIN
-                BOBBY21.DEL_BEASISWA_KESIMPULAN (
+                BOBBY21.DEL_BEASISWA_SYARAT_PESERTA (
                     :mhs_nim,
                     :jns_beasiswa,
-                    :smt
+                    :smt,
+                    :kd_syarat
                 );
 
             END;
@@ -148,6 +152,7 @@ class KesimpulanBeasiswa extends Model
         $stmt->bindValue('mhs_nim', $this->mhs_nim);
         $stmt->bindValue('jns_beasiswa', $this->jns_beasiswa);
         $stmt->bindValue('smt', $this->smt);
+        $stmt->bindValue('kd_syarat', $this->kd_syarat);
         $stmt->execute();
 
         $this->exists = false;
