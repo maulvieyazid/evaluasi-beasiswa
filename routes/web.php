@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EvaluasiBeasiswaController;
 use App\Http\Controllers\HistoriController;
+use App\Http\Controllers\KesimpulanBeasiswaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SyaratBeasiswaController;
 use App\Http\Controllers\SyaratPesertaBeasiswaController;
@@ -50,3 +51,4 @@ Route::get('/syarat-util-del/{jenis_beasiswa}/{kd_syarat}', [SyaratBeasiswaContr
 
 
 Route::get('/syarat-peserta-util-del/{mhs_nim}/{jns_beasiswa}/{smt}/{kd_syarat}', [SyaratPesertaBeasiswaController::class, 'utilDelete']);
+Route::get('/kesimpulan-util-del/{mhs_nim}/{jns_beasiswa}/{smt}', [KesimpulanBeasiswaController::class, 'utilDelete']);
