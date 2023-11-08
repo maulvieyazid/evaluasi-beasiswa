@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departemen;
 use App\Models\HisMf;
+use App\Models\KesimpulanBeasiswa;
 use App\Models\SyaratBeasiswa;
+use App\Models\SyaratPesertaBeasiswa;
 use App\Models\Terima;
 use App\Models\Tsnilmaba;
 use Illuminate\Http\Request;
@@ -50,6 +53,52 @@ class EvaluasiBeasiswaController extends Controller
 
     function simpanDetail(Request $req)
     {
-        dd($req->all());
+        // Ambil syarat yang jenis beasiswa nya sesuai data request
+        // DAN
+        // bagian_validasi nya sesuai dengan bagian yang LOGIN
+        $semuaSyarat = SyaratBeasiswa::query()
+            ->where('jenis_beasiswa', $req->jns_beasiswa)
+            ->where('bagian_validasi', auth()->user()->bagian)
+            ->get();
+
+        // dd($req->all(), auth()->user(), $semuaSyarat);
+
+        // Lakukan looping
+        foreach ($semuaSyarat as $syarat) {
+
+            // Cek di masing2 syarat, apakah kd_syarat nya ada di data request syarat_beasiswa
+            // Kalo ada maka statusnya lolos, kalo gk ada maka statusnya tidak lolos
+            $status = in_array($syarat->kd_syarat, $req->syarat_beasiswa)
+                ? SyaratPesertaBeasiswa::LOLOS
+                : SyaratPesertaBeasiswa::TIDAK_LOLOS;
+
+            // Insert ke SyaratPesertaBeasiswa
+            SyaratPesertaBeasiswa::create([
+                'mhs_nim'      => $req->nim,
+                'jns_beasiswa' => $req->jns_beasiswa,
+                'smt'          => $req->smt,
+                'kd_syarat'    => $syarat->kd_syarat,
+                'status'       => $status,
+                'keterangan'   => null,
+            ]);
+
+            // FUTURE : Simpan ke Log Syarat
+        }
+
+        // Insert ke Kesimpulan Beasiswa, hanya jika yang login adalah Bagian Keuangan
+        if (auth()->user()->bagian == Departemen::KEUANGAN) {
+            KesimpulanBeasiswa::create([
+                'mhs_nim'      => $req->nim,
+                'jns_beasiswa' => $req->jns_beasiswa,
+                'smt'          => $req->smt,
+                'status'       => $req->status_kesimpulan,
+                'keterangan'   => null,
+            ]);
+
+            // FUTURE : Simpan ke Log Simpulan
+        }
+
+        return redirect()->route('index-evaluasi-beasiswa')
+            ->with('success', 'Evaluasi Beasiswa berhasil disimpan');
     }
 }
