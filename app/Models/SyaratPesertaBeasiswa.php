@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class SyaratPesertaBeasiswa extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
 
     const LOLOS = 'Y';
     const TIDAK_LOLOS = 'T';
@@ -28,6 +29,13 @@ class SyaratPesertaBeasiswa extends Model
         'status',
         'keterangan',
     ];
+
+
+    // RELATIONSHIP
+    public function syarat()
+    {
+        return $this->belongsTo(SyaratBeasiswa::class, ['jns_beasiswa', 'kd_syarat'], ['jenis_beasiswa', 'kd_syarat']);
+    }
 
 
 

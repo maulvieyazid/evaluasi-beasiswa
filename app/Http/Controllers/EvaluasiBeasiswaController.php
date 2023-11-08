@@ -16,7 +16,21 @@ class EvaluasiBeasiswaController extends Controller
     public function index()
     {
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
-            ->load('mahasiswa', 'jenis_beasiswa1', 'jenis_beasiswa2');
+            ->load('mahasiswa', 'jenis_beasiswa1', 'jenis_beasiswa2', 'syarat_peserta.syarat');
+
+        // Hapus / Buang penerima beasiswa yang sudah dievaluasi oleh bagian yang LOGIN
+        $semuaPenerima = $semuaPenerima->reject(function ($penerima, $key) {
+            // return FALSE : artinya penerima beasiswa tidak dibuang
+            // return TRUE : artinya penerima beasiswa dibuang
+
+            // Kalau jumlah syarat_peserta nya sama dengan 0, maka return false
+            if ($penerima->syarat_peserta->count() == 0) return false;
+
+            // Kalau tidak ada syarat beasiswa yang bagian validasi nya ada bagian yang LOGIN, maka return false
+            if ($penerima->syarat_peserta->where('syarat.bagian_validasi', auth()->user()->bagian)->count() == 0) return false;
+
+            return true;
+        });
 
         return view('evaluasi-beasiswa', compact('semuaPenerima'));
     }

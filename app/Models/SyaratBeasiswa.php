@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class SyaratBeasiswa extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
 
     /*
     | Ini adalah Penanda untuk digunakan di AUTOCHECK

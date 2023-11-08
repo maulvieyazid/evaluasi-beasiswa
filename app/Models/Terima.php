@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Terima extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
 
     protected $table = 'BOBBY21.V_TERIMA';
 
@@ -36,6 +37,11 @@ class Terima extends Model
     public function jenis_beasiswa2()
     {
         return $this->belongsTo(JenisBeasiswa::class, 'vbeasiswa2', 'kd_jenis');
+    }
+
+    public function syarat_peserta()
+    {
+        return $this->hasMany(SyaratPesertaBeasiswa::class, ['mhs_nim', 'smt'], ['nim', 'smt']);
     }
 
 
@@ -72,7 +78,7 @@ class Terima extends Model
                                 (VBEASISWA4 IS NOT NULL AND VBEASISWA4 != 0)
                             )
                     )
-                SELECT pb.*, m.NAMA, m.NIM, ppmb.PILIHAN_KE
+                SELECT pb.*, m.NAMA, m.NIM, ppmb.PILIHAN_KE, :SMT AS SMT
                 FROM PENERIMA_BEA pb
                 JOIN MHS m ON pb.VNOTEST = m.NO_TEST
                 JOIN BOBBY21.V_PILIHAN_PMB ppmb ON ppmb.NO_TEST = pb.VNOTEST AND ppmb.KD_JUR_PMB = SUBSTR(m.NIM, 3, 5)
