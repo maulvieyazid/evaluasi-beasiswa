@@ -87,6 +87,7 @@ class Terima extends Model
                 FROM PENERIMA_BEA pb
                 JOIN MHS m ON pb.VNOTEST = m.NO_TEST
                 JOIN BOBBY21.V_PILIHAN_PMB ppmb ON ppmb.NO_TEST = pb.VNOTEST AND ppmb.KD_JUR_PMB = SUBSTR(m.NIM, 3, 5)
+                ORDER BY m.NIM ASC
         SQL;
 
         return $query;

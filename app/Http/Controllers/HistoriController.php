@@ -35,8 +35,8 @@ class HistoriController extends Controller
 
 
         $semuaKesimpulan = KesimpulanBeasiswa::query()
-            ->orderBy('smt')
-            ->orderBy('mhs_nim')
+            ->orderBy('smt', 'desc')
+            ->orderBy('mhs_nim', 'desc')
             ->with(['mahasiswa', 'jenis_beasiswa'])
             ->get();
 
