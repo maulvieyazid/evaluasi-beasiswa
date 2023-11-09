@@ -13,13 +13,10 @@
                     <div class="d-none d-md-block ps-2 me-2">
                         <div>{{ auth()->user()->nama }} ({{ auth()->user()->nik }})</div>
                         <div class="mt-1 small text-muted">
-                            @if (auth()->user()->is_keuangan)
-                                Keuangan
-                            @endif
-
-                            @if (auth()->user()->is_kmhs)
-                                Kemahasiswaan
-                            @endif
+                            @php
+                                $nama_bagian_user = auth()->user()->departemen->nama ?? null;
+                            @endphp
+                            {{ ucwords(strtolower($nama_bagian_user)) }}
                         </div>
                     </div>
                     <span class="avatar avatar-sm">

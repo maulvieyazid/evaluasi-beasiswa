@@ -181,10 +181,7 @@
 
                     @php
                         // Ambil nama bagian dari user yg login
-                        $nama_bagian_user =
-                            auth()
-                                ->user()
-                                ->load('departemen')->departemen->nama ?? null;
+                        $nama_bagian_user = auth()->user()->departemen->nama ?? null;
                     @endphp
 
                     <div class="row mt-3">
@@ -193,7 +190,7 @@
                                 <div class="card-body">
                                     <div class="">
                                         <label class="form-label">
-                                            Evaluasi Bagian {{ ucfirst(strtolower($nama_bagian_user)) }}
+                                            Evaluasi Bagian {{ ucwords(strtolower($nama_bagian_user)) }}
                                         </label>
 
                                         <div class="text-muted mb-3">
@@ -257,9 +254,11 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class="btn btn-success" onclick="simpan()">
-                                        Simpan
-                                    </button>
+                                    @if ($syaratUser->count() > 0)
+                                        <button type="button" class="btn btn-success" onclick="simpan()">
+                                            Simpan
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -78,6 +78,11 @@ class Karyawan extends Authenticatable
             $departemen = Departemen::make()->getTable();
             $builder->selectRaw("(CASE WHEN EXISTS(SELECT 1 FROM {$departemen} WHERE KODE = 9 AND MANAGER_ID = NIK) THEN 1 ELSE NULL END) AS IS_KABAG_KMHS");
         });
+
+        // WITH departemen
+        static::addGlobalScope('with_departemen', function (Builder $builder) {
+            $builder->with('departemen');
+        });
     }
 
 
