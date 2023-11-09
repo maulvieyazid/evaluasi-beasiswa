@@ -116,4 +116,43 @@ class EvaluasiBeasiswaController extends Controller
         return redirect()->route('index-evaluasi-beasiswa')
             ->with('success', 'Evaluasi Beasiswa berhasil disimpan');
     }
+
+
+    function showRollbackForm($nim, $jns_beasiswa, $smt)
+    {
+        $penerima = KesimpulanBeasiswa::query()
+            ->where('mhs_nim', $nim)
+            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('smt', $smt)
+            ->with(['mahasiswa', 'jenis_beasiswa'])
+            ->first();
+
+        if (!$penerima) return "Penerima Beasiswa tidak ditemukan";
+
+        return view('utilities.rollback-form', compact('penerima'));
+    }
+
+    function rollback($nim, $jns_beasiswa, $smt)
+    {
+        $semuaSyarat = SyaratPesertaBeasiswa::query()
+            ->where('mhs_nim', $nim)
+            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('smt', $smt)
+            ->get();
+
+
+        foreach ($semuaSyarat as $syarat) {
+            $syarat->delete();
+        }
+
+        $kesimpulan = KesimpulanBeasiswa::query()
+            ->where('mhs_nim', $nim)
+            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('smt', $smt)
+            ->first();
+
+        $kesimpulan->delete();
+
+        return "Data Penerima Beasiswa sudah di rollback";
+    }
 }
