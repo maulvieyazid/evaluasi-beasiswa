@@ -44,6 +44,11 @@ class Terima extends Model
         return $this->hasMany(SyaratPesertaBeasiswa::class, ['mhs_nim', 'smt'], ['nim', 'smt']);
     }
 
+    public function kesimpulan_beasiswa()
+    {
+        return $this->hasMany(KesimpulanBeasiswa::class, ['mhs_nim', 'smt'], ['nim', 'smt']);
+    }
+
 
 
 

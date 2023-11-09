@@ -2,6 +2,11 @@
 
 @section('html_title', 'Histori')
 
+@php
+    use App\Models\KesimpulanBeasiswa;
+    use App\Models\Terima;
+@endphp
+
 @section('content')
     <div class="page-wrapper">
 
@@ -14,7 +19,7 @@
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <h2 class="page-title">
-                            Histori Evaluasi Semester 222
+                            Histori Evaluasi Beasiswa
                         </h2>
                     </div>
                 </div>
@@ -25,7 +30,7 @@
         <div class="page-body">
             <div class="container-xl">
 
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-5">
                         <div class="card">
                             <div class="card-body">
@@ -51,10 +56,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
 
-                <div class="row mt-4 d-none" id="row_tabel">
+                <div class="row" id="row_tabel">
                     <div class="col">
                         <div class="card">
                             <div class="table-responsive">
@@ -62,67 +67,68 @@
                                     <thead>
                                         <tr>
                                             <th>NIM</th>
-                                            <th style="width: 20%">Nama</th>
+                                            <th {{-- style="width: 20%" --}}>Nama</th>
                                             <th>Semester</th>
-                                            <th style="width: 20%">Beasiswa</th>
-                                            <th>Ketentuan Terpenuhi</th>
+                                            <th {{-- style="width: 20%" --}}>Beasiswa</th>
+                                            {{-- <th>Ketentuan Terpenuhi</th> --}}
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>23410100026</td>
-                                            <td>Erlangga Harrys Setyawan</td>
-                                            <td>231</td>
-                                            <td>Beasiswa Kuliah 0 Rupiah</td>
-                                            <td>
-                                                <div class="progr progress progress-xs">
-                                                    <div class="progress-bar bg-primary" style="width: 50%"></div>
-                                                </div>
-                                                <small>2/3</small>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-azure">Draft</span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('detil-evaluasi-beasiswa') }}" class="btn btn-outline-primary w-100 btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M9 11l3 3l8 -8"></path>
-                                                        <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
-                                                    </svg>
-                                                    Detail
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>23410100032</td>
-                                            <td>Nufrisal Akmal Rachman</td>
-                                            <td>231</td>
-                                            <td>Beasiswa Atlit Juara Tingkat Provinsi</td>
-                                            <td>
-                                                <div class="progr progress progress-xs">
-                                                    <div class="progress-bar bg-primary" style="width: 100%"></div>
-                                                </div>
-                                                <small>3/3</small>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-green">Final</span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('detil-evaluasi-beasiswa') }}" class="btn btn-outline-primary w-100 btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M9 11l3 3l8 -8"></path>
-                                                        <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
-                                                    </svg>
-                                                    Detail
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($semuaPenerima as $penerima)
+                                            <tr>
+                                                <td>{{ $penerima->nim }}</td>
+                                                <td>{{ $penerima->mahasiswa->nama ?? null }}</td>
+                                                <td>{{ $penerima->smt }}</td>
+                                                @php
+                                                    // Mengambil nama relasi jenis beasiswa yang sesuai
+                                                    $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
+                                                @endphp
+                                                <td>{{ $penerima->{$jenis_beasiswa}->nama ?? null }}</td>
+                                                <td>
+                                                    <span class="badge bg-cover">Menunggu <br> Evaluasi Keuangan</span>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="btn btn-outline-primary w-100 btn-sm">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M9 11l3 3l8 -8"></path>
+                                                            <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
+                                                        </svg>
+                                                        Detail
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
+                                        @foreach ($semuaKesimpulan as $kesimpulan)
+                                            <tr>
+                                                <td>{{ $kesimpulan->mhs_nim }}</td>
+                                                <td>{{ $kesimpulan->mahasiswa->nama ?? null }}</td>
+                                                <td>{{ $kesimpulan->smt }}</td>
+                                                <td>{{ $kesimpulan->jenis_beasiswa->nama ?? null }}</td>
+                                                <td>
+                                                    @if ($kesimpulan->status == KesimpulanBeasiswa::LOLOS)
+                                                        <span class="badge bg-green">Lolos</span>
+                                                    @elseif ($kesimpulan->status == KesimpulanBeasiswa::TIDAK_LOLOS)
+                                                        <span class="badge bg-danger-lt">Tidak Lolos</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="btn btn-outline-primary w-100 btn-sm">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M9 11l3 3l8 -8"></path>
+                                                            <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
+                                                        </svg>
+                                                        Detail
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -138,21 +144,4 @@
 
 
 @push('js')
-    <script>
-        async function showRowTabel() {
-
-            let spinner = document.querySelector('#spinner_pilih');
-            // Tampilkan spinner / loader
-            spinner.classList.remove('d-none');
-
-            // Tidur selama 1 detik
-            await new Promise(resolve => setTimeout(resolve, 300));
-
-            // Tampilkan tabel
-            document.querySelector('#row_tabel').classList.remove('d-none');
-
-            // Sembunyikan spinner / loader
-            spinner.classList.add('d-none');
-        }
-    </script>
 @endpush

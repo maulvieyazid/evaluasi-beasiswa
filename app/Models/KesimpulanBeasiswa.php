@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class KesimpulanBeasiswa extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
 
     const LOLOS = 'Y';
     const TIDAK_LOLOS = 'T';
@@ -27,6 +28,18 @@ class KesimpulanBeasiswa extends Model
         'status',
         'keterangan',
     ];
+
+
+    // RELATIONSHIP
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mhs_nim', 'nim');
+    }
+
+    public function jenis_beasiswa()
+    {
+        return $this->belongsTo(JenisBeasiswa::class, 'jns_beasiswa', 'kd_jenis');
+    }
 
 
 

@@ -35,13 +35,9 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
 
     Route::post('/simpan-detil-evaluasi', [EvaluasiBeasiswaController::class, 'simpanDetail'])->name('simpan-detil-evaluasi');
 
-    Route::get('/mol-evbsw', function () {
-        return redirect()->route('index-evaluasi-beasiswa')
-            ->with('success', 'Evaluasi berhasil disimpan');
-    })->name('mol-evbsw');
-
 
     Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');
+    Route::get('/detil-histori/{nim}/{jns_beasiswa}/{smt}', [HistoriController::class, 'detail'])->name('detil-histori');
 });
 
 Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
