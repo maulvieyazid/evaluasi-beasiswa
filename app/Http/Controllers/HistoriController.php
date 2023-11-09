@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HisMf;
+use App\Models\JenisBeasiswa;
 use App\Models\KesimpulanBeasiswa;
+use App\Models\Mahasiswa;
+use App\Models\SyaratPesertaBeasiswa;
 use App\Models\Terima;
+use App\Models\Tsnilmaba;
 use Illuminate\Http\Request;
 
 class HistoriController extends Controller
@@ -46,8 +51,40 @@ class HistoriController extends Controller
 
     public function detail($nim, $jns_beasiswa, $smt)
     {
-        // Ambil data Kesimpulan Beasiswa, with [Syarat Peserta, Mahasiswa, JenisBeasiswa, dan HisMf]
+        $mhs = Mahasiswa::where('nim', $nim)->first();
 
-        return view('detil-histori');
+        // Kalau mahasiswa nya tidak ada, maka return ke index histori
+        if (!$mhs) return redirect()->route('index-histori');
+
+        $jenis_bea = JenisBeasiswa::where('kd_jenis', $jns_beasiswa)->first();
+
+        $kesimpulan = KesimpulanBeasiswa::query()
+            ->where('mhs_nim', $nim)
+            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('smt', $smt)
+            ->first();
+
+        $hismf = HisMf::where('mhs_nim', $nim)
+            ->where('semester', $smt)
+            ->first();
+
+        $sskm = Tsnilmaba::where('nim', $nim)->sum('nilai');
+
+        $semuaSyarat = SyaratPesertaBeasiswa::query()
+            ->where('mhs_nim', $nim)
+            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('smt', $smt)
+            ->with('syarat')
+            ->get();
+
+        return view('detil-histori', compact(
+            'mhs',
+            'jenis_bea',
+            'kesimpulan',
+            'hismf',
+            'sskm',
+            'semuaSyarat',
+            'smt'
+        ));
     }
 }
