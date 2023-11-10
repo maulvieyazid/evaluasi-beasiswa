@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Departemen;
 use App\Models\HisMf;
 use App\Models\KesimpulanBeasiswa;
+use App\Models\LogKesimpulan;
+use App\Models\LogSyarat;
 use App\Models\SyaratBeasiswa;
 use App\Models\SyaratPesertaBeasiswa;
 use App\Models\Terima;
@@ -97,7 +99,18 @@ class EvaluasiBeasiswaController extends Controller
                 'keterangan'   => null,
             ]);
 
-            // FUTURE : Simpan ke Log Syarat
+            // Simpan ke Log Syarat
+            LogSyarat::create([
+                'mhs_nim'      => $req->nim,
+                'jns_beasiswa' => $req->jns_beasiswa,
+                'smt'          => $req->smt,
+                'kd_syarat'    => $syarat->kd_syarat,
+                'nm_user'      => auth()->user()->nama,
+                'sts_old'      => null,
+                'sts_new'      => $status,
+                'ket_old'      => null,
+                'ket_new'      => null,
+            ]);
         }
 
         // Insert ke Kesimpulan Beasiswa, hanya jika yang login adalah Bagian Keuangan
@@ -110,7 +123,17 @@ class EvaluasiBeasiswaController extends Controller
                 'keterangan'   => null,
             ]);
 
-            // FUTURE : Simpan ke Log Simpulan
+            // Simpan ke Log Kesimpulan
+            LogKesimpulan::create([
+                'mhs_nim'      => $req->nim,
+                'jns_beasiswa' => $req->jns_beasiswa,
+                'smt'          => $req->smt,
+                'nm_user'      => auth()->user()->nama,
+                'sts_old'      => null,
+                'sts_new'      => $req->status_kesimpulan,
+                'ket_old'      => null,
+                'ket_new'      => null,
+            ]);
         }
 
         return redirect()->route('index-evaluasi-beasiswa')
