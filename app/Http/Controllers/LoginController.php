@@ -9,6 +9,9 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
+        // Jika sudah login, langsung arahkan ke halaman home
+        if (auth()->check()) return redirect()->route('home');
+
         return view('auth.login');
     }
 
