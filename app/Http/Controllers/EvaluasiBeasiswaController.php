@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BeasiswaPenmaru;
 use App\Models\Departemen;
 use App\Models\HisMf;
+use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
 use App\Models\LogKesimpulan;
 use App\Models\LogSyarat;
@@ -52,7 +54,7 @@ class EvaluasiBeasiswaController extends Controller
         // Ambil nama relasi jenis beasiswa nya penerima
         $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
 
-        // Load relasi SyaratPesertaBeasiswa dan JenisBeasiswa nya penerima
+        // Load relasi SyaratPesertaBeasiswa dan JenisBeasiswaPmb nya penerima
         $penerima = $penerima->load(['syarat_peserta', $jenis_beasiswa]);
 
         // Data HisMf untuk mengambil Status Perkuliahan dan nilai IPS nya penerima
@@ -141,6 +143,20 @@ class EvaluasiBeasiswaController extends Controller
                 'ket_old'      => null,
                 'ket_new'      => null,
             ]);
+
+            // Ambil data Jenis Beasiswa
+            $jenis_beasiswa = JenisBeasiswaPmb::where('kd_jenis', $req->jns_beasiswa)->with('jns_bea_aak')->first();
+
+            // Kalo data Jenis Beasiswa nya ada, dan status_kesimpulan nya adalah LOLOS, maka
+            // insert ke model BeasiswaPenmaru
+            if ($jenis_beasiswa && $req->status_kesimpulan == KesimpulanBeasiswa::LOLOS) {
+                BeasiswaPenmaru::create([
+                    'mhs_nim'      => $req->nim,
+                    'smt'          => $req->smt,
+                    'jns_beasiswa' => $jenis_beasiswa->jns_bea_aak->kode,
+                    'persen'       => $jenis_beasiswa->disc_spp,
+                ]);
+            }
         }
 
         return redirect()->route('index-evaluasi-beasiswa')
