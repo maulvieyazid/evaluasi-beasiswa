@@ -115,7 +115,7 @@
                                                 <td>{{ $kesimpulan->mhs_nim }}</td>
                                                 <td>{{ $kesimpulan->mahasiswa->nama ?? null }}</td>
                                                 <td>{{ $kesimpulan->smt }}</td>
-                                                <td>{{ $kesimpulan->jenis_beasiswa->nama ?? null }}</td>
+                                                <td>{{ $kesimpulan->jenis_beasiswa_pmb->nama ?? null }}</td>
                                                 <td>
                                                     @if ($kesimpulan->status == KesimpulanBeasiswa::LOLOS)
                                                         <span class="badge bg-green">Lolos</span>
@@ -127,7 +127,7 @@
                                                     @php
                                                         $routeDetil = route('detil-histori', [
                                                             'nim' => $kesimpulan->mhs_nim,
-                                                            'jns_beasiswa' => $kesimpulan->jenis_beasiswa->kd_jenis,
+                                                            'kd_jns_bea_pmb' => $kesimpulan->jenis_beasiswa_pmb->kd_jenis,
                                                             'smt' => $kesimpulan->smt,
                                                         ]);
                                                     @endphp

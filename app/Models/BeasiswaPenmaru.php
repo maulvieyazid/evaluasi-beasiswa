@@ -11,12 +11,32 @@ class BeasiswaPenmaru extends Model
 {
     use HasFactory;
 
+    protected $table = 'BOBBY21.V_BEASISWA';
+
+    public $timestamps = false;
+
+    public $incrementing = false;
+
     protected $fillable = [
         'mhs_nim',
-        'smt',
+        'semester',
         'jns_beasiswa',
-        'persen',
+        'prosentase',
     ];
+
+    protected $appends = ['kode_jns_bea_aak'];
+
+
+
+    // NOTE : Kenapa developer menambahkan atribut "kode_jns_bea_aak", padahal isinya adalah "jns_beasiswa"?
+    // Agar kedepannya tidak lupa dan bingung, karena ada 2 model Jenis Beasiswa yaitu model JenisBeasiswaAak dan JenisBeasiswaPmb
+    // disini yang digunakan adalah kode dari model JenisBeasiswaAak
+
+    // ACCESSOR
+    public function getKodeJnsBeaAakAttribute()
+    {
+        return $this->jns_beasiswa;
+    }
 
 
     /**
@@ -36,9 +56,9 @@ class BeasiswaPenmaru extends Model
             BEGIN
                 BOBBY21.INS_BEA_PENMARU (
                     :mhs_nim,
-                    :smt,
-                    :jns_beasiswa,
-                    :persen
+                    :semester,
+                    :kode_jns_bea_aak,
+                    :prosentase
                 );
 
             END;
@@ -47,9 +67,9 @@ class BeasiswaPenmaru extends Model
 
         $stmt = DB::getPdo()->prepare($sql);
         $stmt->bindValue('mhs_nim', $this->mhs_nim);
-        $stmt->bindValue('smt', $this->smt);
-        $stmt->bindValue('jns_beasiswa', $this->jns_beasiswa);
-        $stmt->bindValue('persen', $this->persen);
+        $stmt->bindValue('semester', $this->semester);
+        $stmt->bindValue('kode_jns_bea_aak', $this->kode_jns_bea_aak);
+        $stmt->bindValue('prosentase', $this->prosentase);
         $stmt->execute();
 
 
@@ -87,9 +107,9 @@ class BeasiswaPenmaru extends Model
             BEGIN
                 BOBBY21.UPD_BEA_PENMARU (
                     :mhs_nim,
-                    :smt,
-                    :jns_beasiswa,
-                    :persen
+                    :semester,
+                    :kode_jns_bea_aak,
+                    :prosentase
                 );
 
             END;
@@ -98,9 +118,9 @@ class BeasiswaPenmaru extends Model
 
         $stmt = DB::getPdo()->prepare($sql);
         $stmt->bindValue('mhs_nim', $this->mhs_nim);
-        $stmt->bindValue('smt', $this->smt);
-        $stmt->bindValue('jns_beasiswa', $this->jns_beasiswa);
-        $stmt->bindValue('persen', $this->persen);
+        $stmt->bindValue('semester', $this->semester);
+        $stmt->bindValue('kode_jns_bea_aak', $this->kode_jns_bea_aak);
+        $stmt->bindValue('prosentase', $this->prosentase);
         $stmt->execute();
 
         return true;
@@ -119,8 +139,8 @@ class BeasiswaPenmaru extends Model
             BEGIN
                 BOBBY21.DEL_BEA_PENMARU (
                     :mhs_nim,
-                    :smt,
-                    :jns_beasiswa
+                    :semester,
+                    :kode_jns_bea_aak
                 );
 
             END;
@@ -128,8 +148,8 @@ class BeasiswaPenmaru extends Model
 
         $stmt = DB::getPdo()->prepare($sql);
         $stmt->bindValue('mhs_nim', $this->mhs_nim);
-        $stmt->bindValue('smt', $this->smt);
-        $stmt->bindValue('jns_beasiswa', $this->jns_beasiswa);
+        $stmt->bindValue('semester', $this->semester);
+        $stmt->bindValue('kode_jns_bea_aak', $this->kode_jns_bea_aak);
         $stmt->execute();
 
         $this->exists = false;

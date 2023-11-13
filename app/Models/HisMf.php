@@ -18,7 +18,7 @@ class HisMf extends Model
     protected $appends = ['nama_status'];
 
 
-    // Accessor
+    // ACCESSOR
     public function getNamaStatusAttribute()
     {
         $nama = 'Aktif';

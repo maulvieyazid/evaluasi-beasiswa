@@ -80,7 +80,7 @@
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
                                         <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
                                     </svg>
-                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $penerima->{$jenis_beasiswa}->nama ?? null }}</strong>
+                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $penerima->{$jenis_beasiswa_pmb}->nama ?? null }}</strong>
                                 </div>
                                 <div class="mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -174,7 +174,7 @@
                 <form action="{{ route('simpan-detil-evaluasi') }}" method="POST" id="formEvaluasi">
                     <input type="hidden" name="status_kesimpulan" id="status_kesimpulan">
                     <input type="hidden" name="nim" id="nim" value="{{ $penerima->nim }}">
-                    <input type="hidden" name="jns_beasiswa" id="jns_beasiswa" value="{{ $penerima->{$jenis_beasiswa}->kd_jenis ?? null }}">
+                    <input type="hidden" name="kd_jns_bea_pmb" id="kd_jns_bea_pmb" value="{{ $penerima->{$jenis_beasiswa_pmb}->kd_jenis ?? null }}">
                     <input type="hidden" name="smt" id="smt" value="{{ session('semester') }}">
 
                     @csrf

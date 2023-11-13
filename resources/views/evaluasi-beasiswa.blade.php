@@ -53,10 +53,10 @@
                                                 <td>{{ session('semester') }}</td>
                                                 <td>
                                                     @php
-                                                        // Mengambil nama relasi jenis beasiswa yang sesuai
-                                                        $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
+                                                        // Mengambil nama relasi Jenis Beasiswa PMB yang sesuai
+                                                        $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
                                                     @endphp
-                                                    {{ $penerima->{$jenis_beasiswa}->nama ?? null }}
+                                                    {{ $penerima->{$jenis_beasiswa_pmb}->nama ?? null }}
                                                 </td>
                                                 {{-- <td>
                                                     <div class="progr progress progress-xs">
@@ -80,32 +80,6 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        {{-- <tr>
-                                            <td>23410100032</td>
-                                            <td>Nufrisal Akmal Rachman</td>
-                                            <td>231</td>
-                                            <td>Beasiswa Atlit Juara Tingkat Provinsi</td>
-                                            <td>
-                                                <div class="progr progress progress-xs">
-                                                    <div class="progress-bar bg-primary" style="width: 100%"></div>
-                                                </div>
-                                                <small>3/3</small>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-green">Final</span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('detil-evaluasi-beasiswa') }}" class="btn btn-outline-primary w-100 btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M9 11l3 3l8 -8"></path>
-                                                        <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
-                                                    </svg>
-                                                    Detail
-                                                </a>
-                                            </td>
-                                        </tr> --}}
                                     </tbody>
                                 </table>
                             </div>

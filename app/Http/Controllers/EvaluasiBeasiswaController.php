@@ -17,10 +17,16 @@ use Illuminate\Http\Request;
 
 class EvaluasiBeasiswaController extends Controller
 {
+    // NOTE : Bila ada parameter jns_beasiswa (baik langsung, maupun dari request) di method / function di class ini, maka itu adalah kode Jenis Beasiswa PMB
+    // Karena diawal pembuatan aplikasi belum mengenal adanya model Jenis Beasiswa AAK
+    // model Jenis Beasiswa AAK ini hanya digunakan untuk diambil kode nya lalu diinsert ke model BeasiswaPenmaru,
+    // karena model BeasiswaPenmaru menyimpan kode Jenis Beasiswa AAK, BUKAN kode Jenis Beasiswa PMB.
+
+
     public function index()
     {
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
-            ->load('mahasiswa', 'jenis_beasiswa1', 'jenis_beasiswa2', 'syarat_peserta.syarat');
+            ->load('mahasiswa', 'jenis_beasiswa_pmb1', 'jenis_beasiswa_pmb2', 'syarat_peserta.syarat');
 
         // Hapus / Buang penerima beasiswa yang SUDAH dievaluasi oleh bagian yang LOGIN
         $semuaPenerima = $semuaPenerima->reject(function ($penerima, $key) {
@@ -51,11 +57,11 @@ class EvaluasiBeasiswaController extends Controller
         // Kalo penerima nya gk ada, langsung redirect kembali aja
         if (!$penerima) return redirect()->back();
 
-        // Ambil nama relasi jenis beasiswa nya penerima
-        $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
+        // Ambil nama relasi Jenis Beasiswa PMB nya penerima
+        $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
 
         // Load relasi SyaratPesertaBeasiswa dan JenisBeasiswaPmb nya penerima
-        $penerima = $penerima->load(['syarat_peserta', $jenis_beasiswa]);
+        $penerima = $penerima->load(['syarat_peserta', $jenis_beasiswa_pmb]);
 
         // Data HisMf untuk mengambil Status Perkuliahan dan nilai IPS nya penerima
         $hismf = HisMf::where('mhs_nim', $nim)
@@ -67,12 +73,12 @@ class EvaluasiBeasiswaController extends Controller
 
         // Data master syarat beasiswa
         $semuaSyarat = SyaratBeasiswa::query()
-            ->where('jenis_beasiswa', $penerima->{$jenis_beasiswa}->kd_jenis)
+            ->where('jenis_beasiswa', $penerima->{$jenis_beasiswa_pmb}->kd_jenis)
             ->get();
 
         return view('detil-evaluasi-beasiswa', compact(
             'penerima',
-            'jenis_beasiswa',
+            'jenis_beasiswa_pmb',
             'hismf',
             'sskm',
             'semuaSyarat',
@@ -85,7 +91,7 @@ class EvaluasiBeasiswaController extends Controller
         // DAN
         // bagian_validasi nya sesuai dengan bagian yang LOGIN
         $semuaSyarat = SyaratBeasiswa::query()
-            ->where('jenis_beasiswa', $req->jns_beasiswa)
+            ->where('jenis_beasiswa', $req->kd_jns_bea_pmb)
             ->where('bagian_validasi', auth()->user()->bagian)
             ->get();
 
@@ -101,7 +107,7 @@ class EvaluasiBeasiswaController extends Controller
             // Insert ke SyaratPesertaBeasiswa
             SyaratPesertaBeasiswa::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->jns_beasiswa,
+                'jns_beasiswa' => $req->kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'kd_syarat'    => $syarat->kd_syarat,
                 'status'       => $status,
@@ -111,7 +117,7 @@ class EvaluasiBeasiswaController extends Controller
             // Simpan ke Log Syarat
             LogSyarat::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->jns_beasiswa,
+                'jns_beasiswa' => $req->kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'kd_syarat'    => $syarat->kd_syarat,
                 'nm_user'      => auth()->user()->nama,
@@ -126,7 +132,7 @@ class EvaluasiBeasiswaController extends Controller
         if (auth()->user()->bagian == Departemen::KEUANGAN) {
             KesimpulanBeasiswa::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->jns_beasiswa,
+                'jns_beasiswa' => $req->kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'status'       => $req->status_kesimpulan,
                 'keterangan'   => null,
@@ -135,7 +141,7 @@ class EvaluasiBeasiswaController extends Controller
             // Simpan ke Log Kesimpulan
             LogKesimpulan::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->jns_beasiswa,
+                'jns_beasiswa' => $req->kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'nm_user'      => auth()->user()->nama,
                 'sts_old'      => null,
@@ -144,17 +150,17 @@ class EvaluasiBeasiswaController extends Controller
                 'ket_new'      => null,
             ]);
 
-            // Ambil data Jenis Beasiswa
-            $jenis_beasiswa = JenisBeasiswaPmb::where('kd_jenis', $req->jns_beasiswa)->with('jns_bea_aak')->first();
+            // Ambil data Jenis Beasiswa PMB
+            $jenis_beasiswa_pmb = JenisBeasiswaPmb::where('kd_jenis', $req->kd_jns_bea_pmb)->with('jns_bea_aak')->first();
 
-            // Kalo data Jenis Beasiswa nya ada, dan status_kesimpulan nya adalah LOLOS, maka
+            // Kalo data Jenis Beasiswa PMB nya ada, dan status_kesimpulan nya adalah LOLOS, maka
             // insert ke model BeasiswaPenmaru
-            if ($jenis_beasiswa && $req->status_kesimpulan == KesimpulanBeasiswa::LOLOS) {
+            if ($jenis_beasiswa_pmb && $req->status_kesimpulan == KesimpulanBeasiswa::LOLOS) {
                 BeasiswaPenmaru::create([
                     'mhs_nim'      => $req->nim,
-                    'smt'          => $req->smt,
-                    'jns_beasiswa' => $jenis_beasiswa->jns_bea_aak->kode,
-                    'persen'       => $jenis_beasiswa->disc_spp,
+                    'semester'     => $req->smt,
+                    'jns_beasiswa' => $jenis_beasiswa_pmb->jns_bea_aak->kode, // <- Kode Jenis Beasiswa AAK
+                    'prosentase'   => $jenis_beasiswa_pmb->disc_spp,
                 ]);
             }
         }
@@ -164,13 +170,13 @@ class EvaluasiBeasiswaController extends Controller
     }
 
 
-    function showRollbackForm($nim, $jns_beasiswa, $smt)
+    function showRollbackForm($nim, $kd_jns_bea_pmb, $smt)
     {
         $penerima = KesimpulanBeasiswa::query()
             ->where('mhs_nim', $nim)
-            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
             ->where('smt', $smt)
-            ->with(['mahasiswa', 'jenis_beasiswa'])
+            ->with(['mahasiswa', 'jenis_beasiswa_pmb'])
             ->first();
 
         if (!$penerima) return "Penerima Beasiswa tidak ditemukan";
@@ -178,11 +184,11 @@ class EvaluasiBeasiswaController extends Controller
         return view('utilities.rollback-form', compact('penerima'));
     }
 
-    function rollback($nim, $jns_beasiswa, $smt)
+    function rollback($nim, $kd_jns_bea_pmb, $smt)
     {
         $semuaSyarat = SyaratPesertaBeasiswa::query()
             ->where('mhs_nim', $nim)
-            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
             ->where('smt', $smt)
             ->get();
 
@@ -193,11 +199,24 @@ class EvaluasiBeasiswaController extends Controller
 
         $kesimpulan = KesimpulanBeasiswa::query()
             ->where('mhs_nim', $nim)
-            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
             ->where('smt', $smt)
             ->first();
 
         $kesimpulan->delete();
+
+        // Ambil data Jenis Beasiswa PMB, karena kode jenis yang dilemparkan ke parameter adalah kode Jenis Beasiswa PMB
+        // dari Jenis Beasiswa PMB, kita bisa mengambil kode Jenis Beasiswa AAK
+        $jenis_beasiswa_pmb = JenisBeasiswaPmb::where('kd_jenis', $kd_jns_bea_pmb)->with('jns_bea_aak')->first();
+
+        // Ambil data BeasiswaPenmaru
+        $beaPenmaru = BeasiswaPenmaru::query()
+            ->where('mhs_nim', $nim)
+            ->where('semester', $smt)
+            ->where('jns_beasiswa', $jenis_beasiswa_pmb->jns_bea_aak->kode) // <- Kode Jenis Beasiswa AAK
+            ->first();
+
+        $beaPenmaru->delete();
 
         return "Data Penerima Beasiswa sudah di rollback";
     }

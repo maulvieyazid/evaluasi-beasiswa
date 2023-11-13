@@ -22,7 +22,7 @@
             Nama : {{ $penerima->mahasiswa->nama }}
         </li>
         <li>
-            Beasiswa : {{ $penerima->jenis_beasiswa->nama }}
+            Beasiswa : {{ $penerima->jenis_beasiswa_pmb->nama }}
         </li>
         <li>
             Semester : {{ $penerima->smt }}
@@ -35,7 +35,7 @@
     @php
         $route = route('rollback-beasiswa', [
             'nim' => $penerima->mhs_nim,
-            'jns_beasiswa' => $penerima->jns_beasiswa,
+            'kd_jns_bea_pmb' => $penerima->jns_beasiswa,
             'smt' => $penerima->smt,
         ]);
     @endphp

@@ -36,7 +36,7 @@ class KesimpulanBeasiswa extends Model
         return $this->belongsTo(Mahasiswa::class, 'mhs_nim', 'nim');
     }
 
-    public function jenis_beasiswa()
+    public function jenis_beasiswa_pmb()
     {
         return $this->belongsTo(JenisBeasiswaPmb::class, 'jns_beasiswa', 'kd_jenis');
     }

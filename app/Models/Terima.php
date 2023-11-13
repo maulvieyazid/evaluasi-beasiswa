@@ -23,9 +23,9 @@ class Terima extends Model
      | maka daripada meload ke 4 relasi, lebih baik ambil nama relasi nya saja sesuai dengan nilai kolom pilihan_ke
      | nantinya nama ini bisa dipanggil menggunakan fungsi load() ataupun langsung seperti memanggil kolom pada umumnya
      */
-    public static function getNamaRelasiJnsBea($pilihan_ke)
+    public static function getNamaRelasiJnsBeaPmb($pilihan_ke)
     {
-        return 'jenis_beasiswa' . $pilihan_ke;
+        return 'jenis_beasiswa_pmb' . $pilihan_ke;
     }
 
 
@@ -35,12 +35,12 @@ class Terima extends Model
         return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
     }
 
-    public function jenis_beasiswa1()
+    public function jenis_beasiswa_pmb1()
     {
         return $this->belongsTo(JenisBeasiswaPmb::class, 'vbeasiswa1', 'kd_jenis');
     }
 
-    public function jenis_beasiswa2()
+    public function jenis_beasiswa_pmb2()
     {
         return $this->belongsTo(JenisBeasiswaPmb::class, 'vbeasiswa2', 'kd_jenis');
     }

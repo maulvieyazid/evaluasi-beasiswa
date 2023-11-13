@@ -42,25 +42,25 @@ class HistoriController extends Controller
         $semuaKesimpulan = KesimpulanBeasiswa::query()
             ->orderBy('smt', 'desc')
             ->orderBy('mhs_nim', 'desc')
-            ->with(['mahasiswa', 'jenis_beasiswa'])
+            ->with(['mahasiswa', 'jenis_beasiswa_pmb'])
             ->get();
 
 
         return view('histori', compact('semuaPenerima', 'semuaKesimpulan'));
     }
 
-    public function detail($nim, $jns_beasiswa, $smt)
+    public function detail($nim, $kd_jns_bea_pmb, $smt)
     {
         $mhs = Mahasiswa::where('nim', $nim)->first();
 
         // Kalau mahasiswa nya tidak ada, maka return ke index histori
         if (!$mhs) return redirect()->route('index-histori');
 
-        $jenis_bea = JenisBeasiswaPmb::where('kd_jenis', $jns_beasiswa)->first();
+        $jenis_bea = JenisBeasiswaPmb::where('kd_jenis', $kd_jns_bea_pmb)->first();
 
         $kesimpulan = KesimpulanBeasiswa::query()
             ->where('mhs_nim', $nim)
-            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
             ->where('smt', $smt)
             ->first();
 
@@ -72,7 +72,7 @@ class HistoriController extends Controller
 
         $semuaSyarat = SyaratPesertaBeasiswa::query()
             ->where('mhs_nim', $nim)
-            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
             ->where('smt', $smt)
             ->with('syarat')
             ->get();
