@@ -17,6 +17,12 @@ class Terima extends Model
     public $incrementing = false;
 
 
+    /*
+     | Fungsi ini digunakan untuk mengambil nama relasi jenis beasiswa
+     | dikarenakan kolom vbeasiswa ada 4, dan masing2 nya bisa direlasikan dengan model JenisBeasiswa
+     | maka daripada meload ke 4 relasi, lebih baik ambil nama relasi nya saja sesuai dengan nilai kolom pilihan_ke
+     | nantinya nama ini bisa dipanggil menggunakan fungsi load() ataupun langsung seperti memanggil kolom pada umumnya
+     */
     public static function getNamaRelasiJnsBea($pilihan_ke)
     {
         return 'jenis_beasiswa' . $pilihan_ke;

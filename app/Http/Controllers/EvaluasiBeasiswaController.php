@@ -40,23 +40,30 @@ class EvaluasiBeasiswaController extends Controller
 
     public function detail($nim)
     {
+        // Ambil semua penerima beasiswa
         $penerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')]);
 
+        // Ambil penerima yang nim nya sama dengan nim di url
         $penerima = $penerima->where('nim', $nim)->first();
 
         // Kalo penerima nya gk ada, langsung redirect kembali aja
         if (!$penerima) return redirect()->back();
 
-        $penerima = $penerima->load('syarat_peserta');
-
+        // Ambil nama relasi jenis beasiswa nya penerima
         $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
 
+        // Load relasi SyaratPesertaBeasiswa dan JenisBeasiswa nya penerima
+        $penerima = $penerima->load(['syarat_peserta', $jenis_beasiswa]);
+
+        // Data HisMf untuk mengambil Status Perkuliahan dan nilai IPS nya penerima
         $hismf = HisMf::where('mhs_nim', $nim)
             ->where('semester', session('semester'))
             ->first();
 
+        // Ambil jumlah nilai sskm
         $sskm = Tsnilmaba::where('nim', $nim)->sum('nilai');
 
+        // Data master syarat beasiswa
         $semuaSyarat = SyaratBeasiswa::query()
             ->where('jenis_beasiswa', $penerima->{$jenis_beasiswa}->kd_jenis)
             ->get();
