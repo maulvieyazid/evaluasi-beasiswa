@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HisMf;
-use App\Models\JenisBeasiswa;
+use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
 use App\Models\Mahasiswa;
 use App\Models\SyaratPesertaBeasiswa;
@@ -56,7 +56,7 @@ class HistoriController extends Controller
         // Kalau mahasiswa nya tidak ada, maka return ke index histori
         if (!$mhs) return redirect()->route('index-histori');
 
-        $jenis_bea = JenisBeasiswa::where('kd_jenis', $jns_beasiswa)->first();
+        $jenis_bea = JenisBeasiswaPmb::where('kd_jenis', $jns_beasiswa)->first();
 
         $kesimpulan = KesimpulanBeasiswa::query()
             ->where('mhs_nim', $nim)

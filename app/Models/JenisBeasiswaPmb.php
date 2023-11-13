@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JenisBeasiswa extends Model
+class JenisBeasiswaPmb extends Model
 {
     use HasFactory;
 
@@ -14,4 +14,11 @@ class JenisBeasiswa extends Model
     public $timestamps = false;
 
     public $incrementing = false;
+
+
+    // RELATIONSHIP
+    public function jns_bea_aak()
+    {
+        return $this->hasOne(JenisBeasiswaAak::class, 'jns_beasiswa_penmaru', 'kd_jenis');
+    }
 }

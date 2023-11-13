@@ -19,7 +19,7 @@ class Terima extends Model
 
     /*
      | Fungsi ini digunakan untuk mengambil nama relasi jenis beasiswa
-     | dikarenakan kolom vbeasiswa ada 4, dan masing2 nya bisa direlasikan dengan model JenisBeasiswa
+     | dikarenakan kolom vbeasiswa ada 4, dan masing2 nya bisa direlasikan dengan model JenisBeasiswaPmb
      | maka daripada meload ke 4 relasi, lebih baik ambil nama relasi nya saja sesuai dengan nilai kolom pilihan_ke
      | nantinya nama ini bisa dipanggil menggunakan fungsi load() ataupun langsung seperti memanggil kolom pada umumnya
      */
@@ -37,12 +37,12 @@ class Terima extends Model
 
     public function jenis_beasiswa1()
     {
-        return $this->belongsTo(JenisBeasiswa::class, 'vbeasiswa1', 'kd_jenis');
+        return $this->belongsTo(JenisBeasiswaPmb::class, 'vbeasiswa1', 'kd_jenis');
     }
 
     public function jenis_beasiswa2()
     {
-        return $this->belongsTo(JenisBeasiswa::class, 'vbeasiswa2', 'kd_jenis');
+        return $this->belongsTo(JenisBeasiswaPmb::class, 'vbeasiswa2', 'kd_jenis');
     }
 
     public function syarat_peserta()
