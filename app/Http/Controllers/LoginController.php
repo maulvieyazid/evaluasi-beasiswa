@@ -31,10 +31,8 @@ class LoginController extends Controller
         // Kalo ada, maka set sebagai user auth
         auth()->login($karyawan);
 
-        if (auth()->check()) {
-            // redirect ke halaman home / intended
-            return redirect()->intended('/');
-        }
+        // redirect ke halaman home / intended
+        if (auth()->check()) return redirect()->intended('/');
     }
 
     public function logout()
