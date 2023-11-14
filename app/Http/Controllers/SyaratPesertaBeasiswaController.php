@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class SyaratPesertaBeasiswaController extends Controller
 {
-    function utilDelete($mhs_nim, $jns_beasiswa, $smt, $kd_syarat)
+    function utilDelete($mhs_nim, $kd_jns_bea_pmb, $smt, $kd_syarat)
     {
         SyaratPesertaBeasiswa::query()
             ->where('mhs_nim', $mhs_nim)
-            ->where('jns_beasiswa', $jns_beasiswa)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
             ->where('smt', $smt)
             ->where('kd_syarat', $kd_syarat)
             ->first()

@@ -145,9 +145,9 @@ class SyaratBeasiswaController extends Controller
     }
 
 
-    public function utilDelete($jenis_beasiswa, $kd_syarat)
+    public function utilDelete($kd_jns_bea_pmb, $kd_syarat)
     {
-        SyaratBeasiswa::where('jenis_beasiswa', $jenis_beasiswa)
+        SyaratBeasiswa::where('jenis_beasiswa', $kd_jns_bea_pmb)
             ->where('kd_syarat', $kd_syarat)
             ->first()
             ->delete();

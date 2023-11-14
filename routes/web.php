@@ -53,9 +53,9 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
 
 Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
 Route::get('/syarat-util-upd', [SyaratBeasiswaController::class, 'utilUpdate']);
-Route::get('/syarat-util-del/{jenis_beasiswa}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
+Route::get('/syarat-util-del/{kd_jns_bea_pmb}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
 
 
 
-Route::get('/syarat-peserta-util-del/{mhs_nim}/{jns_beasiswa}/{smt}/{kd_syarat}', [SyaratPesertaBeasiswaController::class, 'utilDelete']);
-Route::get('/kesimpulan-util-del/{mhs_nim}/{jns_beasiswa}/{smt}', [KesimpulanBeasiswaController::class, 'utilDelete']);
+Route::get('/syarat-peserta-util-del/{mhs_nim}/{kd_jns_bea_pmb}/{smt}/{kd_syarat}', [SyaratPesertaBeasiswaController::class, 'utilDelete']);
+Route::get('/kesimpulan-util-del/{mhs_nim}/{kd_jns_bea_pmb}/{smt}', [KesimpulanBeasiswaController::class, 'utilDelete']);
