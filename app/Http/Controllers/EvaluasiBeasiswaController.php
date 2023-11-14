@@ -17,12 +17,6 @@ use Illuminate\Http\Request;
 
 class EvaluasiBeasiswaController extends Controller
 {
-    // NOTE : Bila ada parameter jns_beasiswa (baik langsung, maupun dari request) di method / function di class ini, maka itu adalah kode Jenis Beasiswa PMB
-    // Karena diawal pembuatan aplikasi belum mengenal adanya model Jenis Beasiswa AAK
-    // model Jenis Beasiswa AAK ini hanya digunakan untuk diambil kode nya lalu diinsert ke model BeasiswaPenmaru,
-    // karena model BeasiswaPenmaru menyimpan kode Jenis Beasiswa AAK, BUKAN kode Jenis Beasiswa PMB.
-
-
     public function index()
     {
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
