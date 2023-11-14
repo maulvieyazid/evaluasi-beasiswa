@@ -82,10 +82,10 @@
                                                 <td>{{ $penerima->mahasiswa->nama ?? null }}</td>
                                                 <td>{{ $penerima->smt }}</td>
                                                 @php
-                                                    // Mengambil nama relasi jenis beasiswa yang sesuai
-                                                    $jenis_beasiswa = Terima::getNamaRelasiJnsBea($penerima->pilihan_ke);
+                                                    // Mengambil nama relasi jenis beasiswa PMB yang sesuai
+                                                    $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
                                                 @endphp
-                                                <td>{{ $penerima->{$jenis_beasiswa}->nama ?? null }}</td>
+                                                <td>{{ $penerima->{$jenis_beasiswa_pmb}->nama ?? null }}</td>
                                                 <td>
                                                     <span class="badge bg-cover">Menunggu <br> Evaluasi Keuangan</span>
                                                 </td>
@@ -93,7 +93,7 @@
                                                     @php
                                                         $routeDetil = route('detil-histori', [
                                                             'nim' => $penerima->nim,
-                                                            'jns_beasiswa' => $penerima->{$jenis_beasiswa}->kd_jenis,
+                                                            'jns_beasiswa' => $penerima->{$jenis_beasiswa_pmb}->kd_jenis,
                                                             'smt' => $penerima->smt,
                                                         ]);
                                                     @endphp

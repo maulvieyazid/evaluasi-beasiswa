@@ -78,7 +78,7 @@
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
                                         <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
                                     </svg>
-                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $jenis_bea->nama }}</strong>
+                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $jenis_bea_pmb->nama }}</strong>
                                 </div>
                                 <div class="mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
