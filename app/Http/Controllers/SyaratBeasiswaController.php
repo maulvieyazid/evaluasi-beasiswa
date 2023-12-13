@@ -3,11 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departemen;
+use App\Models\JenisBeasiswaPmb;
 use App\Models\SyaratBeasiswa;
 use Illuminate\Http\Request;
 
 class SyaratBeasiswaController extends Controller
 {
+    public function index()
+    {
+        $beasiswa = JenisBeasiswaPmb::orderBy('kd_jenis', 'desc')->get();
+
+        return view('master-syarat-beasiswa', compact('beasiswa'));
+    }
+
+
+
 
     public function utilInsert()
     {

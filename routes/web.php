@@ -39,6 +39,8 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
     Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');
     Route::get('/detil-histori/{nim}/{kd_jns_bea_pmb}/{smt}', [HistoriController::class, 'detail'])->name('detil-histori');
 
+    Route::get('/maintenance/syarat-beasiswa', [SyaratBeasiswaController::class, 'index'])->name('index.master-syarat-beasiswa');
+
 
 
     /*
