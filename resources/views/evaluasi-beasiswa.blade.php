@@ -33,15 +33,13 @@
                     <div class="col">
                         <div class="card">
                             <div class="table-responsive">
-                                <table class="table table-vcenter card-table table-striped table-hover">
+                                <table class="table card-table table-striped table-hover">
                                     <thead>
                                         <tr>
                                             <th>NIM</th>
-                                            <th {{-- style="width: 20%" --}}>Nama</th>
+                                            <th>Nama</th>
                                             <th>Semester</th>
-                                            <th {{-- style="width: 20%" --}}>Beasiswa</th>
-                                            {{-- <th>Ketentuan Terpenuhi</th> --}}
-                                            {{-- <th>Status</th> --}}
+                                            <th style="width: 50%">Beasiswa</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -56,17 +54,8 @@
                                                         // Mengambil nama relasi Jenis Beasiswa PMB yang sesuai
                                                         $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
                                                     @endphp
-                                                    {{ $penerima->{$jenis_beasiswa_pmb}->nama ?? null }}
+                                                    {{ $penerima->{$jenis_beasiswa_pmb}->keterangan ?? null }}
                                                 </td>
-                                                {{-- <td>
-                                                    <div class="progr progress progress-xs">
-                                                        <div class="progress-bar bg-primary" style="width: 50%"></div>
-                                                    </div>
-                                                    <small>2/3</small>
-                                                </td> --}}
-                                                {{-- <td>
-                                                    <span class="badge bg-azure">Draft</span>
-                                                </td> --}}
                                                 <td>
                                                     <a href="{{ route('detil-evaluasi-beasiswa', [$penerima->nim]) }}" class="btn btn-outline-primary w-100 btn-sm">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
