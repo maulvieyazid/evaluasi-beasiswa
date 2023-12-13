@@ -26,7 +26,13 @@ class Karyawan extends Authenticatable
 
     public $incrementing = false;
 
-    protected $appends = ['inisial'];
+    protected $appends = [
+        'inisial',
+        'is_keuangan',
+        'is_kabag_keuangan',
+        'is_kmhs',
+        'is_kabag_kmhs',
+    ];
 
 
     // ACCESSOR
@@ -44,6 +50,30 @@ class Karyawan extends Authenticatable
         return $initials;
     }
 
+    public function getIsKeuanganAttribute()
+    {
+        return $this->bagian == Departemen::KEUANGAN ? 1 : 0;
+    }
+
+    public function getIsKabagKeuanganAttribute()
+    {
+        $manager_id = $this->departemen->manager_id ?? null;
+
+        return ($manager_id == $this->nik && $this->is_keuangan) ? 1 : 0;
+    }
+
+    public function getIsKmhsAttribute()
+    {
+        return $this->bagian == Departemen::KMHS ? 1 : 0;
+    }
+
+    public function getIsKabagKmhsAttribute()
+    {
+        $manager_id = $this->departemen->manager_id ?? null;
+
+        return ($manager_id == $this->nik && $this->is_kmhs) ? 1 : 0;
+    }
+
 
     /**
      * The "booted" method of the model.
@@ -57,31 +87,9 @@ class Karyawan extends Authenticatable
             $builder->select('NIK', 'NAMA', 'BAGIAN', 'STATUS');
         });
 
-        // IS_KEUANGAN
-        static::addGlobalScope('is_keuangan', function (Builder $builder) {
-            $builder->selectRaw("(CASE WHEN BAGIAN = 28 THEN 1 ELSE NULL END) AS IS_KEUANGAN");
-        });
-
-        // IS_KABAG_KEUANGAN
-        static::addGlobalScope('is_kabag_keuangan', function (Builder $builder) {
-            $departemen = Departemen::make()->getTable();
-            $builder->selectRaw("(CASE WHEN EXISTS(SELECT 1 FROM {$departemen} WHERE KODE = 28 AND MANAGER_ID = NIK) THEN 1 ELSE NULL END) AS IS_KABAG_KEUANGAN");
-        });
-
-        // IS_KMHS
-        static::addGlobalScope('is_kmhs', function (Builder $builder) {
-            $builder->selectRaw("(CASE WHEN BAGIAN = 9 THEN 1 ELSE NULL END) AS IS_KMHS");
-        });
-
-        // IS_KABAG_KMHS
-        static::addGlobalScope('is_kabag_kmhs', function (Builder $builder) {
-            $departemen = Departemen::make()->getTable();
-            $builder->selectRaw("(CASE WHEN EXISTS(SELECT 1 FROM {$departemen} WHERE KODE = 9 AND MANAGER_ID = NIK) THEN 1 ELSE NULL END) AS IS_KABAG_KMHS");
-        });
-
         // WITH departemen
         static::addGlobalScope('with_departemen', function (Builder $builder) {
-            $builder->with('departemen');
+            $builder->with('departemen:kode,nick,nama,manager_id');
         });
     }
 
