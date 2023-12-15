@@ -39,7 +39,11 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
     Route::get('/histori', [HistoriController::class, 'index'])->name('index-histori');
     Route::get('/detil-histori/{nim}/{kd_jns_bea_pmb}/{smt}', [HistoriController::class, 'detail'])->name('detil-histori');
 
-    Route::get('/maintenance/syarat-beasiswa', [SyaratBeasiswaController::class, 'index'])->name('index.master-syarat-beasiswa');
+
+
+    Route::get('/maintenance-syarat-beasiswa', [SyaratBeasiswaController::class, 'index'])->name('index.master-syarat-beasiswa');
+    Route::get('/detil-maintenance-syarat-beasiswa/{kd_jenis}', [SyaratBeasiswaController::class, 'detail'])->name('detil.master-syarat-beasiswa');
+
 
 
 
@@ -52,6 +56,19 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
     Route::get('/special-util/rollback/{nim}/{kd_jns_bea_pmb}/{smt}', [EvaluasiBeasiswaController::class, 'showRollbackForm'])->name('rollback-beasiswa');
     Route::post('/special-util/rollback/{nim}/{kd_jns_bea_pmb}/{smt}', [EvaluasiBeasiswaController::class, 'rollback']);
 });
+
+
+Route::post('/maintenance-syarat-beasiswa/store/json', [SyaratBeasiswaController::class, 'storeJson'])->name('store-json.master-syarat-beasiswa');
+Route::put('/maintenance-syarat-beasiswa/update/json', [SyaratBeasiswaController::class, 'updateJson'])->name('update-json.master-syarat-beasiswa');
+
+
+
+
+
+
+
+
+
 
 Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
 Route::get('/syarat-util-upd', [SyaratBeasiswaController::class, 'utilUpdate']);
