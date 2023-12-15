@@ -35,12 +35,12 @@ class SyaratBeasiswa extends Model
     |    ],
     | ]
     */
-    const AUTOCHECK = [
+    /* const AUTOCHECK = [
         25 => [
             3 => self::IPS,
             4 => self::STSKULIAH,
         ],
-    ];
+    ]; */
 
     protected $table = 'BOBBY21.V_BEASISWA_SYARAT';
 
@@ -54,7 +54,18 @@ class SyaratBeasiswa extends Model
         'nm_syarat',
         'nil_min',
         'bagian_validasi',
+        'baca_nilai',
     ];
+
+
+    // RELATIONSHIP
+    public function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'bagian_validasi', 'kode');
+    }
+
+
+
 
 
     /**
@@ -77,7 +88,8 @@ class SyaratBeasiswa extends Model
                     :kd_syarat,
                     :nm_syarat,
                     :nil_min,
-                    :bagian_validasi
+                    :bagian_validasi,
+                    :baca_nilai
                 );
 
             END;
@@ -90,6 +102,7 @@ class SyaratBeasiswa extends Model
         $stmt->bindValue('nm_syarat', $this->nm_syarat);
         $stmt->bindValue('nil_min', $this->nil_min);
         $stmt->bindValue('bagian_validasi', $this->bagian_validasi);
+        $stmt->bindValue('baca_nilai', $this->baca_nilai);
         $stmt->execute();
 
 
@@ -129,7 +142,8 @@ class SyaratBeasiswa extends Model
                     :kd_syarat,
                     :nm_syarat,
                     :nil_min,
-                    :bagian_validasi
+                    :bagian_validasi,
+                    :baca_nilai
                 );
 
             END;
@@ -142,6 +156,7 @@ class SyaratBeasiswa extends Model
         $stmt->bindValue('nm_syarat', $this->nm_syarat);
         $stmt->bindValue('nil_min', $this->nil_min);
         $stmt->bindValue('bagian_validasi', $this->bagian_validasi);
+        $stmt->bindValue('baca_nilai', $this->baca_nilai);
         $stmt->execute();
 
         return true;
