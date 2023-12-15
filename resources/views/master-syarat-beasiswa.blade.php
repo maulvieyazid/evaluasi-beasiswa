@@ -43,13 +43,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($beasiswa as $bea)
+                                        @foreach ($semuaBeasiswa as $bea)
                                             <tr>
                                                 <td class="text-center">{{ $bea->kd_jenis }}</td>
                                                 <td>{{ $bea->nama }}</td>
                                                 <td>{{ $bea->keterangan }}</td>
                                                 <td>
-                                                    <a href="{{ route('detil-evaluasi-beasiswa', [1]) }}" class="btn btn-outline-primary w-100 btn-sm">
+                                                    <a href="{{ route('detil.master-syarat-beasiswa', [$bea->kd_jenis]) }}" class="btn btn-outline-primary w-100 btn-sm">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                             stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
