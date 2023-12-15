@@ -339,8 +339,8 @@
 
         function toggleEditMode(tr) {
             // Melakukan toggle class d-none pada span dan input yang memilki class yang sama
-            for (const id of semuaClass) {
-                tr.find(`.${id}`).toggleClass('d-none');
+            for (const clss of semuaClass) {
+                tr.find(`.${clss}`).toggleClass('d-none');
             }
 
             // Toggle juga btnAksi nya
@@ -362,10 +362,11 @@
             // Ambil semua input
             const semuaInput = tr.find(':input');
 
-            // Cari masing-masing elemen input, lalu ganti nilai nya dengan atribut 'data-default'
-            for (const id of semuaClass) {
-                const inputElement = semuaInput.filter(`.${id}`);
-                inputElement.val(inputElement.data('default'));
+            for (const clss of semuaClass) {
+                // Ambil elemen input yang class nya sama dengan class yang dilooping
+                const inputElm = semuaInput.filter(`.${clss}`);
+                // Lalu ganti nilai nya dengan atribut 'data-default'
+                inputElm.val(inputElm.data('default'));
             }
         }
 
@@ -391,8 +392,8 @@
             // Buat satu object untuk menampung data request
             const reqData = {};
             // Lalu masukkan semua nilai input ke object tsb
-            for (const id of semuaClass) {
-                reqData[id] = semuaInput.filter(`.${id}`).val();
+            for (const clss of semuaClass) {
+                reqData[clss] = semuaInput.filter(`.${clss}`).val();
             }
 
             // Masukkan juga nilai encSyarat ke object tsb
@@ -405,18 +406,18 @@
                 const response = await axios.put(url, reqData);
                 const data = await response.data;
 
-                for (const id of semuaClass) {
+                for (const clss of semuaClass) {
                     // Ambil input yang class nya sama dengan class yang di looping
-                    const input = semuaInput.filter(`.${id}`);
+                    const inputElm = semuaInput.filter(`.${clss}`);
 
                     // Set nilai input agar sesuai dengan syarat yang diupdate
-                    input.val(data.syarat[id]);
+                    inputElm.val(data.syarat[clss]);
 
                     // Kalau input nya bertipe textarea, maka set juga teks nya
-                    if (input.is('textarea')) input.text(data.syarat[id]);
+                    if (inputElm.is('textarea')) inputElm.text(data.syarat[clss]);
 
                     // Set atribut data-default nya
-                    input.attr('data-default', data.syarat[id]);
+                    inputElm.attr('data-default', data.syarat[clss]);
                 }
 
                 // Samakan teks span dengan input nya
@@ -489,8 +490,8 @@
             // Buat satu object untuk menampung data request
             const reqData = {};
             // Lalu masukkan semua nilai input ke object tsb
-            for (const id of semuaClass) {
-                reqData[id] = semuaInput.filter(`.${id}`).val();
+            for (const clss of semuaClass) {
+                reqData[clss] = semuaInput.filter(`.${clss}`).val();
             }
 
             // Masukkan juga nilai encSyarat ke object tsb
@@ -504,18 +505,18 @@
                 const response = await axios.post(url, reqData);
                 const data = await response.data;
 
-                for (const id of semuaClass) {
+                for (const clss of semuaClass) {
                     // Ambil input yang class nya sama dengan class yang di looping
-                    const input = semuaInput.filter(`.${id}`);
+                    const inputElm = semuaInput.filter(`.${clss}`);
 
                     // Set nilai input agar sesuai dengan syarat yang diupdate
-                    input.val(data.syarat[id]);
+                    inputElm.val(data.syarat[clss]);
 
                     // Kalau input nya bertipe textarea, maka set juga teks nya
-                    if (input.is('textarea')) input.text(data.syarat[id]);
+                    if (inputElm.is('textarea')) inputElm.text(data.syarat[clss]);
 
                     // Set atribut data-default nya
-                    input.attr('data-default', data.syarat[id]);
+                    inputElm.attr('data-default', data.syarat[clss]);
                 }
 
                 // Update nilai encSyarat dengan nilai yang baru
@@ -571,9 +572,9 @@
             const semuaInput = tr.find(':input');
 
             // Looping semua class
-            for (const id of semuaClass) {
+            for (const clss of semuaClass) {
                 // Ambil input yang class nya sama dengan class yang dilooping
-                const input = semuaInput.filter(`.${id}`);
+                const input = semuaInput.filter(`.${clss}`);
 
                 // Kalau input nya bertipe select, maka ambil teks dari option yang selected
                 if (input.is('select')) {
@@ -590,7 +591,7 @@
 
                 // Ambil span di tr yang class nya sama dengan class yang dilooping,
                 // Lalu ubah teks nya
-                tr.find(`span.${id}`).text(teks);
+                tr.find(`span.${clss}`).text(teks);
             }
 
         }
