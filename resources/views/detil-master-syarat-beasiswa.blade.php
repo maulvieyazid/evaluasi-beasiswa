@@ -19,7 +19,7 @@
 
                 <div class="row g-2 align-items-center">
                     <div class="col">
-                        <a href="{{ route('index-evaluasi-beasiswa') }}" class="btn btn-secondary mb-3">
+                        <a href="{{ route('index.master-syarat-beasiswa') }}" class="btn btn-secondary mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
