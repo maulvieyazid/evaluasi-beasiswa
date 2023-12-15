@@ -45,8 +45,6 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
     Route::get('/detil-maintenance-syarat-beasiswa/{kd_jenis}', [SyaratBeasiswaController::class, 'detail'])->name('detil.master-syarat-beasiswa');
 
 
-
-
     /*
      | -------------------------------------------------
      | Route Khusus untuk Me-rollback Penerima Beasiswa
@@ -70,9 +68,9 @@ Route::put('/maintenance-syarat-beasiswa/update/json', [SyaratBeasiswaController
 
 
 
-Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
-Route::get('/syarat-util-upd', [SyaratBeasiswaController::class, 'utilUpdate']);
-Route::get('/syarat-util-del/{kd_jns_bea_pmb}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
+// Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
+// Route::get('/syarat-util-upd', [SyaratBeasiswaController::class, 'utilUpdate']);
+// Route::get('/syarat-util-del/{kd_jns_bea_pmb}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
 
 
 
