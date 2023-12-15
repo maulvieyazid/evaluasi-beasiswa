@@ -504,8 +504,6 @@
                 const response = await axios.post(url, reqData);
                 const data = await response.data;
 
-                console.log(data);
-
                 for (const id of semuaClass) {
                     // Ambil input yang class nya sama dengan class yang di looping
                     const input = semuaInput.filter(`.${id}`);
