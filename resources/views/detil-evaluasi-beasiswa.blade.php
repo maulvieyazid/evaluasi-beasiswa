@@ -209,30 +209,25 @@
                                                 @php
                                                     $checked = null;
 
-                                                    // Cek apakah jenis_beasiswa ADA di dalam array autocheck
-                                                    $jnsbeaExist = array_key_exists($syarat->jenis_beasiswa, SyaratBeasiswa::AUTOCHECK);
+                                                    // ================================================================
+                                                    // Mekanisme Auto Centang / Autocheck Evaluasi
+                                                    // ================================================================
 
-                                                    // Kalo ada
-                                                    if ($jnsbeaExist) {
-                                                        // Maka masuk kedalam array autocheck yang key nya adalah jenis_beasiswa
-                                                        // lalu cek apakah kd_syarat nya ADA juga
-                                                        $kdsyrtExist = array_key_exists($syarat->kd_syarat, SyaratBeasiswa::AUTOCHECK[$syarat->jenis_beasiswa]);
-
-                                                        // Kalo ada, maka ambil penanda nya
-                                                        $penanda = $kdsyrtExist ? SyaratBeasiswa::AUTOCHECK[$syarat->jenis_beasiswa][$syarat->kd_syarat] : null;
-
-                                                        // Kalo penanda nya adalah IPS, maka cek IPS nya mhs
-                                                        if ($penanda == SyaratBeasiswa::IPS) {
-                                                            $ips = $hismf->ips ?? 0;
-                                                            $checked = $ips >= $syarat->nil_min ? 'checked' : null;
-                                                        }
-
-                                                        // Kalo penanda nya adalah STSKULIAH, maka cek status kuliah mhs
-                                                        if ($penanda == SyaratBeasiswa::STSKULIAH) {
-                                                            $status = $hismf->nama_status ?? null;
-                                                            $checked = strtoupper($status) == 'AKTIF' ? 'checked' : null;
-                                                        }
+                                                    // Kalo baca_nilai nya adalah IPS, maka cek IPS nya mhs
+                                                    if ($syarat->baca_nilai == SyaratBeasiswa::IPS) {
+                                                        $ips = $hismf->ips ?? 0;
+                                                        $checked = $ips >= $syarat->nil_min ? 'checked' : null;
                                                     }
+
+                                                    // Kalo baca_nilai nya adalah STSKULIAH, maka cek status kuliah mhs
+                                                    if ($syarat->baca_nilai == SyaratBeasiswa::STSKULIAH) {
+                                                        $status = $hismf->nama_status ?? null;
+                                                        $checked = strtoupper($status) == 'AKTIF' ? 'checked' : null;
+                                                    }
+
+                                                    // ================================================================
+                                                    // ================================================================
+
                                                 @endphp
 
                                                 <label class="form-selectgroup-item flex-fill">
@@ -269,6 +264,7 @@
 
 
                 <!-- Evaluasi Bagian Lainnya -->
+                <!-- NOTE : Evaluasi ini read-only bagi user yang login -->
                 @php
                     // Ambil semua syarat yang bagian_validasi nya bukan bagian nya user yg login
                     $syaratLain = $semuaSyarat->where('bagian_validasi', '!=', auth()->user()->bagian);
