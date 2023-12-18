@@ -371,20 +371,22 @@
         }
 
         async function update(btn) {
+            // Ubah button simpan menjadi object jquery
+            const btnSimpan = $(btn);
+
             // Disable button Simpan dan Batal
-            const btnSimpanDanBatal = $(btn).closest('div').find('button');
-            btnSimpanDanBatal.prop('disabled', true);
+            const btnAksiSimpanDanBatal = btnSimpan.closest('div').find('button');
+            btnAksiSimpanDanBatal.prop('disabled', true);
 
             // Tambahkan loading pada button Simpan
-            $(btn).addClass('btn-loading');
-
+            btnSimpan.addClass('btn-loading');
 
             /* =============================================== */
             /* Update Syarat Beasiswa */
             /* =============================================== */
 
             // Ambil tr dari button Simpan
-            const tr = $(btn).closest('tr');
+            const tr = btnSimpan.closest('tr');
 
             // Ambil semua input yang ada di tr
             const semuaInput = tr.find(':input');
@@ -445,10 +447,10 @@
             /* =============================================== */
 
             // Enable button Simpan dan Batal
-            btnSimpanDanBatal.prop('disabled', false);
+            btnAksiSimpanDanBatal.prop('disabled', false);
 
             // Hilangkan loading pada button Simpan
-            $(btn).removeClass('btn-loading');
+            btnSimpan.removeClass('btn-loading');
         }
 
 
@@ -469,12 +471,15 @@
         }
 
         async function save(btn) {
+            // Ubah button simpan menjadi object jquery
+            const btnSimpan = $(btn);
+
             // Disable button Simpan dan Batal
-            const btnSimpanDanBatal = $(btn).closest('div').find('button');
-            btnSimpanDanBatal.prop('disabled', true);
+            const btnAksiSimpanDanBatal = btnSimpan.closest('div').find('button');
+            btnAksiSimpanDanBatal.prop('disabled', true);
 
             // Tambahkan loading pada button Simpan
-            $(btn).addClass('btn-loading');
+            btnSimpan.addClass('btn-loading');
 
 
             /* ==================================================== */
@@ -482,7 +487,7 @@
             /* ==================================================== */
 
             // Ambil tr dari button Simpan
-            const tr = $(btn).closest('tr');
+            const tr = btnSimpan.closest('tr');
 
             // Ambil semua input yang ada di tr
             const semuaInput = tr.find(':input');
@@ -534,11 +539,11 @@
                 // Keluar Mode Edit
                 toggleEditMode(tr);
 
-                // Ubah attribut onclick button Simpan menjadi update
-                $(btn).attr('onclick', 'update(this)');
+                // Ubah attribut onclick button Simpan menjadi update()
+                btnSimpan.attr('onclick', 'update(this)');
 
-                // Ubah attribut onclick button Batal menjadi cancel
-                $(btn).siblings('button').attr('onclick', 'cancel(this)');
+                // Ubah attribut onclick button Batal menjadi cancel()
+                btnSimpan.siblings('button').attr('onclick', 'cancel(this)');
 
             } catch (error) {
                 // Tampilkan notif
@@ -554,10 +559,10 @@
 
 
             // Enable button Simpan dan Batal
-            btnSimpanDanBatal.prop('disabled', false);
+            btnAksiSimpanDanBatal.prop('disabled', false);
 
             // Hilangkan loading pada button Simpan
-            $(btn).removeClass('btn-loading');
+            btnSimpan.removeClass('btn-loading');
 
         }
 
