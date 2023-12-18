@@ -338,10 +338,11 @@
         }
 
         function toggleEditMode(tr) {
-            // Melakukan toggle class d-none pada span dan input yang memilki class yang sama
-            for (const clss of semuaClass) {
-                tr.find(`.${clss}`).toggleClass('d-none');
-            }
+            // Tambahkan titik di depan masing-masing nama class, lalu gabungkan dengan koma
+            let clss = semuaClass.map(item => `.${item}`).join(',');
+
+            // Lakukan toggle class d-none pada span dan input yang memilki class yang sama
+            tr.find(clss).toggleClass('d-none');
 
             // Toggle juga btnAksi nya
             tr.find('.btnAksi').toggleClass('d-none');
