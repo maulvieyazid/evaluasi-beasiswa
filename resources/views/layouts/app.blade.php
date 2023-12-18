@@ -26,6 +26,18 @@
         }
     </style>
 
+    <!-- Tabler Core -->
+    <script src="{{ asset('assets/js/tabler.min.js') }}" defer></script>
+
+    <!-- Sweet Alert -->
+    <script src="{{ asset('assets/libs/sweetalert2/sweetalert2@11.7.32.min.js') }}" defer></script>
+
+    <!-- Jquery -->
+    <script src="{{ asset('assets/libs/jquery/jquery-3.7.1.min.js') }}" defer></script>
+
+    <!-- Axios -->
+    <script src="{{ asset('assets/libs/axios/axios.min.js') }}" defer></script>
+
     @stack('css')
 
 
@@ -45,44 +57,33 @@
 
     </div>
 
-
-    <!-- Tabler Core -->
-    <script src="{{ asset('assets/js/tabler.min.js') }}" defer></script>
-
-    <!-- Sweet Alert -->
-    <script src="{{ asset('assets/libs/sweetalert2/sweetalert2@11.7.32.min.js') }}" defer></script>
-
-    <!-- Jquery -->
-    <script src="{{ asset('assets/libs/jquery/jquery-3.7.1.min.js') }}"></script>
-
-    <!-- Axios -->
-    <script src="{{ asset('assets/libs/axios/axios.min.js') }}"></script>
-
     <script>
-        // Untuk mengeset CSRF Token pada Header AXIOS
-        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
+        document.addEventListener('DOMContentLoaded', function(e) {
+            // Untuk mengeset CSRF Token pada Header AXIOS
+            window.axios.defaults.headers.common['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
 
-        // Untuk melakukan retry pada Request Axios jika terjadi error
-        window.axios.interceptors.response.use(undefined, (err) => {
-            const {
-                config,
-                message
-            } = err;
+            // Untuk melakukan retry pada Request Axios jika terjadi error
+            window.axios.interceptors.response.use(undefined, (err) => {
+                const {
+                    config,
+                    message
+                } = err;
 
-            if (!config || !config.retry) {
-                return Promise.reject(err);
-            }
+                if (!config || !config.retry) {
+                    return Promise.reject(err);
+                }
 
-            config.retry -= 1;
+                config.retry -= 1;
 
-            const delayRetryRequest = new Promise((resolve) => {
-                setTimeout(() => {
-                    console.log('retry the request', config.url);
-                    resolve();
-                }, config.retryDelay || 1000);
+                const delayRetryRequest = new Promise((resolve) => {
+                    setTimeout(() => {
+                        console.log('retry the request', config.url);
+                        resolve();
+                    }, config.retryDelay || 1000);
+                });
+
+                return delayRetryRequest.then(() => axios(config));
             });
-
-            return delayRetryRequest.then(() => axios(config));
         });
     </script>
 
