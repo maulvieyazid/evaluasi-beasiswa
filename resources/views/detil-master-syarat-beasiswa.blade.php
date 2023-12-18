@@ -417,7 +417,7 @@
                     if (inputElm.is('textarea')) inputElm.text(data.syarat[clss]);
 
                     // Set atribut data-default nya
-                    inputElm.attr('data-default', data.syarat[clss]);
+                    inputElm.data('default', data.syarat[clss]);
                 }
 
                 // Samakan teks span dengan input nya
@@ -516,7 +516,7 @@
                     if (inputElm.is('textarea')) inputElm.text(data.syarat[clss]);
 
                     // Set atribut data-default nya
-                    inputElm.attr('data-default', data.syarat[clss]);
+                    inputElm.data('default', data.syarat[clss]);
                 }
 
                 // Update nilai encSyarat dengan nilai yang baru
