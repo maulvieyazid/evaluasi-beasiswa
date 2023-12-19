@@ -50,6 +50,7 @@
                                                 <th class="text-center">Kode</th>
                                                 <th class="text-center">Nama</th>
                                                 <th class="text-center">Keterangan</th>
+                                                <th class="text-center w-0">Jumlah Syarat</th>
                                                 <th class="text-center"></th>
                                             </tr>
                                         </thead>
@@ -59,6 +60,9 @@
                                                     <td class="text-center">{{ $bea->kd_jenis }}</td>
                                                     <td>{{ $bea->nama }}</td>
                                                     <td>{{ $bea->keterangan }}</td>
+                                                    <td class="text-center">
+                                                        {{ $bea->syarat_count == 0 ? '-' : $bea->syarat_count }}
+                                                    </td>
                                                     <td>
                                                         <a href="{{ route('detil.master-syarat-beasiswa', [$bea->kd_jenis]) }}" class="btn btn-outline-primary w-100 btn-sm">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"

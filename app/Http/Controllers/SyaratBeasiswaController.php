@@ -12,7 +12,10 @@ class SyaratBeasiswaController extends Controller
 {
     public function index()
     {
-        $semuaBeasiswa = JenisBeasiswaPmb::orderBy('kd_jenis', 'desc')->get();
+        $semuaBeasiswa = JenisBeasiswaPmb::query()
+            ->withCount('syarat')
+            ->orderBy('kd_jenis', 'desc')
+            ->get();
 
         return view('master-syarat-beasiswa', compact('semuaBeasiswa'));
     }
