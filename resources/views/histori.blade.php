@@ -93,7 +93,7 @@
                                                     @php
                                                         $routeDetil = route('detil-histori', [
                                                             'nim' => $penerima->nim,
-                                                            'jns_beasiswa' => $penerima->{$jenis_beasiswa_pmb}->kd_jenis,
+                                                            'kd_jns_bea_pmb' => $penerima->{$jenis_beasiswa_pmb}->kd_jenis,
                                                             'smt' => $penerima->smt,
                                                         ]);
                                                     @endphp
