@@ -58,7 +58,8 @@ class BeasiswaPenmaru extends Model
                     :mhs_nim,
                     :semester,
                     :kode_jns_bea_aak,
-                    :prosentase
+                    :prosentase,
+                    :jns_bayar
                 );
 
             END;
@@ -70,6 +71,8 @@ class BeasiswaPenmaru extends Model
         $stmt->bindValue('semester', $this->semester);
         $stmt->bindValue('kode_jns_bea_aak', $this->kode_jns_bea_aak);
         $stmt->bindValue('prosentase', $this->prosentase);
+        // WARNING: Permintaan DBA agar nilai 'jns_bayar' didefaultkan ke 10
+        $stmt->bindValue('jns_bayar', '10');
         $stmt->execute();
 
 
