@@ -60,16 +60,13 @@ class Terima extends Model
 
     public static function queryPenerimaBeasiswa()
     {
+        $sts_tidak_lolos = KesimpulanBeasiswa::TIDAK_LOLOS;
+
         $query = <<<SQL
-                WITH SMT AS (
-                        SELECT * FROM BOBBY21.V_SMT
-                        WHERE FAK_ID = '41010'
-                    ),
-                    NIM_MHS_AKTIF AS (
+                WITH NIM_MHS_AKTIF AS (
                         SELECT MHS_NIM FROM BOBBY21.V_HISMF
                         WHERE NVL(STS_MHS,'X') NOT IN ('N','A','L','O')
                         AND SEMESTER = :SMT
-                        /* AND SEMESTER = (SELECT SMT_YAD FROM SMT) */
                     ),
                     MHS AS (
                         SELECT NIM, NO_TEST, NAMA
@@ -89,7 +86,16 @@ class Terima extends Model
                                 (VBEASISWA4 IS NOT NULL AND VBEASISWA4 != 0)
                             )
                     )
-                SELECT pb.*, m.NAMA, m.NIM, ppmb.PILIHAN_KE, :SMT AS SMT
+                SELECT pb.*, m.NAMA, m.NIM, ppmb.PILIHAN_KE, :SMT AS SMT,
+                        (
+                            CASE
+                                WHEN EXISTS (
+                                    SELECT 1 FROM BOBBY21.V_BEASISWA_KESIMPULAN vbk
+                                    WHERE vbk.MHS_NIM = m.NIM AND vbk.STATUS = '$sts_tidak_lolos'
+                                )
+                                THEN 1 ELSE 0
+                            END
+                        ) AS IS_BEASISWA_DICABUT
                 FROM PENERIMA_BEA pb
                 JOIN MHS m ON pb.VNOTEST = m.NO_TEST
                 JOIN BOBBY21.V_PILIHAN_PMB ppmb ON ppmb.NO_TEST = pb.VNOTEST AND ppmb.KD_JUR_PMB = SUBSTR(m.NIM, 3, 5)

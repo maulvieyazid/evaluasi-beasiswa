@@ -34,6 +34,10 @@ class EvaluasiBeasiswaController extends Controller
             // berarti sudah ada evaluasi, tapi yang mengevaluasi bukan bagian yang LOGIN
             if ($penerima->syarat_peserta->where('syarat.bagian_validasi', auth()->user()->bagian)->count() == 0) return false;
 
+            // Kalau atribut 'is_beasiswa_dicabut' bernilai 1,
+            // berarti penerima beasiswa memiliki data di 'kesimpulan_beasiswa' yang status nya 'T'
+            if ($penerima->is_beasiswa_dicabut) return true;
+
             return true;
         });
 
