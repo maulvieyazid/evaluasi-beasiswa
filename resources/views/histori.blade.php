@@ -67,10 +67,9 @@
                                     <thead>
                                         <tr>
                                             <th>NIM</th>
-                                            <th {{-- style="width: 20%" --}}>Nama</th>
+                                            <th>Nama</th>
                                             <th>Semester</th>
-                                            <th {{-- style="width: 20%" --}}>Beasiswa</th>
-                                            {{-- <th>Ketentuan Terpenuhi</th> --}}
+                                            <th>Beasiswa</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -85,7 +84,7 @@
                                                     // Mengambil nama relasi jenis beasiswa PMB yang sesuai
                                                     $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
                                                 @endphp
-                                                <td>{{ $penerima->{$jenis_beasiswa_pmb}->nama ?? null }}</td>
+                                                <td>{{ $penerima->{$jenis_beasiswa_pmb}->keterangan ?? null }}</td>
                                                 <td>
                                                     <span class="badge bg-cover">Menunggu <br> Evaluasi Keuangan</span>
                                                 </td>
@@ -115,7 +114,7 @@
                                                 <td>{{ $kesimpulan->mhs_nim }}</td>
                                                 <td>{{ $kesimpulan->mahasiswa->nama ?? null }}</td>
                                                 <td>{{ $kesimpulan->smt }}</td>
-                                                <td>{{ $kesimpulan->jenis_beasiswa_pmb->nama ?? null }}</td>
+                                                <td>{{ $kesimpulan->jenis_beasiswa_pmb->keterangan ?? null }}</td>
                                                 <td>
                                                     @if ($kesimpulan->status == KesimpulanBeasiswa::LOLOS)
                                                         <span class="badge bg-green">Lolos</span>
