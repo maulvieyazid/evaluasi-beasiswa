@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EvaluasiBeasiswaController;
 use App\Http\Controllers\HistoriController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KesimpulanBeasiswaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SyaratBeasiswaController;
@@ -25,9 +26,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['set.semester', 'auth'])->group(function () {
 
-    Route::get('/', function () {
-        return view('home');
-    })->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('/evaluasi-beasiswa', [EvaluasiBeasiswaController::class, 'index'])->name('index-evaluasi-beasiswa');
 
