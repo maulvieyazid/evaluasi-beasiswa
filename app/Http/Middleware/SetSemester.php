@@ -20,10 +20,7 @@ class SetSemester
         // Semester untuk uji coba
         // $semester = '231';
 
-        // Jika sudah production, maka ambil dari tabel v_smt
-        // if (config('app.env') == 'production') {
         $semester = Semester::where('fak_id', '41010')->first()->smt_aktif;
-        // }
 
         session(['semester' => $semester]);
 
