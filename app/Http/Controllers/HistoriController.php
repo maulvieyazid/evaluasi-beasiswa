@@ -25,20 +25,20 @@ class HistoriController extends Controller
             // return FALSE : artinya penerima beasiswa TIDAK DIBUANG
             // return TRUE : artinya penerima beasiswa DIBUANG
 
-            // Kalau jumlah syarat_peserta nya sama dengan 0, berarti belum ada evaluasi
+            // Kalau jumlah 'syarat_peserta' nya sama dengan 0, berarti belum ada evaluasi
             if ($penerima->syarat_peserta->count() == 0) return true;
 
-            // Kalau di dalam syarat_peserta tidak ada syarat yang bagian validasi nya adalah bagian yang LOGIN,
+            // Kalau di dalam 'syarat_peserta' tidak ada syarat yang bagian validasi nya adalah bagian yang LOGIN,
             // berarti sudah ada evaluasi, tapi yang mengevaluasi bukan bagian yang LOGIN
             if ($penerima->syarat_peserta->where('syarat.bagian_validasi', auth()->user()->bagian)->count() == 0) return true;
 
-            // Kalau data penerima nya sudah masuk ke kesimpulan_beasiswa, berarti sudah dievaluasi oleh Bagian Keuangan
+            // Kalau data penerima nya sudah masuk ke 'kesimpulan_beasiswa', berarti sudah dievaluasi oleh Bagian Keuangan
             if ($penerima->kesimpulan_beasiswa->count() > 0) return true;
 
             return false;
         });
 
-
+        // Ambil data Kesimpulan Beasiswa (penerima beasiswa yang sudah dievaluasi oleh Bagian Keuangan)
         $semuaKesimpulan = KesimpulanBeasiswa::query()
             ->orderBy('smt', 'desc')
             ->orderBy('mhs_nim', 'desc')
