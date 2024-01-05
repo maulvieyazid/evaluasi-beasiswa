@@ -9,8 +9,13 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $semuaSmt = KesimpulanBeasiswa::query()
+            ->select('smt')
+            ->distinct()
+            ->orderBy('smt', 'desc')
+            ->get();
 
-        return view('home');
+        return view('home', compact('semuaSmt'));
     }
 
     public function getJmlPenerimaPerSmt()

@@ -52,12 +52,11 @@
                                     <h3 class="card-title">Prosentase Penerima Beasiswa Aktif dan Gugur</h3>
                                     <div class="ms-auto">
                                         <select id="pilihSmtPrsn" class="form-select pilih-smt" style="width: 140px" onchange="updateChartPrsnAktfGgr(this.value)">
-                                            <option value="231">231</option>
-                                            <option value="222">222</option>
-                                            <option value="221">221</option>
-                                            <option value="212">212</option>
-                                            <option value="211">211</option>
-                                            <option value="202">202</option>
+                                            @foreach ($semuaSmt as $smt)
+                                                <option value="{{ $smt->smt }}">
+                                                    {{ $smt->smt }}
+                                                </option>
+                                            @endforeach
                                         </select>
 
                                     </div>
@@ -78,12 +77,11 @@
                                     <h3 class="card-title">Jumlah Penerima Beasiswa Per Jenis Beasiswa</h3>
                                     <div class="ms-auto">
                                         <select id="pilihSmtJnsBea" class="form-select pilih-smt" style="width: 140px" onchange="updateChartJmlPerJnsBea(this.value)">
-                                            <option value="231">231</option>
-                                            <option value="222">222</option>
-                                            <option value="221">221</option>
-                                            <option value="212">212</option>
-                                            <option value="211">211</option>
-                                            <option value="202">202</option>
+                                            @foreach ($semuaSmt as $smt)
+                                                <option value="{{ $smt->smt }}">
+                                                    {{ $smt->smt }}
+                                                </option>
+                                            @endforeach
                                         </select>
 
                                     </div>
@@ -97,7 +95,6 @@
                         </div>
                     </div>
                 </div>
-
 
 
             </div>
