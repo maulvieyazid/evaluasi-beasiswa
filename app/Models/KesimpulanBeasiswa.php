@@ -27,6 +27,8 @@ class KesimpulanBeasiswa extends Model
         'smt',
         'status',
         'keterangan',
+        'x',
+        'y',
     ];
 
 

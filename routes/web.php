@@ -59,6 +59,11 @@ Route::post('/maintenance-syarat-beasiswa/store/json', [SyaratBeasiswaController
 Route::put('/maintenance-syarat-beasiswa/update/json', [SyaratBeasiswaController::class, 'updateJson'])->name('update-json.master-syarat-beasiswa');
 
 
+// Route untuk mengambil data chart
+Route::get('/chart/jml-pnrm-bea-per-smt', [HomeController::class, 'getJmlPenerimaPerSmt'])->name('chart.get.jml-penerima-per-smt');
+Route::get('/chart/jml-pnrm-bea-per-jenis-beasiswa/{smt}', [HomeController::class, 'getJmlPenerimaPerJenisBeasiswa'])->name('chart.get.jml-penerima-per-jenis-beasiswa');
+Route::get('/chart/prsnts-pnrm-bea-aktf-ggr/{smt}', [HomeController::class, 'getPrsntsPenerimaAktfGgr'])->name('chart.get.prsnts-penerima-aktf-ggr');
+
 
 
 
