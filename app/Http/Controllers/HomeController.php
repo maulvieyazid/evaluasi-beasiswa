@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
 use Illuminate\Http\Request;
 
@@ -52,23 +53,48 @@ class HomeController extends Controller
         ]); */
     }
 
+    public function getDetailJmlPenerimaPerSmt($smt)
+    {
+        $semuaPenerima = KesimpulanBeasiswa::query()
+            ->where('smt', $smt)
+            ->where('status', KesimpulanBeasiswa::LOLOS)
+            ->with('mahasiswa')
+            ->orderBy('mhs_nim')
+            ->orderBy('jns_beasiswa')
+            ->get();
+
+        return view('components.detail-jml-penerima-bea-per-smt', compact('semuaPenerima'));
+    }
+
+
+
+    /* ======================================================================================================== */
+
+
+
     public function getJmlPenerimaPerJenisBeasiswa($smt)
     {
+        $jenis_bea = JenisBeasiswaPmb::select('kd_jenis', 'keterangan')->get();
+
         $data = KesimpulanBeasiswa::query()
-            ->with('jenis_beasiswa_pmb')
             ->where('status', KesimpulanBeasiswa::LOLOS)
             ->where('smt', $smt)
             ->get();
 
         // Hitung jumlah penerima berdasarkan keterangan dari jenis beasiswa
-        $data = $data->countBy('jenis_beasiswa_pmb.keterangan');
+        $data = $data->countBy('jns_beasiswa');
 
         $data = $data
             // Lakukan map untuk membentuk array yg sesuai dengan series chart
-            ->map(function ($item, $key) {
+            ->map(function ($item, $key) use ($jenis_bea) {
+                // Ambil keterangan beasiswa dari $jenis_bea, berdasarkan kd_jenis nya
+                $keterangan = $jenis_bea->where('kd_jenis', $key)->first()->keterangan;
+
+                // Atribut yang diperlukan oleh ApexChart adalah 'x' dan 'y', selain dari itu adalah data tambahan
                 $out = [
-                    'x' => $key,
+                    'x' => $keterangan,
                     'y' => $item,
+                    'kd_jenis' => $key,
                 ];
 
                 return $out;
@@ -89,6 +115,23 @@ class HomeController extends Controller
             ],
         ]); */
     }
+
+    public function getDetailJmlPenerimaPerJenisBeasiswa($smt, $kd_jenis)
+    {
+        $semuaPenerima = KesimpulanBeasiswa::query()
+            ->where('smt', $smt)
+            ->where('jns_beasiswa', $kd_jenis)
+            ->where('status', KesimpulanBeasiswa::LOLOS)
+            ->get();
+
+        return view('components.detail-jml-penerima-bea-per-jns-bea', compact('semuaPenerima'));
+    }
+
+
+
+    /* ======================================================================================================== */
+
+
 
     public function getPrsntsPenerimaAktfGgr($smt)
     {
@@ -112,5 +155,16 @@ class HomeController extends Controller
         return response()->json(
             [$aktif, $gugur]
         );
+    }
+
+    public function getDetailPrsntsPenerimaAktfGgr($smt, $status)
+    {
+        $semuaPenerima = KesimpulanBeasiswa::query()
+            ->where('smt', $smt)
+            ->where('status', $status)
+            ->orderBy('mhs_nim')
+            ->get();
+
+        return view('components.detail-prsnts-penerima-bea-aktif-gugur', compact('semuaPenerima'));
     }
 }

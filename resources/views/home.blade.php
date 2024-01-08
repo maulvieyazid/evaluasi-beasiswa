@@ -100,6 +100,25 @@
             </div>
         </div>
 
+        <!-- Modal Detail Chart -->
+        <div class="modal modal-blur fade" id="modal-detail-chart" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="detail-chart-content"></div>
+                        <div class="loading">Sedang Memuat...</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 @endsection
@@ -108,13 +127,45 @@
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.js') }}"></script>
 
     <script>
+        // Variabel global
+        var elmModalDtlChrt;
+        var modalDtlChrt;
+
         document.addEventListener('DOMContentLoaded', function(e) {
             $('.pilih-smt').select2({
                 templateSelection: function(state) {
                     return `Semester ${state.text}`;
                 },
             });
+
+            elmModalDtlChrt = $('#modal-detail-chart');
+            modalDtlChrt = bootstrap.Modal.getOrCreateInstance(elmModalDtlChrt);
         });
+
+
+        // Fungsi untuk membuka modal detail chart dan merubah title nya
+        function bootModalDtlChart({
+            title
+        }) {
+            // Kosongkan isi modal
+            elmModalDtlChrt.find('#detail-chart-content').empty();
+            // Tampilkan Loading
+            elmModalDtlChrt.find('.loading').removeClass('d-none');
+            // Ubah title modal
+            elmModalDtlChrt.find('.modal-title').text(title);
+            // Buka modal
+            modalDtlChrt.show();
+        }
+
+        // Fungsi untuk memperbarui isi modal detail chart
+        function updateModalDtlChart({
+            htmlContent
+        }) {
+            // Masukkan isi html ke dalam modal
+            elmModalDtlChrt.find('#detail-chart-content').html(htmlContent);
+            // Sembunyikan Loading
+            elmModalDtlChrt.find('.loading').addClass('d-none');
+        }
     </script>
 
     <!-- Config Chart Jumlah Penerima Beasiswa Per Semester -->
@@ -142,6 +193,31 @@
                     toolbar: {
                         show: false,
                     },
+                    events: {
+                        click: async function(event, chartContext, config) {
+                            // Kalo point yang diklik index nya kurang dari 0 maka return
+                            if (config.dataPointIndex < 0) return;
+
+                            const smt = config.globals.categoryLabels[config.dataPointIndex];
+
+                            bootModalDtlChart({
+                                title: `Detail Jumlah Penerima Beasiswa Semester ${smt}`
+                            });
+
+                            let url = "{{ route('chart.get.detail-jml-penerima-per-smt', ['smt' => ':smt']) }}";
+                            url = url.replace(':smt', smt);
+
+                            const response = await axios.get(url, {
+                                retry: 2
+                            });
+                            const data = await response.data;
+
+                            updateModalDtlChart({
+                                htmlContent: data
+                            });
+
+                        },
+                    },
                 },
                 dataLabels: {
                     enabled: true,
@@ -164,7 +240,7 @@
                     },
                 },
                 noData: {
-                    text: 'Sedang Memuat...'
+                    // text: 'Sedang Memuat...'
                 },
                 series: [{
                     name: 'Penerima',
@@ -205,9 +281,32 @@
             document.querySelector('#chartJmlPerJnsBea'), {
                 chart: {
                     type: 'bar',
-                    height: '400px',
+                    height: '500px',
                     toolbar: {
                         show: false,
+                    },
+                    events: {
+                        dataPointSelection: async function(event, chartContext, config) {
+                            const dataBeasiswa = config.w.globals.initialSeries[config.seriesIndex].data[config.dataPointIndex];
+                            const smt = $('#pilihSmtJnsBea').val();
+
+                            bootModalDtlChart({
+                                title: `Detail ${dataBeasiswa.x} Semester ${smt}`
+                            });
+
+                            let url = "{{ route('chart.get.detail-jml-penerima-per-jenis-beasiswa', ['smt' => ':smt', 'kd_jenis' => ':kd_jenis']) }}";
+                            url = url.replace(':smt', smt).replace(':kd_jenis', dataBeasiswa.kd_jenis);
+
+                            const response = await axios.get(url, {
+                                retry: 2
+                            });
+                            const data = await response.data;
+
+                            updateModalDtlChart({
+                                htmlContent: data
+                            });
+
+                        },
                     },
                 },
                 plotOptions: {
@@ -271,6 +370,37 @@
                 chart: {
                     width: 420,
                     type: 'pie',
+                    events: {
+                        dataPointSelection: async function(event, chartContext, config) {
+                            // Default status adalah lolos
+                            let status = '{{ \App\Models\KesimpulanBeasiswa::LOLOS }}';
+
+                            // Nilai pie chart yang diklik
+                            const clickedPoint = config.w.config.labels[config.dataPointIndex];
+
+                            // Kalo pie chart yang diklik adalah gugur, maka ganti status nya menjadi tidak lolos
+                            status = clickedPoint.toUpperCase() == 'GUGUR' ? '{{ \App\Models\KesimpulanBeasiswa::TIDAK_LOLOS }}' : status;
+
+                            // Ambil nilai semester
+                            const smt = $('#pilihSmtPrsn').val();
+
+                            bootModalDtlChart({
+                                title: `Detail Penerima Beasiswa ${clickedPoint} Semester ${smt}`
+                            });
+
+                            let url = "{{ route('chart.get.detail-prsnts-penerima-aktf-ggr', ['smt' => ':smt', 'status' => ':status']) }}";
+                            url = url.replace(':smt', smt).replace(':status', status);
+
+                            const response = await axios.get(url, {
+                                retry: 2
+                            });
+                            const data = await response.data;
+
+                            updateModalDtlChart({
+                                htmlContent: data
+                            });
+                        },
+                    },
                 },
                 responsive: [{
                     breakpoint: 480,

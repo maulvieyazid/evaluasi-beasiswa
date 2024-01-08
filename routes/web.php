@@ -60,9 +60,17 @@ Route::put('/maintenance-syarat-beasiswa/update/json', [SyaratBeasiswaController
 
 
 // Route untuk mengambil data chart
+// Per Semester
 Route::get('/chart/jml-pnrm-bea-per-smt', [HomeController::class, 'getJmlPenerimaPerSmt'])->name('chart.get.jml-penerima-per-smt');
+Route::get('/detail-chart/jml-pnrm-bea-per-smt/{smt}', [HomeController::class, 'getDetailJmlPenerimaPerSmt'])->name('chart.get.detail-jml-penerima-per-smt');
+
+// Per Jenis Beasiswa
 Route::get('/chart/jml-pnrm-bea-per-jenis-beasiswa/{smt}', [HomeController::class, 'getJmlPenerimaPerJenisBeasiswa'])->name('chart.get.jml-penerima-per-jenis-beasiswa');
+Route::get('/detail-chart/jml-pnrm-bea-per-jenis-beasiswa/{smt}/{kd_jenis}', [HomeController::class, 'getDetailJmlPenerimaPerJenisBeasiswa'])->name('chart.get.detail-jml-penerima-per-jenis-beasiswa');
+
+// Prosentase Aktif Gugur
 Route::get('/chart/prsnts-pnrm-bea-aktf-ggr/{smt}', [HomeController::class, 'getPrsntsPenerimaAktfGgr'])->name('chart.get.prsnts-penerima-aktf-ggr');
+Route::get('/detail-chart/prsnts-pnrm-bea-aktf-ggr/{smt}/{status}', [HomeController::class, 'getDetailPrsntsPenerimaAktfGgr'])->name('chart.get.detail-prsnts-penerima-aktf-ggr');
 
 
 
