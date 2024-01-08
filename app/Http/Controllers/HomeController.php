@@ -58,7 +58,7 @@ class HomeController extends Controller
         $semuaPenerima = KesimpulanBeasiswa::query()
             ->where('smt', $smt)
             ->where('status', KesimpulanBeasiswa::LOLOS)
-            ->with('mahasiswa')
+            ->with(['mahasiswa', 'jenis_beasiswa_pmb'])
             ->orderBy('mhs_nim')
             ->orderBy('jns_beasiswa')
             ->get();
@@ -122,6 +122,7 @@ class HomeController extends Controller
             ->where('smt', $smt)
             ->where('jns_beasiswa', $kd_jenis)
             ->where('status', KesimpulanBeasiswa::LOLOS)
+            ->with('mahasiswa')
             ->get();
 
         return view('components.detail-jml-penerima-bea-per-jns-bea', compact('semuaPenerima'));
@@ -162,7 +163,9 @@ class HomeController extends Controller
         $semuaPenerima = KesimpulanBeasiswa::query()
             ->where('smt', $smt)
             ->where('status', $status)
+            ->with(['mahasiswa', 'jenis_beasiswa_pmb'])
             ->orderBy('mhs_nim')
+            ->orderBy('jns_beasiswa')
             ->get();
 
         return view('components.detail-prsnts-penerima-bea-aktif-gugur', compact('semuaPenerima'));
