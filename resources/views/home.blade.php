@@ -33,7 +33,7 @@
                 <div class="row">
 
                     <!-- Chart Jumlah Penerima Beasiswa Per Semester -->
-                    <div class="col-lg-6 mb-3">
+                    <div class="col-lg-6 mb-lg-3 mb-5">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex">
@@ -45,7 +45,7 @@
                     </div>
 
                     <!-- Chart Prosentase Penerima Beasiswa Aktif dan Gugur -->
-                    <div class="col mb-3">
+                    <div class="col mb-lg-3 mb-5">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex">
