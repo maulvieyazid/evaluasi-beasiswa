@@ -3,11 +3,11 @@
 use App\Http\Controllers\EvaluasiBeasiswaController;
 use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\KesimpulanBeasiswaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SyaratBeasiswaController;
-use App\Http\Controllers\SyaratPesertaBeasiswaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KesimpulanBeasiswaController;
+use App\Http\Controllers\SyaratPesertaBeasiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,12 +80,8 @@ Route::get('/detail-chart/prsnts-pnrm-bea-aktf-ggr/{smt}/{status}', [HomeControl
 
 
 
+# Route utilitas untuk menghapus Syarat Peserta Beasiswa
+// Route::get('/syarat-peserta-util-del/{mhs_nim}/{kd_jns_bea_pmb}/{smt}/{kd_syarat}', [SyaratPesertaBeasiswaController::class, 'utilDelete']);
 
-// Route::get('/syarat-util-ins', [SyaratBeasiswaController::class, 'utilInsert']);
-// Route::get('/syarat-util-upd', [SyaratBeasiswaController::class, 'utilUpdate']);
-// Route::get('/syarat-util-del/{kd_jns_bea_pmb}/{kd_syarat}', [SyaratBeasiswaController::class, 'utilDelete']);
-
-
-
-Route::get('/syarat-peserta-util-del/{mhs_nim}/{kd_jns_bea_pmb}/{smt}/{kd_syarat}', [SyaratPesertaBeasiswaController::class, 'utilDelete']);
-Route::get('/kesimpulan-util-del/{mhs_nim}/{kd_jns_bea_pmb}/{smt}', [KesimpulanBeasiswaController::class, 'utilDelete']);
+# Route utilitas untuk menghapus Kesimpulan Beasiswa
+// Route::get('/kesimpulan-util-del/{mhs_nim}/{kd_jns_bea_pmb}/{smt}', [KesimpulanBeasiswaController::class, 'utilDelete']);
