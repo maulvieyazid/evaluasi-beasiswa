@@ -27,6 +27,7 @@ class SyaratBeasiswaController extends Controller
         $semuaSyarat = SyaratBeasiswa::query()
             ->where('jenis_beasiswa', $kd_jenis)
             ->with('departemen:kode,nama')
+            ->withCount('syarat_peserta as terikat_syarat_peserta')
             ->orderBy('kd_syarat')
             ->get();
 
@@ -135,6 +136,35 @@ class SyaratBeasiswaController extends Controller
             'encSyarat' => $newEncSyarat,
         ]);
     }
+
+
+    public function destroyJson(Request $req)
+    {
+        $encSyarat = Crypt::decryptString($req->encSyarat);
+
+        $encSyarat = json_decode($encSyarat, false);
+
+        $syarat = SyaratBeasiswa::query()
+            ->where('jenis_beasiswa', $encSyarat->jenis_beasiswa)
+            ->where('kd_syarat', $encSyarat->kd_syarat)
+            ->withCount('syarat_peserta as terikat_syarat_peserta')
+            ->first();
+
+        if ($syarat->terikat_syarat_peserta) return abort(400, 'Tidak bisa menghapus syarat yang sudah terisi oleh Evaluator');
+
+        $syarat->delete();
+
+        return response()->json([
+            'status' => 'success',
+        ]);
+    }
+
+
+
+
+
+
+
 
 
 

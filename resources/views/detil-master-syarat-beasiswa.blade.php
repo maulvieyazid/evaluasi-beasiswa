@@ -24,8 +24,8 @@
 
                 <div class="row g-2 align-items-center">
                     <div class="col">
-                        <a href="{{ route('index.master-syarat-beasiswa') }}" class="btn btn-secondary mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        <a class="btn btn-secondary mb-3" href="{{ route('index.master-syarat-beasiswa') }}">
+                            <svg class="icon icon-tabler icon-tabler-arrow-narrow-left" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l14 0"></path>
@@ -54,7 +54,7 @@
                             <div class="card-body">
                                 <div class="card-title">Informasi Beasiswa</div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
@@ -66,7 +66,7 @@
                                     <span class="ms-2">Kode</span> : <strong>{{ $beasiswa->kd_jenis }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id-badge-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-id-badge-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M7 12h3v4h-3z"></path>
@@ -78,7 +78,7 @@
                                     <span class="ms-2">Nama</span> : <strong>{{ $beasiswa->nama }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-description" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    <svg class="icon icon-tabler icon-tabler-file-description" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -96,9 +96,9 @@
 
                 <div class="row mt-3">
                     <div class="col text-end">
-                        <button type="button" class="btn btn-primary" onclick="add()">
+                        <button class="btn btn-primary" type="button" onclick="add()">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M12 5l0 14"></path>
                                 <path d="M5 12l14 0"></path>
@@ -112,8 +112,9 @@
                     <div class="col">
                         <div class="card">
                             <div class="table-responsive">
-                                <input type="hidden" id="url_update" value="{{ route('update-json.master-syarat-beasiswa') }}">
-                                <input type="hidden" id="url_store" value="{{ route('store-json.master-syarat-beasiswa') }}">
+                                <input id="url_update" type="hidden" value="{{ route('update-json.master-syarat-beasiswa') }}">
+                                <input id="url_store" type="hidden" value="{{ route('store-json.master-syarat-beasiswa') }}">
+                                <input id="url_destroy" type="hidden" value="{{ route('destroy-json.master-syarat-beasiswa') }}">
 
                                 <table class="table table-striped table-hover table-bordered" id="tabelSyarat">
                                     <thead>
@@ -134,7 +135,7 @@
                                                         $encSyarat = json_encode($syrt->only(['kd_syarat', 'jenis_beasiswa']));
                                                         $encSyarat = Crypt::encryptString($encSyarat);
                                                     @endphp
-                                                    <input type="hidden" id="encSyarat" value="{{ $encSyarat }}">
+                                                    <input id="encSyarat" type="hidden" value="{{ $encSyarat }}">
                                                     {{ $loop->iteration }}.
                                                 </td>
 
@@ -145,7 +146,7 @@
 
                                                 <td class="text-center">
                                                     <span class="nil_min">{{ $syrt->nil_min }}</span>
-                                                    <input type="number" class="form-control d-none nil_min" min="1" data-default="{{ $syrt->nil_min }}" value="{{ $syrt->nil_min }}">
+                                                    <input class="form-control d-none nil_min" data-default="{{ $syrt->nil_min }}" type="number" value="{{ $syrt->nil_min }}" min="1">
                                                 </td>
 
                                                 <td>
@@ -184,20 +185,37 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-sm btn-outline btnAksi" onclick="edit(this)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                                            <path d="M16 5l3 3"></path>
-                                                        </svg>
-                                                        Ubah
-                                                    </button>
+                                                    <div class="btnAksi">
+                                                        <button class="btn btn-sm btn-outline w-100" type="button" onclick="edit(this)">
+                                                            <svg class="icon icon-tabler icon-tabler-edit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                                <path d="M16 5l3 3"></path>
+                                                            </svg>
+                                                            Ubah
+                                                        </button>
+                                                        <!-- Btn hapus hanya ditampilkan jika syarat tidak terikat dengan data syarat_peserta -->
+                                                        @if (!$syrt->terikat_syarat_peserta)
+                                                            <button class="btn btn-sm btn-danger w-100 mt-2" type="button" onclick="deleteSyrt(this)">
+                                                                <svg class="icon icon-tabler icon-tabler-trash" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                    <path d="M4 7l16 0" />
+                                                                    <path d="M10 11l0 6" />
+                                                                    <path d="M14 11l0 6" />
+                                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                                </svg>
+                                                                Hapus
+                                                            </button>
+                                                        @endif
+                                                    </div>
 
                                                     <div class="d-none btnAksi">
-                                                        <button type="button" class="btn btn-success btn-sm w-100" onclick="update(this)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                        <button class="btn btn-success btn-sm w-100" type="button" onclick="update(this)">
+                                                            <svg class="icon icon-tabler icon-tabler-device-floppy" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                                 <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
@@ -206,8 +224,8 @@
                                                             </svg>
                                                             Simpan
                                                         </button>
-                                                        <button type="button" class="btn btn-danger btn-sm w-100 mt-2" onclick="cancel(this)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                        <button class="btn btn-secondary btn-sm w-100 mt-2" type="button" onclick="cancel(this)">
+                                                            <svg class="icon icon-tabler icon-tabler-x" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                                                 stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                                 <path d="M18 6l-12 12" />
@@ -238,7 +256,7 @@
                         $encSyarat = json_encode($beasiswa->only(['kd_jenis']));
                         $encSyarat = Crypt::encryptString($encSyarat);
                     @endphp
-                    <input type="hidden" id="encSyarat" value="{{ $encSyarat }}">
+                    <input id="encSyarat" type="hidden" value="{{ $encSyarat }}">
                     <span class="no"></span>
                 </td>
 
@@ -249,7 +267,7 @@
 
                 <td class="text-center">
                     <span class="nil_min d-none"></span>
-                    <input type="number" class="form-control nil_min" min="1" value="1">
+                    <input class="form-control nil_min" type="number" value="1" min="1">
                 </td>
 
                 <td>
@@ -279,20 +297,34 @@
                     </select>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-outline d-none btnAksi" onclick="edit(this)">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                            <path d="M16 5l3 3"></path>
-                        </svg>
-                        Ubah
-                    </button>
+                    <div class="btnAksi d-none">
+                        <button class="btn btn-sm btn-outline w-100" type="button" onclick="edit(this)">
+                            <svg class="icon icon-tabler icon-tabler-edit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                <path d="M16 5l3 3"></path>
+                            </svg>
+                            Ubah
+                        </button>
+                        <button class="btn btn-sm btn-danger w-100 mt-2" type="button" onclick="deleteSyrt(this)">
+                            <svg class="icon icon-tabler icon-tabler-trash" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 7l16 0" />
+                                <path d="M10 11l0 6" />
+                                <path d="M14 11l0 6" />
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                            </svg>
+                            Hapus
+                        </button>
+                    </div>
 
                     <div class="btnAksi">
-                        <button type="button" class="btn btn-success btn-sm w-100" onclick="save(this)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        <button class="btn btn-success btn-sm w-100" type="button" onclick="save(this)">
+                            <svg class="icon icon-tabler icon-tabler-device-floppy" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
@@ -301,8 +333,8 @@
                             </svg>
                             Simpan
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm w-100 mt-2" onclick="cancelAdd(this)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        <button class="btn btn-danger btn-sm w-100 mt-2" type="button" onclick="cancelAdd(this)">
+                            <svg class="icon icon-tabler icon-tabler-x" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M18 6l-12 12" />
@@ -456,6 +488,66 @@
             btnSimpan.removeClass('btn-loading');
         }
 
+        async function deleteSyrt(btn) {
+            // Ubah button hapus menjadi object jquery
+            const btnHapus = $(btn);
+
+            // Ambil tr dari button Simpan
+            const tr = btnHapus.closest('tr');
+
+            // Ambil data encSyarat yang ada di tr
+            const encSyarat = tr.find('#encSyarat').val();
+
+            // Tampilkan sweet alert
+            const {
+                value
+            } = await Swal.fire({
+                title: 'Peringatan?',
+                text: 'Apakah anda yakin ingin menghapus syarat ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, hapus'
+            })
+
+            // Jika batal, maka return
+            if (!value) return;
+
+            // Disable button Ubah dan Hapus
+            btnHapus.closest('div.btnAksi').find('button').prop('disabled', true);
+
+            // Ambil url dari input hidden
+            let url = $('#url_destroy').val();
+
+            try {
+                const response = await axios.delete(url, {
+                    data: {
+                        encSyarat: encSyarat,
+                    },
+                });
+                const data = await response.data;
+
+                // Jika sukses, maka hapus tr nya perlahan
+                tr.hide('slow', function() {
+                    tr.remove();
+                });
+
+                // Tampilkan Notif
+                Notiflix.Notify.success('Syarat berhasil dihapus', {
+                    position: 'right-bottom',
+                    timeout: 1000,
+                });
+
+            } catch (error) {
+                // Tampilkan notif
+                const errorMessage = error?.response?.data?.message ?? 'Maaf, ada kesalahan server';
+                Notiflix.Notify.failure(errorMessage, {
+                    position: 'right-bottom',
+                    timeout: 2000,
+                });
+            }
+        }
 
 
         function add() {
@@ -478,7 +570,7 @@
             const btnSimpan = $(btn);
 
             // Disable button Simpan dan Batal
-            const btnAksiSimpanDanBatal = btnSimpan.closest('div').find('button');
+            const btnAksiSimpanDanBatal = btnSimpan.closest('div.btnAksi').find('button');
             btnAksiSimpanDanBatal.prop('disabled', true);
 
             // Tambahkan loading pada button Simpan

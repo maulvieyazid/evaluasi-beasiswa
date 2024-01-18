@@ -57,6 +57,7 @@ Route::middleware(['set.semester', 'auth'])->group(function () {
 
 Route::post('/maintenance-syarat-beasiswa/store/json', [SyaratBeasiswaController::class, 'storeJson'])->name('store-json.master-syarat-beasiswa');
 Route::put('/maintenance-syarat-beasiswa/update/json', [SyaratBeasiswaController::class, 'updateJson'])->name('update-json.master-syarat-beasiswa');
+Route::delete('/maintenance-syarat-beasiswa/destroy/json', [SyaratBeasiswaController::class, 'destroyJson'])->name('destroy-json.master-syarat-beasiswa');
 
 
 // Route untuk mengambil data chart

@@ -41,6 +41,11 @@ class SyaratBeasiswa extends Model
         return $this->belongsTo(Departemen::class, 'bagian_validasi', 'kode');
     }
 
+    public function syarat_peserta()
+    {
+        return $this->belongsTo(SyaratPesertaBeasiswa::class, 'kd_syarat', 'kd_syarat');
+    }
+
 
 
 
