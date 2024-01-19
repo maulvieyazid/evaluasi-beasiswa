@@ -36,6 +36,7 @@ class Karyawan extends Authenticatable
         'is_kabag_penmaru',
         'is_aak',
         'is_kabag_aak',
+        'kabag_only',
     ];
 
 
@@ -102,6 +103,16 @@ class Karyawan extends Authenticatable
         return ($manager_id == $this->nik && $this->is_aak) ? 1 : 0;
     }
 
+    public function getKabagOnlyAttribute()
+    {
+        return in_array(1, [
+            $this->is_kabag_keuangan,
+            $this->is_kabag_kmhs,
+            $this->is_kabag_penmaru,
+            $this->is_kabag_aak,
+        ]);
+    }
+
 
     /**
      * The "booted" method of the model.
@@ -122,7 +133,7 @@ class Karyawan extends Authenticatable
     }
 
 
-    // Relationship
+    // RELATIONSHIP
     public function departemen()
     {
         return $this->belongsTo(Departemen::class, 'bagian', 'kode');
