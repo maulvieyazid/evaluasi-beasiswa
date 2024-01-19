@@ -96,9 +96,9 @@ class EvaluasiBeasiswaController extends Controller
         // Lakukan looping
         foreach ($semuaSyarat as $syarat) {
 
-            // Cek di masing2 syarat, apakah kd_syarat nya ada di data request syarat_beasiswa
+            // Cek di masing2 syarat, apakah kd_syarat nya ada di data request syarat_beasiswa_yg_dicentang
             // Kalo ada maka statusnya lolos, kalo gk ada maka statusnya tidak lolos
-            $status = in_array($syarat->kd_syarat, $req->syarat_beasiswa)
+            $status = in_array($syarat->kd_syarat, $req->syarat_beasiswa_yg_dicentang)
                 ? SyaratPesertaBeasiswa::LOLOS
                 : SyaratPesertaBeasiswa::TIDAK_LOLOS;
 

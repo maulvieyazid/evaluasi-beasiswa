@@ -20,8 +20,8 @@
 
                 <div class="row g-2 align-items-center">
                     <div class="col">
-                        <a href="{{ route('index-evaluasi-beasiswa') }}" class="btn btn-secondary mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        <a class="btn btn-secondary mb-3" href="{{ route('index-evaluasi-beasiswa') }}">
+                            <svg class="icon icon-tabler icon-tabler-arrow-narrow-left" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l14 0"></path>
@@ -50,7 +50,7 @@
                             <div class="card-body">
                                 <div class="card-title">Informasi Mahasiswa</div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
@@ -62,7 +62,7 @@
                                     <span class="ms-2">NIM</span> : <strong>{{ $penerima->nim }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id-badge-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-id-badge-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M7 12h3v4h-3z"></path>
@@ -74,7 +74,7 @@
                                     <span class="ms-2">Nama</span> : <strong>{{ $penerima->nama }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
@@ -83,7 +83,7 @@
                                     <span class="ms-2">Beasiswa</span> : <strong>{{ $penerima->{$jenis_beasiswa_pmb}->keterangan ?? null }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
@@ -92,7 +92,7 @@
                                     <span class="ms-2">Info Beasiswa</span> : <strong>{{ $penerima->{$jenis_beasiswa_pmb}->nama ?? null }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-calendar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
@@ -115,8 +115,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="subheader">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkup-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
+                                    <svg class="icon icon-tabler icon-tabler-checkup-list" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
                                         <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
@@ -136,7 +136,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="subheader">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stars" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-stars" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path
@@ -161,7 +161,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="subheader">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-award" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"></path>
@@ -180,11 +180,11 @@
 
 
                 <!-- Evaluasi Bagian Yang LOGIN -->
-                <form action="{{ route('simpan-detil-evaluasi') }}" method="POST" id="formEvaluasi">
-                    <input type="hidden" name="status_kesimpulan" id="status_kesimpulan">
-                    <input type="hidden" name="nim" id="nim" value="{{ $penerima->nim }}">
-                    <input type="hidden" name="kd_jns_bea_pmb" id="kd_jns_bea_pmb" value="{{ $penerima->{$jenis_beasiswa_pmb}->kd_jenis ?? null }}">
-                    <input type="hidden" name="smt" id="smt" value="{{ session('semester') }}">
+                <form id="formEvaluasi" action="{{ route('simpan-detil-evaluasi') }}" method="POST">
+                    <input id="status_kesimpulan" name="status_kesimpulan" type="hidden">
+                    <input id="nim" name="nim" type="hidden" value="{{ $penerima->nim }}">
+                    <input id="kd_jns_bea_pmb" name="kd_jns_bea_pmb" type="hidden" value="{{ $penerima->{$jenis_beasiswa_pmb}->kd_jenis ?? null }}">
+                    <input id="smt" name="smt" type="hidden" value="{{ session('semester') }}">
 
                     @csrf
 
@@ -240,7 +240,9 @@
                                                 @endphp
 
                                                 <label class="form-selectgroup-item flex-fill">
-                                                    <input type="checkbox" name="syarat_beasiswa[]" value="{{ $syarat->kd_syarat }}" class="form-selectgroup-input" {{ $checked }}>
+                                                    <!-- Checkbox -->
+                                                    <input class="form-selectgroup-input" name="syarat_beasiswa_yg_dicentang[]" type="checkbox" value="{{ $syarat->kd_syarat }}" {{ $checked }}>
+
                                                     <div class="form-selectgroup-label d-flex align-items-center p-3">
                                                         <div class="me-3">
                                                             <span class="form-selectgroup-check"></span>
@@ -259,7 +261,7 @@
                                 </div>
                                 <div class="card-footer">
                                     @if ($syaratUser->count() > 0)
-                                        <button type="button" class="btn btn-success" onclick="simpan()">
+                                        <button class="btn btn-success" type="button" onclick="simpan()">
                                             Simpan
                                         </button>
                                     @endif
@@ -296,11 +298,11 @@
                                                 // Kalo gk null, maka tambahkan string "Bagian", lalu ubah agar kapital di tiap huruf
                                                 $nama_bagian = $nama_bagian ? 'Bagian ' . ucfirst(strtolower($nama_bagian)) : 'Lainnya';
                                             @endphp
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false">
+                                            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-4" type="button" aria-expanded="false">
                                                 Evaluasi {{ $nama_bagian }}
                                             </button>
                                         </h2>
-                                        <div id="collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                                        <div class="accordion-collapse collapse" id="collapse-4" data-bs-parent="#accordion-example">
                                             <div class="accordion-body pt-0">
                                                 <div class="">
                                                     <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
@@ -317,7 +319,7 @@
 
                                                             <label class="form-selectgroup-item flex-fill">
 
-                                                                <input type="checkbox" value="{{ $syt->kd_syarat }}" class="form-selectgroup-input" name="syarat_lain[]" disabled {{ $checked }}>
+                                                                <input class="form-selectgroup-input" name="syarat_lain[]" type="checkbox" value="{{ $syt->kd_syarat }}" disabled {{ $checked }}>
 
                                                                 <div class="form-selectgroup-label d-flex align-items-center p-3" style="border-color: transparent; cursor: default;">
                                                                     <div class="me-3">
@@ -357,8 +359,8 @@
 @push('js')
     <script>
         function simpan() {
-            // Ambil semua checkbox yang beratribut name="syarat_beasiswa[]"
-            let checkboxes = document.querySelectorAll('input[name="syarat_beasiswa[]"]');
+            // Ambil semua checkbox yang beratribut name="syarat_beasiswa_yg_dicentang[]"
+            let checkboxes = document.querySelectorAll('input[name="syarat_beasiswa_yg_dicentang[]"]');
 
             // Periksa apakah semua checkbox nya tercentang
             let semuaTercentang = [...checkboxes].every(checkbox => checkbox.checked);
