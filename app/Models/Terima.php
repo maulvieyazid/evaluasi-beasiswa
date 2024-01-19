@@ -35,6 +35,11 @@ class Terima extends Model
         return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
     }
 
+    public function his_mf()
+    {
+        return $this->hasMany(HisMf::class, 'mhs_nim', 'nim');
+    }
+
     public function jenis_beasiswa_pmb1()
     {
         return $this->belongsTo(JenisBeasiswaPmb::class, 'vbeasiswa1', 'kd_jenis');

@@ -20,12 +20,15 @@ class EvaluasiBeasiswaController extends Controller
     public function index()
     {
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
-            ->load('mahasiswa', 'jenis_beasiswa_pmb1', 'jenis_beasiswa_pmb2', 'syarat_peserta.syarat');
+            ->load('mahasiswa', 'jenis_beasiswa_pmb1', 'jenis_beasiswa_pmb2', 'syarat_peserta.syarat', 'his_mf');
 
         // Hapus / Buang penerima beasiswa yang SUDAH dievaluasi oleh bagian yang LOGIN
         $semuaPenerima = $semuaPenerima->reject(function ($penerima, $key) {
             // return FALSE : artinya penerima beasiswa TIDAK DIBUANG
             // return TRUE : artinya penerima beasiswa DIBUANG
+
+            // Kalau mhs sudah menempuh lebih dari 8 semester, maka mhs tidak bisa mendapatkan beasiswa lagi
+            if ($penerima->his_mf->count() > 8) return true;
 
             // Kalau jumlah syarat_peserta nya sama dengan 0, berarti belum ada evaluasi
             if ($penerima->syarat_peserta->count() == 0) return false;
