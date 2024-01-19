@@ -144,18 +144,24 @@ class SyaratBeasiswaController extends Controller
 
         $encSyarat = json_decode($encSyarat, false);
 
+        // Ambil Syarat Beasiswa dengan jenis_beasiswa dan kd_syarat tertentu
         $syarat = SyaratBeasiswa::query()
             ->where('jenis_beasiswa', $encSyarat->jenis_beasiswa)
             ->where('kd_syarat', $encSyarat->kd_syarat)
             ->withCount('syarat_peserta as terikat_syarat_peserta')
             ->first();
 
+        $respon = ['status' => 'success'];
+
+        // Kalau syarat nya gk ada, maka langsung return saja
+        if (!$syarat) return response()->json($respon);
+
+        // Kalau masih terikat dengan Syarat Peserta Beasiswa, maka langsung return juga
         if ($syarat->terikat_syarat_peserta) return abort(400, 'Tidak bisa menghapus syarat yang sudah terisi oleh Evaluator');
 
+        // Hapus Syarat Beasiswa
         $syarat->delete();
 
-        return response()->json([
-            'status' => 'success',
-        ]);
+        return response()->json($respon);
     }
 }
