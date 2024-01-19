@@ -13,6 +13,8 @@ class Departemen extends Model
 
     const KEUANGAN = 28;
 
+    const PENMARU = 11;
+
     protected $table = 'V_DEPARTEMEN1';
 
     public $timestamps = false;

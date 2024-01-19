@@ -32,6 +32,8 @@ class Karyawan extends Authenticatable
         'is_kabag_keuangan',
         'is_kmhs',
         'is_kabag_kmhs',
+        'is_penmaru',
+        'is_kabag_penmaru',
     ];
 
 
@@ -72,6 +74,18 @@ class Karyawan extends Authenticatable
         $manager_id = $this->departemen->manager_id ?? null;
 
         return ($manager_id == $this->nik && $this->is_kmhs) ? 1 : 0;
+    }
+
+    public function getIsPenmaruAttribute()
+    {
+        return $this->bagian == Departemen::PENMARU ? 1 : 0;
+    }
+
+    public function getIsKabagPenmaruAttribute()
+    {
+        $manager_id = $this->departemen->manager_id ?? null;
+
+        return ($manager_id == $this->nik && $this->is_penmaru) ? 1 : 0;
     }
 
 
