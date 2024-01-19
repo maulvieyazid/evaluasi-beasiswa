@@ -180,7 +180,7 @@
 
 
                 <!-- Evaluasi Bagian Yang LOGIN -->
-                <form id="formEvaluasi" action="{{ route('simpan-detil-evaluasi') }}" method="POST">
+                <form id="formEvaluasi" action="{{ auth()->user()->kabag_only ? route('simpan-detil-evaluasi') : null }}" method="POST">
                     <input id="status_kesimpulan" name="status_kesimpulan" type="hidden">
                     <input id="nim" name="nim" type="hidden" value="{{ $penerima->nim }}">
                     <input id="kd_jns_bea_pmb" name="kd_jns_bea_pmb" type="hidden" value="{{ $penerima->{$jenis_beasiswa_pmb}->kd_jenis ?? null }}">
@@ -241,7 +241,8 @@
 
                                                 <label class="form-selectgroup-item flex-fill">
                                                     <!-- Checkbox -->
-                                                    <input class="form-selectgroup-input" name="syarat_beasiswa_yg_dicentang[]" type="checkbox" value="{{ $syarat->kd_syarat }}" {{ $checked }}>
+                                                    <input class="form-selectgroup-input" name="syarat_beasiswa_yg_dicentang[]" type="checkbox" value="{{ $syarat->kd_syarat }}" {{ $checked }}
+                                                        {{ auth()->user()->kabag_only ? null : 'disabled' }}>
 
                                                     <div class="form-selectgroup-label d-flex align-items-center p-3">
                                                         <div class="me-3">
@@ -260,7 +261,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    @if ($syaratUser->count() > 0)
+                                    @if ($syaratUser->count() > 0 && auth()->user()->kabag_only)
                                         <button class="btn btn-success" type="button" onclick="simpan()">
                                             Simpan
                                         </button>
