@@ -10,6 +10,8 @@ class JenisBeasiswaPmb extends Model
 {
     use HasFactory, Compoships;
 
+    const KULIAH_0_RUPIAH = 25;
+
     protected $table = 'BOBBY21.V_JNS_BEAPMB';
 
     public $timestamps = false;

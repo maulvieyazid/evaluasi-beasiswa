@@ -154,17 +154,28 @@ class EvaluasiBeasiswaController extends Controller
             // Kalo data Jenis Beasiswa PMB nya ada, dan status_kesimpulan nya adalah LOLOS, maka
             // insert ke model BeasiswaPenmaru
             if ($jenis_beasiswa_pmb && $req->status_kesimpulan == KesimpulanBeasiswa::LOLOS) {
+                // Ambil prosentase diskon spp
+                $prosentase = $this->getProsentaseBeaPenmaru($jenis_beasiswa_pmb);
+
                 BeasiswaPenmaru::create([
                     'mhs_nim'      => $req->nim,
                     'semester'     => $req->smt,
                     'jns_beasiswa' => $jenis_beasiswa_pmb->jns_bea_aak->kode, // <- Kode Jenis Beasiswa AAK
-                    'prosentase'   => $jenis_beasiswa_pmb->disc_spp,
+                    'prosentase'   => $prosentase,
                 ]);
             }
         }
 
         return redirect()->route('index-evaluasi-beasiswa')
             ->with('success', 'Evaluasi Beasiswa berhasil disimpan');
+    }
+
+    public function getProsentaseBeaPenmaru($jenis_beasiswa_pmb)
+    {
+        // WARNING : Permintaan PENMARU, jika beasiswa kuliah 0 rupiah, maka prosentase nya di set ke 0
+        if ($jenis_beasiswa_pmb->kd_jenis == JenisBeasiswaPmb::KULIAH_0_RUPIAH) return 0;
+
+        return $jenis_beasiswa_pmb->disc_spp;
     }
 
 
