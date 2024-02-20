@@ -9,6 +9,7 @@ use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
 use App\Models\LogKesimpulan;
 use App\Models\LogSyarat;
+use App\Models\SimpulBagian;
 use App\Models\SyaratBeasiswa;
 use App\Models\SyaratPesertaBeasiswa;
 use App\Models\Terima;
@@ -96,6 +97,9 @@ class EvaluasiBeasiswaController extends Controller
             ->where('bagian_validasi', auth()->user()->bagian)
             ->get();
 
+        // Ini sebagai penanda apakah mhs lolos evaluasi atau tidak
+        $isMhsLolosEvaluasi = true;
+
         // Lakukan looping
         foreach ($semuaSyarat as $syarat) {
 
@@ -104,6 +108,9 @@ class EvaluasiBeasiswaController extends Controller
             $status = in_array($syarat->kd_syarat, $req->syarat_beasiswa_yg_dicentang)
                 ? SyaratPesertaBeasiswa::LOLOS
                 : SyaratPesertaBeasiswa::TIDAK_LOLOS;
+
+            // Kalo ada status yang tidak lolos, berarti mhs ini tidak lolos evaluasi
+            if ($status == SyaratPesertaBeasiswa::TIDAK_LOLOS) $isMhsLolosEvaluasi = false;
 
             // Insert ke SyaratPesertaBeasiswa
             SyaratPesertaBeasiswa::create([
@@ -126,6 +133,18 @@ class EvaluasiBeasiswaController extends Controller
                 'sts_new'      => $status,
                 'ket_old'      => null,
                 'ket_new'      => null,
+            ]);
+        }
+
+        // Kalo mhs tidak lolos evaluasi, maka insertkan alasan tidak lolos nya ke SimpulBagian
+        if (!$isMhsLolosEvaluasi) {
+            SimpulBagian::create([
+                'bagian'       => auth()->user()->bagian,
+                'mhs_nim'      => $req->nim,
+                'jns_beasiswa' => $req->kd_jns_bea_pmb,
+                'smt'          => $req->smt,
+                'status'       => $status,
+                'keterangan'   => $req->alasan_tdk_lolos,
             ]);
         }
 

@@ -185,6 +185,7 @@
                     <input id="nim" name="nim" type="hidden" value="{{ $penerima->nim }}">
                     <input id="kd_jns_bea_pmb" name="kd_jns_bea_pmb" type="hidden" value="{{ $penerima->{$jenis_beasiswa_pmb}->kd_jenis ?? null }}">
                     <input id="smt" name="smt" type="hidden" value="{{ session('semester') }}">
+                    <input id="alasan_tdk_lolos" name="alasan_tdk_lolos" type="hidden">
 
                     @csrf
 
@@ -445,15 +446,12 @@
 
             if (!value) return
 
-            // Teks yang harus diinputkan oleh user untuk melanjutkan
-            const passcode = '{{ $penerima->nim }}/{{ $penerima->nama }}';
-
             judul = `
-                <span>Silahkan masukkan teks dibawah ini untuk lanjut menyimpan evaluasi.</span>
-                <br>
-                <br>
-                <span class='fw-bolder'>${passcode}</span>
+                Mohon sebutkan <span class="fw-bold">alasan</span> anda <span class="fw-bold">TIDAK MELOLOSKAN</span> mahasiswa ybs.
             `;
+
+            // Untuk menampung jawaban alasan
+            let alasan = "";
 
             const {
                 value: lanjutkan
@@ -466,15 +464,15 @@
                 confirmButtonText: 'Simpan',
                 inputValidator: (value) => {
                     // Kalo isian nya kosong
-                    if (!value) return 'Isikan teks diatas untuk melanjutkan.'
-                    // Kalo isian nya nggak sama
-                    if (value != passcode) return 'Teks tidak sesuai. Mohon perhatikan besar dan kecil nya huruf, spasi, atau tanda baca apapun.';
+                    if (!value) return 'Alasan harus diisi.'
+                    alasan = value;
                 }
             })
 
             if (!lanjutkan) return
 
             document.getElementById('status_kesimpulan').value = '{{ KesimpulanBeasiswa::TIDAK_LOLOS }}';
+            document.getElementById('alasan_tdk_lolos').value = alasan;
             document.getElementById('formEvaluasi').submit();
         }
     </script>
