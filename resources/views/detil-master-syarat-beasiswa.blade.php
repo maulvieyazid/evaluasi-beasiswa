@@ -94,20 +94,6 @@
                 </div>
 
 
-                <div class="row mt-3">
-                    <div class="col text-end">
-                        <button class="btn btn-primary" type="button" onclick="add()">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M12 5l0 14"></path>
-                                <path d="M5 12l14 0"></path>
-                            </svg>
-                            Tambah Syarat
-                        </button>
-                    </div>
-                </div>
-
                 <div class="row mt-2">
                     <div class="col">
                         <div class="card">
@@ -157,6 +143,9 @@
                                                     <select class="form-select d-none bagian_validasi" data-default="{{ $syrt->bagian_validasi }}">
                                                         <option value="{{ Departemen::KMHS }}" {{ $syrt->bagian_validasi == Departemen::KMHS ? 'selected' : '' }}>
                                                             Kemahasiswaan
+                                                        </option>
+                                                        <option value="{{ Departemen::AAK }}" {{ $syrt->bagian_validasi == Departemen::AAK ? 'selected' : '' }}>
+                                                            AAK
                                                         </option>
                                                         <option value="{{ Departemen::KEUANGAN }}" {{ $syrt->bagian_validasi == Departemen::KEUANGAN ? 'selected' : '' }}>
                                                             Keuangan
@@ -244,6 +233,20 @@
                     </div>
                 </div>
 
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <button class="btn btn-primary" type="button" onclick="add()">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 5l0 14"></path>
+                                <path d="M5 12l14 0"></path>
+                            </svg>
+                            Tambah Syarat
+                        </button>
+                    </div>
+                </div>
+
+
 
             </div>
         </div>
@@ -276,6 +279,9 @@
                     <select class="form-select bagian_validasi">
                         <option value="{{ Departemen::KMHS }}" selected>
                             Kemahasiswaan
+                        </option>
+                        <option value="{{ Departemen::AAK }}">
+                            AAK
                         </option>
                         <option value="{{ Departemen::KEUANGAN }}">
                             Keuangan
