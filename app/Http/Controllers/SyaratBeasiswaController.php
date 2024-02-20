@@ -89,6 +89,7 @@ class SyaratBeasiswaController extends Controller
         $allowedBagianValidasi = [
             Departemen::KEUANGAN,
             Departemen::KMHS,
+            Departemen::AAK,
         ];
         // Kalo value bagian_validasi nya bukan salah satu item array, maka default kan ke keuangan saja
         $bagian_validasi = in_array($req->bagian_validasi, $allowedBagianValidasi) ? $req->bagian_validasi : Departemen::KEUANGAN;
