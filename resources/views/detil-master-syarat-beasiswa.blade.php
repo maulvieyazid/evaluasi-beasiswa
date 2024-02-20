@@ -2,11 +2,6 @@
 
 @section('html_title', 'Maintenance Syarat Beasiswa')
 
-@push('css')
-    <!-- Notiflix Notify -->
-    <script src="{{ asset('assets/libs/notiflix/notiflix-notify-aio-3.2.6.min.js') }}" defer></script>
-@endpush
-
 @php
     use App\Models\SyaratBeasiswa;
     use App\Models\Departemen;
@@ -359,6 +354,9 @@
 @endsection
 
 @push('js')
+    <!-- Notiflix Notify -->
+    <script src="{{ asset('assets/libs/notiflix/notiflix-notify-aio-3.2.6.min.js') }}"></script>
+
     <script>
         // Ini adalah kumpulan class dari elemen-elemen input dan span yang ada di tabel
         // Class ini harus sama dengan kolom tabel yang ada di database, supaya lebih mudah untuk melakukan manipulasi data

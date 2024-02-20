@@ -5,12 +5,8 @@
 @push('css')
     <!-- Datatables Bootstrap 5 Theme -->
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables/dataTables.bootstrap5.min.css') }}" />
-
-    <!-- Datatables -->
-    <script src="{{ asset('assets/libs/datatables/jquery.dataTables.min.js') }}" defer></script>
-    <!-- Datatables Bootstrap 5 Theme -->
-    <script src="{{ asset('assets/libs/datatables/dataTables.bootstrap5.min.js') }}" defer></script>
 @endpush
+
 
 @php
     use App\Models\Terima;
@@ -91,12 +87,16 @@
 @endsection
 
 @push('js')
+    <!-- Datatables -->
+    <script src="{{ asset('assets/libs/datatables/jquery.dataTables.min.js') }}"></script>
+    <!-- Datatables Bootstrap 5 Theme -->
+    <script src="{{ asset('assets/libs/datatables/dataTables.bootstrap5.min.js') }}"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function(e) {
+        $(document).ready(function() {
             $('#tabelBeasiswa').DataTable({
                 order: [] // <- Mematikan order saat inisialisasi
             });
-
         });
     </script>
 @endpush
