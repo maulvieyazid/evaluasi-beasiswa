@@ -297,7 +297,7 @@
                                                 // Ambil nama bagian dari db
                                                 $nama_bagian = Departemen::where('kode', $kd_bagian)->first()->nama ?? null;
                                                 // Kalo gk null, maka tambahkan string "Bagian", lalu ubah agar kapital di tiap huruf
-                                                $nama_bagian = $nama_bagian ? 'Bagian ' . ucfirst(strtolower($nama_bagian)) : 'Lainnya';
+                                                $nama_bagian = $nama_bagian ? 'Bagian ' . ucwords(strtolower($nama_bagian)) : 'Lainnya';
                                             @endphp
                                             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-4" type="button" aria-expanded="false">
                                                 Evaluasi {{ $nama_bagian }}
@@ -327,13 +327,19 @@
                                                                         <span class="form-selectgroup-check"></span>
                                                                     </div>
                                                                     <div class="form-selectgroup-label-content d-flex align-items-center">
-                                                                        <div class="font-weight-medium text-muted">
+                                                                        <div class="font-weight-medium">
                                                                             {{ $syt->nm_syarat }}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </label>
                                                         @endforeach
+
+                                                        <!-- Alasan bila Bagian tidak meloloskan mahasiswa -->
+                                                        <div class="ps-4 pt-2">
+                                                            <span class="fw-bold">Alasan tidak meloloskan : </span>
+                                                            <p>Mahasiswa tidak berkelakuan baik, misalnya</p>
+                                                        </div>
 
                                                     </div>
                                                 </div>
