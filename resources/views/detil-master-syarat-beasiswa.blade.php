@@ -100,12 +100,12 @@
                                 <table class="table table-striped table-hover table-bordered" id="tabelSyarat">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">No</th>
-                                            <th class="text-center">Nama Syarat</th>
-                                            <th class="text-center w-0">Nilai Minimal</th>
-                                            <th class="text-center">Validator</th>
-                                            <th class="text-center">Otomatis Baca Nilai</th>
-                                            <th class="text-center">Aksi</th>
+                                            <th class="text-center text-dark bg-primary-subtle">No</th>
+                                            <th class="text-center text-dark bg-primary-subtle">Nama Syarat</th>
+                                            <th class="text-center text-dark bg-primary-subtle w-0">Nilai Minimal</th>
+                                            <th class="text-center text-dark bg-primary-subtle">Validator</th>
+                                            <th class="text-center text-dark bg-primary-subtle">Otomatis Baca Nilai</th>
+                                            <th class="text-center text-dark bg-primary-subtle">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
