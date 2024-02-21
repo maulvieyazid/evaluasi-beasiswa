@@ -6,6 +6,8 @@ use App\Models\HisMf;
 use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
 use App\Models\Mahasiswa;
+use App\Models\SimpulBagian;
+use App\Models\SyaratBeasiswa;
 use App\Models\SyaratPesertaBeasiswa;
 use App\Models\Terima;
 use App\Models\Tsnilmaba;
@@ -83,11 +85,22 @@ class HistoriController extends Controller
 
         $sskm = Tsnilmaba::where('nim', $nim)->sum('nilai');
 
-        $semuaSyarat = SyaratPesertaBeasiswa::query()
+        // Data master syarat beasiswa
+        $semuaSyarat = SyaratBeasiswa::query()
+            ->where('jenis_beasiswa', $kd_jns_bea_pmb)
+            ->get();
+
+        // Nilai evaluasi dari master syarat beasiswa
+        $semuaSyaratPeserta = SyaratPesertaBeasiswa::query()
             ->where('mhs_nim', $nim)
             ->where('jns_beasiswa', $kd_jns_bea_pmb)
             ->where('smt', $smt)
-            ->with('syarat')
+            ->get();
+
+        $semuaSimpulBagian = SimpulBagian::query()
+            ->where('mhs_nim', $nim)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
+            ->where('smt', $smt)
             ->get();
 
         return view('detil-histori', compact(
@@ -97,6 +110,8 @@ class HistoriController extends Controller
             'hismf',
             'sskm',
             'semuaSyarat',
+            'semuaSyaratPeserta',
+            'semuaSimpulBagian',
             'smt'
         ));
     }

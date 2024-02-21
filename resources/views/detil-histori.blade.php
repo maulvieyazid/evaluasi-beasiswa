@@ -5,6 +5,7 @@
 @php
     use App\Models\SyaratPesertaBeasiswa;
     use App\Models\KesimpulanBeasiswa;
+    use App\Models\SimpulBagian;
 @endphp
 
 @section('content')
@@ -18,8 +19,8 @@
 
                 <div class="row g-2 align-items-center">
                     <div class="col">
-                        <a href="{{ route('index-histori') }}" class="btn btn-secondary mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        <a class="btn btn-secondary mb-3" href="{{ route('index-histori') }}">
+                            <svg class="icon icon-tabler icon-tabler-arrow-narrow-left" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l14 0"></path>
@@ -48,7 +49,7 @@
                             <div class="card-body">
                                 <div class="card-title">Informasi Mahasiswa</div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
@@ -60,7 +61,7 @@
                                     <span class="ms-2">NIM</span> : <strong>{{ $mhs->nim }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id-badge-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-id-badge-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M7 12h3v4h-3z"></path>
@@ -72,7 +73,7 @@
                                     <span class="ms-2">Nama</span> : <strong>{{ $mhs->nama }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
@@ -81,7 +82,7 @@
                                     <span class="ms-2">Beasiswa</span> : <strong>{{ $jenis_bea_pmb->keterangan }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
@@ -90,7 +91,7 @@
                                     <span class="ms-2">Info Beasiswa</span> : <strong>{{ $jenis_bea_pmb->nama }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-calendar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
@@ -103,8 +104,8 @@
                                     <span class="ms-2">Semester</span> : <strong>{{ $smt }}</strong>
                                 </div>
                                 <div class="mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkbox" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
+                                    <svg class="icon icon-tabler icon-tabler-checkbox" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M9 11l3 3l8 -8"></path>
                                         <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
@@ -133,7 +134,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="subheader">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkup-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    <svg class="icon icon-tabler icon-tabler-checkup-list" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
@@ -154,7 +155,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="subheader">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stars" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-stars" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path
@@ -179,7 +180,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="subheader">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    <svg class="icon icon-tabler icon-tabler-award" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"></path>
@@ -208,19 +209,25 @@
                                         </label>
 
                                         <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
-                                            @foreach ($semuaSyarat as $syaratPeserta)
+                                            @foreach ($semuaSyarat as $syarat)
                                                 @php
-                                                    $checked = $syaratPeserta->status == SyaratPesertaBeasiswa::LOLOS ? 'checked' : '';
+                                                    // Ambil nilai status dari syarat peserta beasiswa jika ada
+                                                    // Kalau tidak ada, maka kembalikan null
+                                                    $syarat_peserta_beasiswa = $semuaSyaratPeserta->where('kd_syarat', $syarat->kd_syarat)->first()->status ?? null;
+
+                                                    // Kalau status nya adalah lolos, maka checkbox nya tercentang
+                                                    $checked = $syarat_peserta_beasiswa == SyaratPesertaBeasiswa::LOLOS ? 'checked' : '';
                                                 @endphp
+
                                                 <label class="form-selectgroup-item flex-fill">
-                                                    <input type="checkbox" name="syarat_beasiswa[]" value="{{ $syaratPeserta->kd_syarat }}" class="form-selectgroup-input" disabled {{ $checked }}>
+                                                    <input class="form-selectgroup-input" name="syarat_beasiswa[]" type="checkbox" value="{{ $syarat->kd_syarat }}" disabled {{ $checked }}>
                                                     <div class="form-selectgroup-label d-flex align-items-center p-3" style="border-color: transparent; cursor: default;">
                                                         <div class="me-3">
                                                             <span class="form-selectgroup-check"></span>
                                                         </div>
                                                         <div class="form-selectgroup-label-content d-flex align-items-center">
                                                             <div class="font-weight-medium">
-                                                                {{ $syaratPeserta->syarat->nm_syarat }}
+                                                                {{ $syarat->nm_syarat }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -234,6 +241,77 @@
                         </div>
                     </div>
                 </form>
+
+
+                @php
+                    // Ambil SimpulBagian yang status nya lolos
+                    // Ini artinya adalah apa alasan Kabag Keuangan meloloskan mhs tersebut
+                    $simpulBagianLolos = $semuaSimpulBagian->where('status', SimpulBagian::LOLOS);
+                @endphp
+                @if ($simpulBagianLolos->count())
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="">
+                                        <label class="form-label">
+                                            Bagian yang MELOLOSKAN
+                                        </label>
+
+                                        @foreach ($simpulBagianLolos as $simpulBagian)
+                                            <div class="ps-4 pt-2">
+                                                @php
+                                                    $nama_bagian = ucwords(strtolower($simpulBagian->departemen->nama));
+                                                @endphp
+                                                <span class="fw-bold">{{ $nama_bagian }} : </span> &nbsp;
+
+                                                <span>
+                                                    {{ $simpulBagian->keterangan }}
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @php
+                    // Ambil SimpulBagian yang status nya tidak lolos
+                    // Ini adalah alasan-alasan dari bagian-bagian lain yang tidak meloloskan mhs tersebut
+                    // karena tidak mencentang semua syarat
+                    $simpulBagianTidakLolos = $semuaSimpulBagian->where('status', SimpulBagian::TIDAK_LOLOS);
+                @endphp
+                @if ($simpulBagianTidakLolos->count())
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="">
+                                        <label class="form-label">
+                                            Bagian yang TIDAK MELOLOSKAN
+                                        </label>
+
+                                        @foreach ($simpulBagianTidakLolos as $simpulBagian)
+                                            <div class="ps-4 pt-2">
+                                                @php
+                                                    $nama_bagian = ucwords(strtolower($simpulBagian->departemen->nama));
+                                                @endphp
+                                                <span class="fw-bold">{{ $nama_bagian }} : </span> &nbsp;
+
+                                                <span>
+                                                    {{ $simpulBagian->keterangan }}
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
 
             </div>
         </div>

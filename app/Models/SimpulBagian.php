@@ -12,6 +12,9 @@ class SimpulBagian extends Model
 {
     use HasFactory, Compoships;
 
+    const LOLOS = 'Y';
+    const TIDAK_LOLOS = 'T';
+
     protected $table = 'BOBBY21.V_BEASISWA_SIMPULBAGIAN';
 
     public $timestamps = false;
@@ -31,6 +34,13 @@ class SimpulBagian extends Model
     protected $casts = [
         'tgl' => 'datetime',
     ];
+
+
+    // RELATIONSHIP
+    public function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'bagian', 'kode');
+    }
 
 
 
