@@ -336,11 +336,20 @@
                                                             </label>
                                                         @endforeach
 
-                                                        <!-- Alasan bila Bagian tidak meloloskan mahasiswa -->
-                                                        <div class="ps-4 pt-2">
-                                                            <span class="fw-bold">Alasan tidak meloloskan : </span>
-                                                            <p>Mahasiswa tidak berkelakuan baik, misalnya</p>
-                                                        </div>
+                                                        @php
+                                                            $simpulBagian = $penerima->simpul_bagian->where('bagian', $kd_bagian)->first();
+                                                        @endphp
+
+                                                        <!-- Jika Simpul Bagian ada isi nya, maka tampilkan alasannya -->
+                                                        @if ($simpulBagian)
+                                                            <!-- Alasan bila Bagian tidak meloloskan mahasiswa -->
+                                                            <div class="ps-4 pt-2">
+                                                                <span class="fw-bold">Alasan tidak meloloskan : </span>
+                                                                <p>
+                                                                    {{ $simpulBagian->keterangan }}
+                                                                </p>
+                                                            </div>
+                                                        @endif
 
                                                     </div>
                                                 </div>
