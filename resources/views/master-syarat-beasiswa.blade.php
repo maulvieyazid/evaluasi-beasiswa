@@ -8,10 +8,6 @@
 @endpush
 
 
-@php
-    use App\Models\Terima;
-@endphp
-
 @section('content')
     <div class="page-wrapper">
 

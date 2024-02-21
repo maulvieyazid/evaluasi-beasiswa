@@ -16,7 +16,7 @@ class HistoriController extends Controller
     public function index()
     {
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
-            ->load('mahasiswa', 'jenis_beasiswa_pmb1', 'jenis_beasiswa_pmb2', 'syarat_peserta.syarat', 'kesimpulan_beasiswa');
+            ->load('mahasiswa', 'jenis_beasiswa_pmb', 'syarat_peserta.syarat', 'kesimpulan_beasiswa');
 
         // Hapus / Buang penerima beasiswa yang BELUM dievaluasi oleh bagian yang LOGIN
         // ATAU

@@ -2,10 +2,6 @@
 
 @section('html_title', 'Evaluasi Beasiswa')
 
-@php
-    use App\Models\Terima;
-@endphp
-
 @section('content')
     <div class="page-wrapper">
 
@@ -50,15 +46,11 @@
                                                 <td>{{ $penerima->mahasiswa->nama ?? null }}</td>
                                                 <td>{{ session('semester') }}</td>
                                                 <td>
-                                                    @php
-                                                        // Mengambil nama relasi Jenis Beasiswa PMB yang sesuai
-                                                        $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
-                                                    @endphp
-                                                    {{ $penerima->{$jenis_beasiswa_pmb}->keterangan ?? null }}
+                                                    {{ $penerima->jenis_beasiswa_pmb->keterangan ?? null }}
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('detil-evaluasi-beasiswa', [$penerima->nim]) }}" class="btn btn-outline-primary w-100 btn-sm">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    <a class="btn btn-outline-primary w-100 btn-sm" href="{{ route('detil-evaluasi-beasiswa', [$penerima->nim]) }}">
+                                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                             stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M9 11l3 3l8 -8"></path>

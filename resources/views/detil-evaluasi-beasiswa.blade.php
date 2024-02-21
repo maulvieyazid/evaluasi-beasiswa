@@ -80,7 +80,7 @@
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
                                         <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
                                     </svg>
-                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $penerima->{$jenis_beasiswa_pmb}->keterangan ?? null }}</strong>
+                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $penerima->jenis_beasiswa_pmb->keterangan ?? null }}</strong>
                                 </div>
                                 <div class="mb-2">
                                     <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -89,7 +89,7 @@
                                         <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
                                         <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
                                     </svg>
-                                    <span class="ms-2">Info Beasiswa</span> : <strong>{{ $penerima->{$jenis_beasiswa_pmb}->nama ?? null }}</strong>
+                                    <span class="ms-2">Info Beasiswa</span> : <strong>{{ $penerima->jenis_beasiswa_pmb->nama ?? null }}</strong>
                                 </div>
                                 <div class="mb-2">
                                     <svg class="icon icon-tabler icon-tabler-calendar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -183,7 +183,7 @@
                 <form id="formEvaluasi" action="{{ auth()->user()->kabag_only ? route('simpan-detil-evaluasi') : null }}" method="POST">
                     <input id="status_kesimpulan" name="status_kesimpulan" type="hidden">
                     <input id="nim" name="nim" type="hidden" value="{{ $penerima->nim }}">
-                    <input id="kd_jns_bea_pmb" name="kd_jns_bea_pmb" type="hidden" value="{{ $penerima->{$jenis_beasiswa_pmb}->kd_jenis ?? null }}">
+                    <input id="kd_jns_bea_pmb" name="kd_jns_bea_pmb" type="hidden" value="{{ $penerima->jenis_beasiswa_pmb->kd_jenis ?? null }}">
                     <input id="smt" name="smt" type="hidden" value="{{ session('semester') }}">
                     <input id="alasan_tdk_lolos" name="alasan_tdk_lolos" type="hidden">
 

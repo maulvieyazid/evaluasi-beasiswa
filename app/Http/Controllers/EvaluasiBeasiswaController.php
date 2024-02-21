@@ -21,7 +21,7 @@ class EvaluasiBeasiswaController extends Controller
     public function index()
     {
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
-            ->load('mahasiswa', 'jenis_beasiswa_pmb1', 'jenis_beasiswa_pmb2', 'syarat_peserta.syarat', 'his_mf');
+            ->load('mahasiswa', 'jenis_beasiswa_pmb', 'syarat_peserta.syarat', 'his_mf');
 
         // Hapus / Buang penerima beasiswa yang SUDAH dievaluasi oleh bagian yang LOGIN
         $semuaPenerima = $semuaPenerima->reject(function ($penerima, $key) {
@@ -59,11 +59,8 @@ class EvaluasiBeasiswaController extends Controller
         // Kalo penerima nya gk ada, langsung redirect kembali aja
         if (!$penerima) return redirect()->back();
 
-        // Ambil nama relasi Jenis Beasiswa PMB nya penerima
-        $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
-
-        // Load relasi SyaratPesertaBeasiswa dan JenisBeasiswaPmb nya penerima
-        $penerima = $penerima->load(['syarat_peserta', $jenis_beasiswa_pmb]);
+        // Load relasi SyaratPesertaBeasiswa, JenisBeasiswaPmb dan SimpulBagian nya penerima
+        $penerima = $penerima->load(['syarat_peserta', 'jenis_beasiswa_pmb', 'simpul_bagian']);
 
         // Data HisMf untuk mengambil Status Perkuliahan dan nilai IPS nya penerima
         $hismf = HisMf::where('mhs_nim', $nim)
@@ -75,12 +72,11 @@ class EvaluasiBeasiswaController extends Controller
 
         // Data master syarat beasiswa
         $semuaSyarat = SyaratBeasiswa::query()
-            ->where('jenis_beasiswa', $penerima->{$jenis_beasiswa_pmb}->kd_jenis)
+            ->where('jenis_beasiswa', $penerima->jenis_beasiswa_pmb->kd_jenis)
             ->get();
 
         return view('detil-evaluasi-beasiswa', compact(
             'penerima',
-            'jenis_beasiswa_pmb',
             'hismf',
             'sskm',
             'semuaSyarat',

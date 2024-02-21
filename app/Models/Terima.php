@@ -16,17 +16,27 @@ class Terima extends Model
 
     public $incrementing = false;
 
+    protected $appends = [
+        'jns_beasiswa',
+    ];
 
+    // ACCESSOR
     /*
-     | Fungsi ini digunakan untuk mengambil nama relasi jenis beasiswa
-     | dikarenakan kolom vbeasiswa ada 4, dan masing2 nya bisa direlasikan dengan model JenisBeasiswaPmb
-     | maka daripada meload ke 4 relasi, lebih baik ambil nama relasi nya saja sesuai dengan nilai kolom pilihan_ke
-     | nantinya nama ini bisa dipanggil menggunakan fungsi load() ataupun langsung seperti memanggil kolom pada umumnya
-     */
-    public static function getNamaRelasiJnsBeaPmb($pilihan_ke)
+     | Accessor ini untuk menambahkan atribut "jns_beasiswa", yang menjadi atribut untuk direlasikan dengan model-model yang lain
+     | seperti relasi ke model JenisBeasiswaPmb, SimpulBagian, dll.
+    */
+    public function getJnsBeasiswaAttribute()
     {
-        return 'jenis_beasiswa_pmb' . $pilihan_ke;
+        // Rangkai nama kolom vbeasiswa yang dipakai
+        // NOTE : kolom "vbeasiswa" ada 4, yaitu vbeasiswa1, vbeasiswa2, vbeasiswa3, vbeasiswa4
+        // untuk menentukan kolom mana yang dipakai, maka tinggal menggabungkan nya dengan kolom "pilihan_ke"
+        $kolom_vbeasiswa = "vbeasiswa{$this->pilihan_ke}";
+
+        // Ambil nilai dari kolom vbeasiswa yang dipakai
+        return $this->{$kolom_vbeasiswa};
     }
+
+
 
 
     // RELATIONSHIP
@@ -40,14 +50,9 @@ class Terima extends Model
         return $this->hasMany(HisMf::class, 'mhs_nim', 'nim');
     }
 
-    public function jenis_beasiswa_pmb1()
+    public function jenis_beasiswa_pmb()
     {
-        return $this->belongsTo(JenisBeasiswaPmb::class, 'vbeasiswa1', 'kd_jenis');
-    }
-
-    public function jenis_beasiswa_pmb2()
-    {
-        return $this->belongsTo(JenisBeasiswaPmb::class, 'vbeasiswa2', 'kd_jenis');
+        return $this->belongsTo(JenisBeasiswaPmb::class, 'jns_beasiswa', 'kd_jenis');
     }
 
     public function syarat_peserta()
@@ -58,6 +63,11 @@ class Terima extends Model
     public function kesimpulan_beasiswa()
     {
         return $this->hasMany(KesimpulanBeasiswa::class, ['mhs_nim', 'smt'], ['nim', 'smt']);
+    }
+
+    public function simpul_bagian()
+    {
+        return $this->hasMany(SimpulBagian::class, ['mhs_nim', 'smt', 'jns_beasiswa'], ['nim', 'smt', 'jns_beasiswa']);
     }
 
 

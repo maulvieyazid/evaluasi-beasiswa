@@ -4,7 +4,6 @@
 
 @php
     use App\Models\KesimpulanBeasiswa;
-    use App\Models\Terima;
 @endphp
 
 @section('content')
@@ -80,11 +79,7 @@
                                                 <td>{{ $penerima->nim }}</td>
                                                 <td>{{ $penerima->mahasiswa->nama ?? null }}</td>
                                                 <td>{{ $penerima->smt }}</td>
-                                                @php
-                                                    // Mengambil nama relasi jenis beasiswa PMB yang sesuai
-                                                    $jenis_beasiswa_pmb = Terima::getNamaRelasiJnsBeaPmb($penerima->pilihan_ke);
-                                                @endphp
-                                                <td>{{ $penerima->{$jenis_beasiswa_pmb}->keterangan ?? null }}</td>
+                                                <td>{{ $penerima->jenis_beasiswa_pmb->keterangan ?? null }}</td>
                                                 <td>
                                                     <span class="badge bg-cover">Menunggu <br> Evaluasi Keuangan</span>
                                                 </td>
@@ -96,8 +91,8 @@
                                                             'smt' => $penerima->smt,
                                                         ]);
                                                     @endphp
-                                                    <a href="{{ $routeDetil }}" class="btn btn-outline-primary w-100 btn-sm">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    <a class="btn btn-outline-primary w-100 btn-sm" href="{{ $routeDetil }}">
+                                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                             stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M9 11l3 3l8 -8"></path>
@@ -130,8 +125,8 @@
                                                             'smt' => $kesimpulan->smt,
                                                         ]);
                                                     @endphp
-                                                    <a href="{{ $routeDetil }}" class="btn btn-outline-primary w-100 btn-sm">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    <a class="btn btn-outline-primary w-100 btn-sm" href="{{ $routeDetil }}">
+                                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                                             stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M9 11l3 3l8 -8"></path>
@@ -142,6 +137,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+
                                     </tbody>
                                 </table>
                             </div>
