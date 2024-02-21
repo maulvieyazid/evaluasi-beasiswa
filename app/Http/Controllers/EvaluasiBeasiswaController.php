@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\BeasiswaPenmaru;
-use App\Models\Departemen;
 use App\Models\HisMf;
 use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
@@ -20,11 +19,17 @@ class EvaluasiBeasiswaController extends Controller
 {
     public function index()
     {
+        // Ambil KesimpulanBeasiswa pada semester aktif
+        // Ini digunakan untuk mengecek apakah evaluasi beasiswa dari mahasiswa sudah mencapai final
+        $kesimpulanBea = KesimpulanBeasiswa::query()
+            ->where('smt', session('semester'))
+            ->get();
+
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
             ->load('mahasiswa', 'jenis_beasiswa_pmb', 'syarat_peserta.syarat', 'his_mf');
 
         // Hapus / Buang penerima beasiswa yang SUDAH dievaluasi oleh bagian yang LOGIN
-        $semuaPenerima = $semuaPenerima->reject(function ($penerima, $key) {
+        $semuaPenerima = $semuaPenerima->reject(function ($penerima, $key) use ($kesimpulanBea) {
             // return FALSE : artinya penerima beasiswa TIDAK DIBUANG
             // return TRUE : artinya penerima beasiswa DIBUANG
 
@@ -32,8 +37,17 @@ class EvaluasiBeasiswaController extends Controller
             if ($penerima->his_mf->count() > 8) return true;
 
             // Kalau atribut 'is_beasiswa_dicabut' bernilai 1,
-            // berarti penerima beasiswa memiliki data di 'kesimpulan_beasiswa' yang status nya 'T'
+            // berarti penerima beasiswa memiliki data di 'kesimpulan_beasiswa' yang status nya 'T' atau berarti tidak lolos
             if ($penerima->is_beasiswa_dicabut) return true;
+
+            // Kalau ada data penerima beasiswa di "kesimpulan_beasiswa", berarti mahasiswa ini sudah dievaluasi hingga final
+            // atau berarti sudah lolos
+            $is_evaluasi_mencapai_final = $kesimpulanBea
+                ->where('mhs_nim', $penerima->nim)
+                ->where('jns_beasiswa', $penerima->jns_beasiswa)
+                ->count();
+
+            if ($is_evaluasi_mencapai_final) return true;
 
             // Kalau jumlah syarat_peserta nya sama dengan 0, berarti belum ada evaluasi
             if ($penerima->syarat_peserta->count() == 0) return false;
