@@ -107,8 +107,9 @@ class EvaluasiBeasiswaController extends Controller
             ->where('bagian_validasi', auth()->user()->bagian)
             ->get();
 
-        // Ini sebagai penanda apakah mhs lolos evaluasi atau tidak
-        $isMhsLolosEvaluasi = true;
+        // Ini sebagai penanda apakah perlu mengisi alasan atau tidak
+        // baik mhs yang tidak lolos maupun yang diloloskan oleh Kabag Keuangan
+        $isPerluMengisiAlasan = false;
 
         // Lakukan looping
         foreach ($semuaSyarat as $syarat) {
@@ -119,8 +120,8 @@ class EvaluasiBeasiswaController extends Controller
                 ? SyaratPesertaBeasiswa::LOLOS
                 : SyaratPesertaBeasiswa::TIDAK_LOLOS;
 
-            // Kalo ada status yang tidak lolos, berarti mahasiswa ini tidak lolos evaluasi
-            if ($status == SyaratPesertaBeasiswa::TIDAK_LOLOS) $isMhsLolosEvaluasi = false;
+            // Kalo ada status yang tidak lolos, maka perlu mengisi alasan kenapa tidak lolos
+            if ($status == SyaratPesertaBeasiswa::TIDAK_LOLOS) $isPerluMengisiAlasan = true;
 
             // Insert ke SyaratPesertaBeasiswa
             SyaratPesertaBeasiswa::create([
@@ -147,21 +148,22 @@ class EvaluasiBeasiswaController extends Controller
         }
 
 
-        // Kalo yang login Kabag Keuangan dan status_kesimpulan nya tidak lolos, berarti mahasiswa ini tidak lolos evaluasi
-        if (auth()->user()->is_kabag_keuangan && $req->status_kesimpulan == KesimpulanBeasiswa::TIDAK_LOLOS) {
-            $isMhsLolosEvaluasi = false;
+        // Kalo yang login Kabag Keuangan DAN ada input alasan nya,
+        if (auth()->user()->is_kabag_keuangan && $req->alasan_evaluasi) {
+            // maka perlu mengisi alasan
+            $isPerluMengisiAlasan = true;
         }
 
 
-        // Kalo mahasiswa tidak lolos evaluasi, maka insertkan alasan tidak lolos nya ke SimpulBagian
-        if (!$isMhsLolosEvaluasi) {
+        // Kalo perlu mengisi alasan, maka insertkan alasan nya ke SimpulBagian
+        if ($isPerluMengisiAlasan) {
             SimpulBagian::create([
                 'bagian'       => auth()->user()->bagian,
                 'mhs_nim'      => $req->nim,
                 'jns_beasiswa' => $req->kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'status'       => $req->status_kesimpulan,
-                'keterangan'   => $req->alasan_tdk_lolos,
+                'keterangan'   => $req->alasan_evaluasi,
             ]);
         }
 

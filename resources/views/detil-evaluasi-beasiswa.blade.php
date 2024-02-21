@@ -185,7 +185,7 @@
                     <input id="nim" name="nim" type="hidden" value="{{ $penerima->nim }}">
                     <input id="kd_jns_bea_pmb" name="kd_jns_bea_pmb" type="hidden" value="{{ $penerima->jenis_beasiswa_pmb->kd_jenis ?? null }}">
                     <input id="smt" name="smt" type="hidden" value="{{ session('semester') }}">
-                    <input id="alasan_tdk_lolos" name="alasan_tdk_lolos" type="hidden">
+                    <input id="alasan_evaluasi" name="alasan_evaluasi" type="hidden">
 
                     @csrf
 
@@ -406,12 +406,27 @@
             // Bagian Keuangan adalah gerbang terakhir pengecekan seluruh evaluasi
             // Kalo yang login adalah Kabag Keuangan, maka cek tombol apa yang di klik (Lolos / Tidak Lolos)
             @if (auth()->user()->is_kabag_keuangan)
-                if (status == '{{ KesimpulanBeasiswa::LOLOS }}') {
-                    kesimpulanBaik();
-                } else if (status == '{{ KesimpulanBeasiswa::TIDAK_LOLOS }}') {
+                // Kalo Kabag Keuangan mengklik Tidak Lolos, maka masuk ke kesimpulanBuruk
+                if (status == '{{ KesimpulanBeasiswa::TIDAK_LOLOS }}') {
                     kesimpulanBuruk();
+                    return;
                 }
 
+                // Kalo Kabag Keuangan mengklik Lolos, cek dulu apakah semua bagian sudah mencentang syarat
+                // Jika ada syarat yang belum tercentang, maka masuk ke kesimpulanBaikDenganAlasan
+
+                // Ambil semua checkbox yang beratribut name="syarat_lain[]"
+                let checkboxes_lain = document.querySelectorAll('input[name="syarat_lain[]"]');
+
+                // Periksa apakah semua checkbox nya tercentang
+                let semuaLainTercentang = [...checkboxes_lain].every(checkbox => checkbox.checked);
+
+                if (!semuaLainTercentang) {
+                    kesimpulanBaikDenganAlasan();
+                    return;
+                }
+
+                kesimpulanBaik();
                 return;
             @endif
 
@@ -453,6 +468,60 @@
             document.getElementById('formEvaluasi').submit();
         }
 
+        async function kesimpulanBaikDenganAlasan() {
+            let judul = `
+                Ada evaluasi yang <span class="fw-bolder">BELUM TERCENTANG</span>.
+                <br>
+                Tetapi anda mengklik tombol <span class="fw-bolder">LOLOS</span> sehingga mahasiswa ybs <span class="fw-bolder">AKAN LOLOS</span> dan beasiswanya akan <span class="fw-bolder">DILANJUTKAN</span>.
+                <br>
+                Apakah anda yakin ingin melanjutkan?
+            `;
+
+            const {
+                value
+            } = await Swal.fire({
+                title: 'Anda yakin?',
+                html: judul,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                // cancelButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, simpan'
+            })
+
+            if (!value) return;
+
+            judul = `
+                Mohon sebutkan <span class="fw-bold">alasan</span> anda <span class="fw-bold">MELOLOSKAN</span> mahasiswa ybs.
+            `;
+
+            // Untuk menampung jawaban alasan
+            let alasan = "";
+
+            const {
+                value: lanjutkan
+            } = await Swal.fire({
+                html: judul,
+                input: 'text',
+                confirmButtonColor: '#3085d6',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Simpan',
+                inputValidator: (value) => {
+                    // Kalo isian nya kosong
+                    if (!value) return 'Alasan harus diisi.'
+                    alasan = value;
+                }
+            })
+
+            if (!lanjutkan) return
+
+            document.getElementById('status_kesimpulan').value = '{{ KesimpulanBeasiswa::LOLOS }}';
+            document.getElementById('alasan_evaluasi').value = alasan;
+            document.getElementById('formEvaluasi').submit();
+        }
+
         async function kesimpulanBuruk() {
             let judul = `
                 Ada evaluasi yang <span class="fw-bolder">BELUM TERCENTANG</span>.
@@ -485,7 +554,7 @@
                 confirmButtonText: 'Ya, lanjut'
             })
 
-            if (!value) return
+            if (!value) return;
 
             judul = `
                 Mohon sebutkan <span class="fw-bold">alasan</span> anda <span class="fw-bold">TIDAK MELOLOSKAN</span> mahasiswa ybs.
@@ -513,7 +582,7 @@
             if (!lanjutkan) return
 
             document.getElementById('status_kesimpulan').value = '{{ KesimpulanBeasiswa::TIDAK_LOLOS }}';
-            document.getElementById('alasan_tdk_lolos').value = alasan;
+            document.getElementById('alasan_evaluasi').value = alasan;
             document.getElementById('formEvaluasi').submit();
         }
     </script>
