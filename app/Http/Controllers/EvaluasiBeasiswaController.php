@@ -252,7 +252,9 @@ class EvaluasiBeasiswaController extends Controller
             ->where('smt', $smt)
             ->first();
 
-        $kesimpulan->delete();
+        if ($kesimpulan) {
+            $kesimpulan->delete();
+        }
 
 
         // Ambil data Jenis Beasiswa PMB, karena kode jenis yang dilemparkan ke parameter adalah kode Jenis Beasiswa PMB
@@ -266,7 +268,9 @@ class EvaluasiBeasiswaController extends Controller
             ->where('jns_beasiswa', $jenis_beasiswa_pmb->jns_bea_aak->kode) // <- Kode Jenis Beasiswa AAK
             ->first();
 
-        $beaPenmaru->delete();
+        if ($beaPenmaru) {
+            $beaPenmaru->delete();
+        }
 
         return "Data Penerima Beasiswa sudah di rollback";
     }
