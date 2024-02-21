@@ -255,7 +255,7 @@
                                 <div class="card-body">
                                     <div class="">
                                         <label class="form-label">
-                                            Bagian yang MELOLOSKAN
+                                            Bagian yang <span class="bg-success-lt">MELOLOSKAN</span>
                                         </label>
 
                                         @foreach ($simpulBagianLolos as $simpulBagian)
@@ -290,7 +290,7 @@
                                 <div class="card-body">
                                     <div class="">
                                         <label class="form-label">
-                                            Bagian yang TIDAK MELOLOSKAN
+                                            Bagian yang <span class="bg-danger-lt">TIDAK MELOLOSKAN</span>
                                         </label>
 
                                         @foreach ($simpulBagianTidakLolos as $simpulBagian)
