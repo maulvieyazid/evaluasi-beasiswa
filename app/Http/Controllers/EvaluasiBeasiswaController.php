@@ -105,7 +105,7 @@ class EvaluasiBeasiswaController extends Controller
                 ? SyaratPesertaBeasiswa::LOLOS
                 : SyaratPesertaBeasiswa::TIDAK_LOLOS;
 
-            // Kalo ada status yang tidak lolos, berarti mhs ini tidak lolos evaluasi
+            // Kalo ada status yang tidak lolos, berarti mahasiswa ini tidak lolos evaluasi
             if ($status == SyaratPesertaBeasiswa::TIDAK_LOLOS) $isMhsLolosEvaluasi = false;
 
             // Insert ke SyaratPesertaBeasiswa
@@ -132,20 +132,27 @@ class EvaluasiBeasiswaController extends Controller
             ]);
         }
 
-        // Kalo mhs tidak lolos evaluasi, maka insertkan alasan tidak lolos nya ke SimpulBagian
+
+        // Kalo yang login Kabag Keuangan dan status_kesimpulan nya tidak lolos, berarti mahasiswa ini tidak lolos evaluasi
+        if (auth()->user()->is_kabag_keuangan && $req->status_kesimpulan == KesimpulanBeasiswa::TIDAK_LOLOS) {
+            $isMhsLolosEvaluasi = false;
+        }
+
+
+        // Kalo mahasiswa tidak lolos evaluasi, maka insertkan alasan tidak lolos nya ke SimpulBagian
         if (!$isMhsLolosEvaluasi) {
             SimpulBagian::create([
                 'bagian'       => auth()->user()->bagian,
                 'mhs_nim'      => $req->nim,
                 'jns_beasiswa' => $req->kd_jns_bea_pmb,
                 'smt'          => $req->smt,
-                'status'       => $status,
+                'status'       => $req->status_kesimpulan,
                 'keterangan'   => $req->alasan_tdk_lolos,
             ]);
         }
 
-        // Insert ke Kesimpulan Beasiswa, hanya jika yang login adalah Bagian Keuangan
-        if (auth()->user()->bagian == Departemen::KEUANGAN) {
+        // Insert ke Kesimpulan Beasiswa, hanya jika yang login adalah Kabag Keuangan
+        if (auth()->user()->is_kabag_keuangan) {
             KesimpulanBeasiswa::create([
                 'mhs_nim'      => $req->nim,
                 'jns_beasiswa' => $req->kd_jns_bea_pmb,
@@ -213,6 +220,7 @@ class EvaluasiBeasiswaController extends Controller
 
     function rollback($nim, $kd_jns_bea_pmb, $smt)
     {
+        // Hapus Syarat Peserta Beasiswa
         $semuaSyarat = SyaratPesertaBeasiswa::query()
             ->where('mhs_nim', $nim)
             ->where('jns_beasiswa', $kd_jns_bea_pmb)
@@ -224,6 +232,20 @@ class EvaluasiBeasiswaController extends Controller
             $syarat->delete();
         }
 
+
+        // Hapus Simpul Bagian
+        $semuaSimpulBagian = SimpulBagian::query()
+            ->where('mhs_nim', $nim)
+            ->where('jns_beasiswa', $kd_jns_bea_pmb)
+            ->where('smt', $smt)
+            ->get();
+
+        foreach ($semuaSimpulBagian as $simpulBagian) {
+            $simpulBagian->delete();
+        }
+
+
+        // Hapus Kesimpulan Beasiswa
         $kesimpulan = KesimpulanBeasiswa::query()
             ->where('mhs_nim', $nim)
             ->where('jns_beasiswa', $kd_jns_bea_pmb)
@@ -231,6 +253,7 @@ class EvaluasiBeasiswaController extends Controller
             ->first();
 
         $kesimpulan->delete();
+
 
         // Ambil data Jenis Beasiswa PMB, karena kode jenis yang dilemparkan ke parameter adalah kode Jenis Beasiswa PMB
         // dari Jenis Beasiswa PMB, kita bisa mengambil kode Jenis Beasiswa AAK

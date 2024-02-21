@@ -204,9 +204,23 @@
                                         </label>
 
                                         <div class="text-muted mb-3">
-                                            Silahkan centang ketentuan-ketentuan dibawah ini bila penerima beasiswa memenuhi ketentuan.
-                                            <br>
-                                            Bila penerima beasiswa tidak memenuhi ketentuan, maka tidak perlu dicentang.
+                                            @if (!auth()->user()->is_keuangan)
+                                                <!-- Tampilkan caption ini jika yang login BUKAN KEUANGAN -->
+                                                Silahkan centang ketentuan-ketentuan dibawah ini bila penerima beasiswa memenuhi ketentuan.
+                                                <br>
+                                                Bila penerima beasiswa tidak memenuhi ketentuan, maka tidak perlu dicentang.
+                                            @else
+                                                <!-- Tampilkan caption ini jika yang login adalah KEUANGAN -->
+                                                Bagian Keuangan adalah tahap terakhir dalam proses evaluasi beasiswa mahasiswa.
+                                                <br>
+                                                Bagian Keuangan dapat meloloskan beasiswa mahasiswa meskipun bagian lain tidak mencentang semua syarat.
+                                                <br>
+                                                Klik tombol "Lolos", untuk meloloskan beasiswa mahasiswa
+                                                <br>
+                                                atau
+                                                <br>
+                                                Klik tombol "Tidak Lolos", untuk menggugurkan beasiswa mahasiswa.
+                                            @endif
                                         </div>
 
                                         <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
@@ -262,11 +276,24 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    @if ($syaratUser->count() > 0 && auth()->user()->kabag_only)
+                                    @if ($syaratUser->count() > 0 && auth()->user()->kabag_only && !auth()->user()->is_kabag_keuangan)
+                                        <!-- Jika ada syarat yang menjadi evaluasinya bagian user yang login -->
+                                        <!-- DAN -->
+                                        <!-- yang login adalah Kabag tetapi bukan Kabag Keuangan, maka tampilkan tombol simpan nya -->
                                         <button class="btn btn-success" type="button" onclick="simpan()">
                                             Simpan
                                         </button>
                                     @endif
+
+                                    @if (auth()->user()->is_kabag_keuangan)
+                                        <button class="btn btn-success" type="button" onclick="simpan('{{ KesimpulanBeasiswa::LOLOS }}')">
+                                            Lolos
+                                        </button>
+                                        <button class="btn btn-danger ms-2" type="button" onclick="simpan('{{ KesimpulanBeasiswa::TIDAK_LOLOS }}')">
+                                            Tidak Lolos
+                                        </button>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
@@ -375,29 +402,25 @@
 
 @push('js')
     <script>
-        function simpan() {
+        function simpan(status = null) {
+            // Bagian Keuangan adalah gerbang terakhir pengecekan seluruh evaluasi
+            // Kalo yang login adalah Kabag Keuangan, maka cek tombol apa yang di klik (Lolos / Tidak Lolos)
+            @if (auth()->user()->is_kabag_keuangan)
+                if (status == '{{ KesimpulanBeasiswa::LOLOS }}') {
+                    kesimpulanBaik();
+                } else if (status == '{{ KesimpulanBeasiswa::TIDAK_LOLOS }}') {
+                    kesimpulanBuruk();
+                }
+
+                return;
+            @endif
+
+
             // Ambil semua checkbox yang beratribut name="syarat_beasiswa_yg_dicentang[]"
             let checkboxes = document.querySelectorAll('input[name="syarat_beasiswa_yg_dicentang[]"]');
 
             // Periksa apakah semua checkbox nya tercentang
             let semuaTercentang = [...checkboxes].every(checkbox => checkbox.checked);
-
-            // Kalo yang login adalah Bagian Keuangan, maka cek juga checkbox yang beratribut name="syarat_lain[]"
-            // Bagian Keuangan adalah gerbang terakhir pengecekan seluruh evaluasi
-            // Saat Bagian Keuangan menyimpan evaluasi, maka aplikasi akan menyimpan data Syarat Peserta Beasiswa dan Kesimpulan Beasiswa
-            // selain Bagian Keuangan, maka aplikasi hanya menyimpan data Syarat Peserta Beasiswa saja
-            @if (auth()->user()->bagian == Departemen::KEUANGAN)
-                // Ambil semua checkbox yang beratribut name="syarat_lain[]"
-                let checkboxes_lain = document.querySelectorAll('input[name="syarat_lain[]"]');
-
-                // Periksa apakah semua checkbox nya tercentang
-                let semuaLainTercentang = [...checkboxes_lain].every(checkbox => checkbox.checked);
-
-                if (!semuaLainTercentang) {
-                    kesimpulanBuruk();
-                    return;
-                }
-            @endif
 
             if (!semuaTercentang) {
                 kesimpulanBuruk();
@@ -438,6 +461,15 @@
                 <br>
                 Apakah anda yakin ingin melanjutkan?
             `;
+
+            // Kalau yang login Kabag Keuangan, ganti judul nya
+            @if (auth()->user()->is_kabag_keuangan)
+                judul = `
+                    Apakah anda yakin?
+                    <br>
+                    Mahasiswa ybs <span class="fw-bolder">TIDAK AKAN LOLOS</span> dan beasiswanya akan <span class="fw-bolder">DICABUT</span>.
+                `;
+            @endif
 
             const {
                 value
