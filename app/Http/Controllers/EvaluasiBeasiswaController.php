@@ -31,16 +31,16 @@ class EvaluasiBeasiswaController extends Controller
             // Kalau mhs sudah menempuh lebih dari 8 semester, maka mhs tidak bisa mendapatkan beasiswa lagi
             if ($penerima->his_mf->count() > 8) return true;
 
+            // Kalau atribut 'is_beasiswa_dicabut' bernilai 1,
+            // berarti penerima beasiswa memiliki data di 'kesimpulan_beasiswa' yang status nya 'T'
+            if ($penerima->is_beasiswa_dicabut) return true;
+
             // Kalau jumlah syarat_peserta nya sama dengan 0, berarti belum ada evaluasi
             if ($penerima->syarat_peserta->count() == 0) return false;
 
             // Kalau di dalam syarat_peserta tidak ada syarat yang bagian validasi nya adalah bagian yang LOGIN,
             // berarti sudah ada evaluasi, tapi yang mengevaluasi bukan bagian yang LOGIN
             if ($penerima->syarat_peserta->where('syarat.bagian_validasi', auth()->user()->bagian)->count() == 0) return false;
-
-            // Kalau atribut 'is_beasiswa_dicabut' bernilai 1,
-            // berarti penerima beasiswa memiliki data di 'kesimpulan_beasiswa' yang status nya 'T'
-            if ($penerima->is_beasiswa_dicabut) return true;
 
             return true;
         });
