@@ -15,6 +15,19 @@ class HistoriController extends Controller
 {
     public function index()
     {
+        // NOTE : Kenapa data yang ditampilkan ada 2 yaitu model Terima dan model KesimpulanBeasiswa
+        // Karena halaman histori ini bisa diakses oleh siapapun dan dari bagian manapun,
+        // sehingga ada kemungkinan ada data yang belum masuk ke KesimpulanBeasiswa tetapi sebenarnya sudah dievaluasi oleh bagian tersebut.
+        //
+        // Contoh :
+        // Saya login sebagai Kabag AAK, lalu saya melakukan evaluasi pada seorang mhs,
+        // maka mhs tsb seharusnya sudah tidak muncul di halaman Evaluasi Beasiswa melainkan masuk ke halaman Histori.
+        // dan di halaman Histori, mhs tersebut statusnya "Menunggu Evaluasi Keuangan".
+        // Dalam kasus diatas, data mhs tsb sudah dievaluasi, tetapi belum masuk ke KesimpulanBeasiswa,
+        // karena KesimpulanBeasiswa baru diinput saat Kabag Keuangan melakukan evaluasi.
+
+
+
         $semuaPenerima = Terima::fromQuery(Terima::queryPenerimaBeasiswa(), ['SMT' => session('semester')])
             ->load('mahasiswa', 'jenis_beasiswa_pmb', 'syarat_peserta.syarat', 'kesimpulan_beasiswa');
 
