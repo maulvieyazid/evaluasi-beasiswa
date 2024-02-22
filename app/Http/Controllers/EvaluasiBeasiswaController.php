@@ -8,6 +8,7 @@ use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
 use App\Models\LogKesimpulan;
 use App\Models\LogSyarat;
+use App\Models\Semester;
 use App\Models\SimpulBagian;
 use App\Models\SyaratBeasiswa;
 use App\Models\SyaratPesertaBeasiswa;
@@ -198,9 +199,12 @@ class EvaluasiBeasiswaController extends Controller
                 // Ambil prosentase diskon spp
                 $prosentase = $this->getProsentaseBeaPenmaru($jenis_beasiswa_pmb);
 
+                // WARNING : Permintaan Bu Mita, saat simpan ke tabel BeasiswaPenmaru, maka smt nya diisikan dengan semester selanjutnya
+                $smt_selanjutnya = Semester::getSmtSelanjutnya($req->smt);
+
                 BeasiswaPenmaru::create([
                     'mhs_nim'      => $req->nim,
-                    'semester'     => $req->smt,
+                    'semester'     => $smt_selanjutnya,
                     'jns_beasiswa' => $jenis_beasiswa_pmb->jns_bea_aak->kode, // <- Kode Jenis Beasiswa AAK
                     'prosentase'   => $prosentase,
                 ]);
