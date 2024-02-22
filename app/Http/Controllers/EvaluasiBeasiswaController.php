@@ -100,11 +100,14 @@ class EvaluasiBeasiswaController extends Controller
 
     function simpanDetail(Request $req)
     {
+        // Ambil kode jenis beasiswa yang sudah melalui validasi
+        $kd_jns_bea_pmb = JenisBeasiswaPmb::getKodeJenisBeasiswa($req->nim, $req->kd_jns_bea_pmb);
+
         // Ambil syarat yang jenis beasiswa nya sesuai data request
         // DAN
         // bagian_validasi nya sesuai dengan bagian yang LOGIN
         $semuaSyarat = SyaratBeasiswa::query()
-            ->where('jenis_beasiswa', $req->kd_jns_bea_pmb)
+            ->where('jenis_beasiswa', $kd_jns_bea_pmb)
             ->where('bagian_validasi', auth()->user()->bagian)
             ->get();
 
@@ -127,7 +130,7 @@ class EvaluasiBeasiswaController extends Controller
             // Insert ke SyaratPesertaBeasiswa
             SyaratPesertaBeasiswa::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->kd_jns_bea_pmb,
+                'jns_beasiswa' => $kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'kd_syarat'    => $syarat->kd_syarat,
                 'status'       => $status,
@@ -137,7 +140,7 @@ class EvaluasiBeasiswaController extends Controller
             // Simpan ke Log Syarat
             LogSyarat::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->kd_jns_bea_pmb,
+                'jns_beasiswa' => $kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'kd_syarat'    => $syarat->kd_syarat,
                 'nm_user'      => auth()->user()->nama,
@@ -161,7 +164,7 @@ class EvaluasiBeasiswaController extends Controller
             SimpulBagian::create([
                 'bagian'       => auth()->user()->bagian,
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->kd_jns_bea_pmb,
+                'jns_beasiswa' => $kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'status'       => $req->status_kesimpulan,
                 'keterangan'   => $req->alasan_evaluasi,
@@ -172,7 +175,7 @@ class EvaluasiBeasiswaController extends Controller
         if (auth()->user()->is_kabag_keuangan) {
             KesimpulanBeasiswa::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->kd_jns_bea_pmb,
+                'jns_beasiswa' => $kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'status'       => $req->status_kesimpulan,
                 'keterangan'   => null,
@@ -181,7 +184,7 @@ class EvaluasiBeasiswaController extends Controller
             // Simpan ke Log Kesimpulan
             LogKesimpulan::create([
                 'mhs_nim'      => $req->nim,
-                'jns_beasiswa' => $req->kd_jns_bea_pmb,
+                'jns_beasiswa' => $kd_jns_bea_pmb,
                 'smt'          => $req->smt,
                 'nm_user'      => auth()->user()->nama,
                 'sts_old'      => null,
@@ -191,7 +194,7 @@ class EvaluasiBeasiswaController extends Controller
             ]);
 
             // Ambil data Jenis Beasiswa PMB
-            $jenis_beasiswa_pmb = JenisBeasiswaPmb::where('kd_jenis', $req->kd_jns_bea_pmb)->with('jns_bea_aak')->first();
+            $jenis_beasiswa_pmb = JenisBeasiswaPmb::where('kd_jenis', $kd_jns_bea_pmb)->with('jns_bea_aak')->first();
 
             // Kalo data Jenis Beasiswa PMB nya ada, dan status_kesimpulan nya adalah LOLOS, maka
             // insert ke model BeasiswaPenmaru

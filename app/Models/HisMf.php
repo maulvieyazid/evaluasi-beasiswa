@@ -44,4 +44,21 @@ class HisMf extends Model
 
         return $nama;
     }
+
+
+    public static function isMhsMasihAktif($nim)
+    {
+        return !self::isMhsSudahTidakAktif($nim);
+    }
+
+    public static function isMhsSudahTidakAktif($nim)
+    {
+        // Periksa di HIS_MF, apakah nim ini memiliki status N,A,L,O
+        $isTidakAktif = HisMf::where('mhs_nim', $nim)
+            ->whereIn('sts_mhs', ['N', 'A', 'L', 'O'])
+            ->count();
+
+        // Kalo ada, maka return true
+        return $isTidakAktif ? true : false;
+    }
 }
