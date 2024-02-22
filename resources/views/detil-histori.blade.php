@@ -8,6 +8,20 @@
     use App\Models\SimpulBagian;
 @endphp
 
+@push('css')
+    <style>
+        .mhs-photo {
+            width: 30%;
+        }
+
+        @media (min-width: 992px) {
+            .mhs-photo {
+                width: 50%;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-wrapper">
 
@@ -47,81 +61,100 @@
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card-title">Informasi Mahasiswa</div>
-                                <div class="mb-2">
-                                    <svg class="icon icon-tabler icon-tabler-id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
-                                        <path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                        <path d="M15 8l2 0"></path>
-                                        <path d="M15 12l2 0"></path>
-                                        <path d="M7 16l10 0"></path>
-                                    </svg>
-                                    <span class="ms-2">NIM</span> : <strong>{{ $mhs->nim }}</strong>
-                                </div>
-                                <div class="mb-2">
-                                    <svg class="icon icon-tabler icon-tabler-id-badge-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M7 12h3v4h-3z"></path>
-                                        <path d="M10 6h-6a1 1 0 0 0 -1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1 -1v-12a1 1 0 0 0 -1 -1h-6"></path>
-                                        <path d="M10 3m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"></path>
-                                        <path d="M14 16h2"></path>
-                                        <path d="M14 12h4"></path>
-                                    </svg>
-                                    <span class="ms-2">Nama</span> : <strong>{{ $mhs->nama }}</strong>
-                                </div>
-                                <div class="mb-2">
-                                    <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
-                                        <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
-                                    </svg>
-                                    <span class="ms-2">Beasiswa</span> : <strong>{{ $jenis_bea_pmb->keterangan }}</strong>
-                                </div>
-                                <div class="mb-2">
-                                    <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
-                                        <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
-                                    </svg>
-                                    <span class="ms-2">Info Beasiswa</span> : <strong>{{ $jenis_bea_pmb->nama }}</strong>
-                                </div>
-                                <div class="mb-2">
-                                    <svg class="icon icon-tabler icon-tabler-calendar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
-                                        <path d="M16 3v4"></path>
-                                        <path d="M8 3v4"></path>
-                                        <path d="M4 11h16"></path>
-                                        <path d="M11 15h1"></path>
-                                        <path d="M12 15v3"></path>
-                                    </svg>
-                                    <span class="ms-2">Semester</span> : <strong>{{ $smt }}</strong>
-                                </div>
-                                <div class="mb-2">
-                                    <svg class="icon icon-tabler icon-tabler-checkbox" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M9 11l3 3l8 -8"></path>
-                                        <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
-                                    </svg>
-                                    <span class="ms-2">Status</span> :
-                                    @php
-                                        $status = $kesimpulan->status ?? null;
-                                    @endphp
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        <div class="card-title">Informasi Mahasiswa</div>
+                                        <div class="mb-2">
+                                            <svg class="icon icon-tabler icon-tabler-id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
+                                                <path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                                <path d="M15 8l2 0"></path>
+                                                <path d="M15 12l2 0"></path>
+                                                <path d="M7 16l10 0"></path>
+                                            </svg>
+                                            <span class="ms-2">NIM</span> : <strong>{{ $mhs->nim }}</strong>
+                                        </div>
+                                        <div class="mb-2 d-flex">
+                                            <div class="me-1">
+                                                <svg class="icon icon-tabler icon-tabler-id-badge-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M7 12h3v4h-3z"></path>
+                                                    <path d="M10 6h-6a1 1 0 0 0 -1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1 -1v-12a1 1 0 0 0 -1 -1h-6"></path>
+                                                    <path d="M10 3m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"></path>
+                                                    <path d="M14 16h2"></path>
+                                                    <path d="M14 12h4"></path>
+                                                </svg>
+                                            </div>
+                                            <span class="ms-2 me-1" style="white-space: nowrap">Nama</span> :
+                                            <div class="ms-2 fw-bold">{{ $mhs->nama }}</div>
+                                        </div>
+                                        <div class="mb-2 d-flex">
+                                            <div class="me-1">
+                                                <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
+                                                    <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
+                                                </svg>
+                                            </div>
+                                            <span class="ms-2 me-1" style="white-space: nowrap">Beasiswa</span> :
+                                            <div class="ms-2 fw-bold">{{ $jenis_bea_pmb->keterangan }}</div>
+                                        </div>
+                                        <div class="mb-2 d-flex">
+                                            <div class="me-1">
+                                                <svg class="icon icon-tabler icon-tabler-school" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
+                                                    <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
+                                                </svg>
+                                            </div>
+                                            <span class="ms-2 me-1" style="white-space: nowrap">Info Beasiswa</span> :
+                                            <div class="ms-2 fw-bold">{{ $jenis_bea_pmb->nama }}</div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <svg class="icon icon-tabler icon-tabler-calendar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+                                                <path d="M16 3v4"></path>
+                                                <path d="M8 3v4"></path>
+                                                <path d="M4 11h16"></path>
+                                                <path d="M11 15h1"></path>
+                                                <path d="M12 15v3"></path>
+                                            </svg>
+                                            <span class="ms-2">Semester</span> : <strong>{{ $smt }}</strong>
+                                        </div>
+                                        <div class="mb-2">
+                                            <svg class="icon icon-tabler icon-tabler-checkbox" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M9 11l3 3l8 -8"></path>
+                                                <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path>
+                                            </svg>
+                                            <span class="ms-2">Status</span> :
+                                            @php
+                                                $status = $kesimpulan->status ?? null;
+                                            @endphp
+                                            @if ($status == KesimpulanBeasiswa::LOLOS)
+                                                <span class="badge bg-green">Lolos</span>
+                                            @elseif ($status == KesimpulanBeasiswa::TIDAK_LOLOS)
+                                                <span class="badge bg-danger-lt">Tidak Lolos</span>
+                                            @elseif (!$status)
+                                                <span class="badge bg-cover">Menunggu Evaluasi Keuangan</span>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                    @if ($status == KesimpulanBeasiswa::LOLOS)
-                                        <span class="badge bg-green">Lolos</span>
-                                    @elseif ($status == KesimpulanBeasiswa::TIDAK_LOLOS)
-                                        <span class="badge bg-danger-lt">Tidak Lolos</span>
-                                    @elseif (!$status)
-                                        <span class="badge bg-cover">Menunggu Evaluasi Keuangan</span>
-                                    @endif
+                                    <div class="col">
+                                        <div class="text-center">
+                                            <img class="mhs-photo" src="https://sicyca.dinamika.ac.id/API/get_mhs_photo.php?nim={{ $mhs->nim }}">
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
