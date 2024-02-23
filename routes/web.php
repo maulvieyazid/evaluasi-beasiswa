@@ -5,6 +5,7 @@ use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SyaratBeasiswaController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,7 +73,10 @@ Route::get('/chart/prsnts-pnrm-bea-aktf-ggr/{smt}', [HomeController::class, 'get
 Route::get('/detail-chart/prsnts-pnrm-bea-aktf-ggr/{smt}/{status}', [HomeController::class, 'getDetailPrsntsPenerimaAktfGgr'])->name('chart.get.detail-prsnts-penerima-aktf-ggr');
 
 
-
+// Untuk memproses queue
+Route::get('/run-queue-work', function () {
+    Artisan::call('queue:work --tries=2 --stop-when-empty --quiet');
+});
 
 
 
