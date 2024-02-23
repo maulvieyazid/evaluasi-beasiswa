@@ -6,8 +6,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SyaratBeasiswaController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KesimpulanBeasiswaController;
-use App\Http\Controllers\SyaratPesertaBeasiswaController;
 
 /*
 |--------------------------------------------------------------------------
