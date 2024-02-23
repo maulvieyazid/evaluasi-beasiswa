@@ -15,6 +15,16 @@ class Mahasiswa extends Model
 
     public $incrementing = false;
 
+
+    public static function getEmail($nim)
+    {
+        // Kalo nim nya enggak 11 digit, berarti bukan mahasiswa
+        if (strlen($nim) != 11) return null;
+
+        return $nim . "@dinamika.ac.id";
+    }
+
+
     public static function getNimSaudara($nim)
     {
         $mhs = Mahasiswa::where('nim', $nim)

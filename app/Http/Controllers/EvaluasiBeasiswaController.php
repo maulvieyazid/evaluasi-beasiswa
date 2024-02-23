@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BeasiswaSudahDievaluasi;
 use App\Models\BeasiswaPenmaru;
 use App\Models\HisMf;
 use App\Models\JenisBeasiswaPmb;
 use App\Models\KesimpulanBeasiswa;
 use App\Models\LogKesimpulan;
 use App\Models\LogSyarat;
+use App\Models\Mahasiswa;
 use App\Models\Semester;
 use App\Models\SimpulBagian;
 use App\Models\SyaratBeasiswa;
@@ -15,6 +17,7 @@ use App\Models\SyaratPesertaBeasiswa;
 use App\Models\Terima;
 use App\Models\Tsnilmaba;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EvaluasiBeasiswaController extends Controller
 {
@@ -212,6 +215,21 @@ class EvaluasiBeasiswaController extends Controller
                     'prosentase'   => $prosentase,
                 ]);
             }
+
+            // Kirim email notifikasi ke mahasiswa
+            // WARNING : JIKA APLIKASI AKAN DI DEBUG, MOHON SMTP GOOGLE NYA DIGANTI DENGAN SMTP YANG LAIN, MISAL : SMTP MAILTRAP.
+            // SMTP GOOGLE ADA DI FILE .env
+
+            // Set penerima email
+            $penerima = config('app.env') == 'production' ? Mahasiswa::getEmail($req->nim) : 'maulvie@dinamika.ac.id';
+
+            $mail = Mail::to($penerima);
+
+            // Kalo config queue default nya redis, maka email nya di queue
+            if (config('queue.default') == 'redis') $mail->queue(new BeasiswaSudahDievaluasi());
+
+            // Kalo config queue default nya BUKAN redis, maka email nya langsung di kirim
+            else $mail->send(new BeasiswaSudahDievaluasi());
         }
 
         return redirect()->route('index-evaluasi-beasiswa')
